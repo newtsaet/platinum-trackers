@@ -47,21 +47,24 @@ a.card:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
 .card h2{font-size:22px}
 /* Each card uses its game's own accent (set in the GAMES list below), or --accent if none is set. */
 .card{--card-accent:var(--game-accent,var(--accent))}
-@media (prefers-color-scheme: dark){ .card{--card-accent:var(--game-accent-dark,var(--game-accent,var(--accent)))} }
-a.card{border-left:4px solid var(--card-accent)}
-.badge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--accent-soft);background:color-mix(in srgb,var(--card-accent) 16%,var(--surface));color:var(--card-accent);white-space:nowrap}
+.card{--card-bg:var(--game-bg,var(--surface));--card-fg:var(--game-fg,var(--text));--card-fg-soft:var(--game-fg-soft,var(--text-soft));--card-tick:var(--game-tick,var(--border))}
+@media (prefers-color-scheme: dark){ .card{--card-accent:var(--game-accent-dark,var(--game-accent,var(--accent)));
+  --card-bg:var(--game-bg-dark,var(--surface));--card-fg:var(--game-fg-dark,var(--text));--card-fg-soft:var(--game-fg-soft-dark,var(--text-soft));--card-tick:var(--game-tick-dark,var(--border))} }
+.card{--card-plat:var(--platinum);--card-on-plat:var(--on-platinum)}
+a.card{border-left:4px solid var(--card-accent);background:var(--card-bg);color:var(--card-fg)}
+.badge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--accent-soft);background:color-mix(in srgb,var(--card-accent) 16%,var(--card-bg));color:var(--card-accent);white-space:nowrap}
 /* Cards for games with the platinum earned */
-a.card.done{background:var(--platinum);border-color:var(--platinum);color:var(--on-platinum)}
+a.card.done{background:var(--card-plat);border-color:var(--card-plat);color:var(--card-on-plat)}
 a.card.done:hover{border-color:var(--text)}
-.card.done .stats,.card.done .stats b{color:var(--on-platinum)}
-.card.done .tick{background:color-mix(in srgb,var(--on-platinum) 30%,transparent)}
-.badge.plat{background:var(--on-platinum);color:var(--platinum)}
+.card.done .stats,.card.done .stats b{color:var(--card-on-plat)}
+.card.done .tick{background:color-mix(in srgb,var(--card-on-plat) 30%,transparent)}
+.badge.plat{background:var(--card-on-plat);color:var(--card-plat)}
 .ticks{display:flex;gap:2px;align-items:flex-end;height:30px;margin-top:14px}
-.tick{flex:1;background:var(--border);border-radius:1px;height:40%}
+.tick{flex:1;background:var(--card-tick);border-radius:1px;height:40%}
 .tick.on{background:var(--card-accent);height:100%}
-.card.done .tick.on{background:var(--on-platinum)}
-.stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px;color:var(--text-soft)}
-.stats b{font-family:"Spectral",Georgia,serif;font-size:19px;font-weight:600;color:var(--text)}
+.card.done .tick.on{background:var(--card-on-plat)}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px;color:var(--card-fg-soft)}
+.stats b{font-family:"Spectral",Georgia,serif;font-size:19px;font-weight:600;color:var(--card-fg)}
 .note{margin-top:28px;font-size:13px;color:var(--text-soft)}
 @media (max-width:520px){main{padding:30px 16px 64px}}
 </style>
@@ -77,12 +80,31 @@ a.card.done:hover{border-color:var(--text)}
 (function(){
 /* Add one entry per game. folder = the folder name in this repository.
    accent = the card's color in light mode; accentDark = its color in dark mode (optional, use a lighter shade).
-   Leave both out to use the default --accent color. */
+   Leave both out to use the default --accent color.
+   cardColor = the card's background before the platinum; cardColorDark = the same in dark mode (optional).
+   Leave them out to use the default --surface color. Text on top switches to white or dark automatically for contrast.
+   Once the platinum is earned, every card switches to the --platinum color set at the top of this file. */
 const GAMES = [
-  {folder:"townfall", title:"Silent Hill: Townfall", accent:"#fa3107", accentDark:"#fa3107", trophies:37, collectibles:227, platinumId:"plat",
+  {folder:"townfall", title:"Silent Hill: Townfall", accent:"#8E3A2A", accentDark:"#D1735E",
+   cardColor:"#F0F0EC", cardColorDark:"#1F2627", trophies:37, collectibles:227, platinumId:"plat",
    localKey:"townfall-roadmap", syncKey:"townfall-sync", gistFile:"townfall-progress.json"}
 ];
 
+/* Picks white or near-black text, whichever reads better on a hex color. */
+function onColor(hex){
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(hex||"").trim()); if(!m) return null;
+  let x = m[1]; if(x.length===3) x = x.split("").map(c=>c+c).join("");
+  const lum = [0,2,4].map(i=>{ const v=parseInt(x.substr(i,2),16)/255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4); });
+  const L = 0.2126*lum[0]+0.7152*lum[1]+0.0722*lum[2];
+  return (1.05)/(L+0.05) >= (L+0.05)/(0.0096+0.05) ? "#FFFFFF" : "#171C1D";
+}
+/* Background plus matching text, soft-text and empty-bar colors for one card. */
+function cardVars(bg, sfx){
+  if(!(bg && window.CSS && CSS.supports("color", bg))) return "";
+  const fg = onColor(bg);
+  if(!fg) return `--game-bg${sfx}:${bg};`;
+  return `--game-bg${sfx}:${bg};--game-fg${sfx}:${fg};--game-fg-soft${sfx}:color-mix(in srgb,${fg} 68%,${bg});--game-tick${sfx}:color-mix(in srgb,${fg} 22%,${bg});`;
+}
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const progress = {};   // folder -> {done, items, ts, from}
 
@@ -111,7 +133,8 @@ function render(){
     const pct = Math.round(t/g.trophies*100);
     const badge = plat ? `<span class="badge plat">Platinum earned</span>` : p ? `<span class="badge">${pct}%</span>` : `<span class="badge">Not started</span>`;
     const ok = c => c && window.CSS && CSS.supports("color", c);
-    const style = (ok(g.accent)?`--game-accent:${g.accent};`:"") + (ok(g.accentDark)?`--game-accent-dark:${g.accentDark};`:"");
+    const style = (ok(g.accent)?`--game-accent:${g.accent};`:"") + (ok(g.accentDark)?`--game-accent-dark:${g.accentDark};`:"")
+      + cardVars(g.cardColor, "") + cardVars(g.cardColorDark, "-dark");
     return `<a class="card${plat?" done":""}" href="${esc(g.folder)}/"${style?` style="${esc(style)}"`:""}>
       <div class="top"><h2>${esc(g.title)}</h2>${badge}</div>
       <div class="ticks" aria-hidden="true">${Array.from({length:g.trophies},(_,i)=>`<span class="tick${i<t?" on":""}"></span>`).join("")}</div>
