@@ -10,12 +10,12 @@
 <style id="css">
 :root{
   /* Color settings: light mode. Dark mode is set further down. */
-  --background:#E4E5E0;     /* page background */
+  --background:#0d0d0d;     /* page background */
   --surface:#F0F0EC;        /* panels, cards, empty checkboxes */
   --text:#f90703;           /* main text and headings */
   --text-soft:#5D6966;      /* descriptions, counts, status, checkbox borders */
   --border:#C3C7C0;         /* borders, dividers, unfilled progress bars */
-  --accent:#8E3A2A;         /* ticked boxes, progress, stage numbers, buttons, Missable text */
+  --accent:#FA3107;         /* ticked boxes, progress, stage numbers, buttons, Missable text */
   --accent-soft:#E9D6CF;    /* background of Missable tags and collectible labels */
   --accent-2:#476663;       /* links, Sync, Collectible tag text, focus outlines */
   --accent-2-soft:#D3DEDB;  /* background of Collectible tags */
@@ -26,13 +26,13 @@
 /* Dark mode colors (used when the device is in dark mode). Keep these two dark lists identical. */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --background:#171C1D; --surface:#1F2627; --text:#E2E4DF; --text-soft:#9AA5A1; --border:#36403F;
+    --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#9AA5A1; --border:#36403F;
     --accent:#D1735E; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
     --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
   }
 }
 :root[data-theme="dark"]{
-  --background:#171C1D; --surface:#1F2627; --text:#E2E4DF; --text-soft:#9AA5A1; --border:#36403F;
+  --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#9AA5A1; --border:#36403F;
   --accent:#D1735E; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
   --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
 }
