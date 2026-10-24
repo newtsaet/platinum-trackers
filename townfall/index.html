@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Silent Hill: Townfall — Trophy Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="css">
+:root{
+  --fog:#E4E5E0; --paper:#F0F0EC; --ink:#1E2627; --mute:#5D6966; --line:#C3C7C0;
+  --rust:#8E3A2A; --rust-soft:#E9D6CF; --sea:#476663; --sea-soft:#D3DEDB;
+  --bronze:#9A6638; --silver:#7E8789; --gold:#A8831F; --plat:#5C7A93;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fog:#171C1D; --paper:#1F2627; --ink:#E2E4DF; --mute:#9AA5A1; --line:#36403F;
+    --rust:#D1735E; --rust-soft:#3A2420; --sea:#86AAA5; --sea-soft:#22302F;
+    --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --plat:#8DAAC2;
+  }
+}
+:root[data-theme="dark"]{
+  --fog:#171C1D; --paper:#1F2627; --ink:#E2E4DF; --mute:#9AA5A1; --line:#36403F;
+  --rust:#D1735E; --rust-soft:#3A2420; --sea:#86AAA5; --sea-soft:#22302F;
+  --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --plat:#8DAAC2;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--fog);color:var(--ink);font:400 16px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:40px 20px 80px}
+h1,h2,h3{font-family:"Spectral",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0}
+h1{font-size:clamp(30px,6vw,44px);letter-spacing:-.01em}
+.sub{color:var(--mute);margin:8px 0 22px;max-width:60ch}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--fog);display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 -20px 22px;padding:8px 20px 0}
+.tabs button{font:500 15px/1 "Public Sans",system-ui,sans-serif;color:var(--mute);background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px 12px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--rust)}
+.tabs button:focus-visible{outline:2px solid var(--sea);outline-offset:-2px}
+.tabs .count{color:var(--mute);font-weight:400;margin-left:4px}
+.guide-link{margin-left:auto;align-self:center;margin-bottom:6px;font:500 14px/1 "Public Sans",system-ui,sans-serif;color:var(--rust);text-decoration:none;border:1px solid var(--rust);border-radius:4px;padding:7px 10px;white-space:nowrap}
+.tabs .guide-link{background:none;cursor:pointer;padding:7px 10px;border:1px solid var(--rust);color:var(--rust)}
+.tabs .guide-link+.guide-link{margin-left:6px}
+@media (max-width:480px){.wide{display:none}}
+.guide-link:hover{background:var(--rust);color:var(--paper)}
+.guide-link:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+@media (max-width:420px){.tabs button{padding:10px 8px 12px}.guide-link{padding:6px 8px;font-size:13px}}
+
+.dial{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px 16px 14px}
+.ticks{display:flex;gap:3px;align-items:flex-end;height:44px}
+.tick{flex:1;background:var(--line);border-radius:1px;height:40%;transition:height .25s,background .25s}
+.tick.on{background:var(--rust);height:100%}
+.readout{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;gap:12px;flex-wrap:wrap}
+.freq{font-family:"Spectral",Georgia,serif;font-size:26px}
+.freq small{font-size:15px;color:var(--mute);font-family:"Public Sans",system-ui,sans-serif}
+.grades{display:flex;gap:14px;color:var(--mute);font-size:14px;flex-wrap:wrap}
+.grades span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:var(--c)}
+
+.meters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.meter{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.meter .lbl{font-size:13px;color:var(--mute)}
+.meter .num{font-family:"Spectral",Georgia,serif;font-size:22px}
+.meter .num small{font-size:14px;color:var(--mute);font-family:"Public Sans",system-ui,sans-serif}
+.bar{height:4px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--rust);transition:width .25s}
+.meter.full .bar i{background:var(--sea)}
+
+.controls{display:flex;justify-content:space-between;align-items:center;margin:18px 0 0;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--mute)}
+.controls label{display:flex;gap:8px;align-items:center;cursor:pointer;color:var(--ink)}
+.status{font-size:13px}
+.hub-link{display:inline-block;margin-bottom:14px;font-size:14px;font-weight:500;color:var(--sea);text-decoration:none}
+.hub-link:hover{text-decoration:underline}
+.ctl-right{display:flex;align-items:center;gap:12px}
+.linkbtn{font:500 14px/1 "Public Sans",system-ui,sans-serif;color:var(--sea);background:none;border:0;padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+.syncp{margin-top:12px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px}
+.syncp h2{font-size:18px}
+.syncp p{margin:6px 0 10px;font-size:14px;color:var(--mute);max-width:62ch}
+.syncp .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.syncp input[type=password]{flex:1 1 220px;min-width:0;font:14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:9px 10px;border:1px solid var(--line);border-radius:4px;background:var(--fog);color:var(--ink)}
+.btn{font:500 14px/1 "Public Sans",system-ui,sans-serif;color:var(--ink);background:var(--fog);border:1px solid var(--line);border-radius:4px;padding:9px 12px;cursor:pointer}
+.btn.primary{background:var(--rust);border-color:var(--rust);color:var(--paper)}
+.btn:disabled{opacity:.6;cursor:default}
+.btn:focus-visible,.syncp input:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+.smsg{font-size:14px;margin-top:10px}
+.smsg:empty{display:none}
+.smsg.err{color:var(--rust)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.chips button{font:500 13px/1 "Public Sans",system-ui,sans-serif;padding:7px 11px;border-radius:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chips button:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+
+.stage{margin-top:52px}
+.stage-head{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline}
+.stage-num{font-family:"Spectral",Georgia,serif;font-size:44px;line-height:1;color:var(--rust);grid-row:span 2}
+.stage-head h2{font-size:24px}
+.stage-meta{color:var(--mute);font-size:14px}
+.stage-intro{margin:14px 0 0;max-width:62ch}
+details.how{margin-top:10px;font-size:15px}
+details.how summary{cursor:pointer;color:var(--sea);font-weight:500}
+details.how ol{margin:8px 0 0;padding-left:20px}
+details.how li{margin:4px 0}
+
+.part{margin-top:28px;border-left:2px solid var(--line);padding-left:18px}
+.part h3{font-size:18px;font-style:italic;font-weight:400}
+.part .who{color:var(--mute);font-size:13px;margin-top:2px}
+
+details.cpart{margin-top:30px}
+details.cpart>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+details.cpart>summary::-webkit-details-marker{display:none}
+details.cpart>summary h2{font-size:22px;flex:1}
+details.cpart>summary .pnum{font-family:"Spectral",Georgia,serif;color:var(--rust);font-size:22px;min-width:1.2em}
+details.cpart>summary .pc{font-size:14px;color:var(--mute)}
+details.cpart>summary::after{content:"";width:8px;height:8px;border:solid var(--mute);border-width:0 2px 2px 0;transform:rotate(45deg);margin-left:4px;align-self:center;transition:transform .2s}
+details.cpart:not([open])>summary::after{transform:rotate(-45deg)}
+.pnote{font-size:14px;color:var(--mute);margin:10px 0 0}
+
+ul.list{list-style:none;margin:10px 0 0;padding:0}
+.tr{display:grid;grid-template-columns:28px 1fr;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.tr:last-child{border-bottom:0}
+.tr input{appearance:none;width:22px;height:22px;margin:2px 0 0;border:2px solid var(--mute);border-radius:4px;background:var(--paper);cursor:pointer;display:grid;place-content:center}
+.tr input::after{content:"";width:11px;height:6px;border:solid var(--paper);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.tr input:checked{background:var(--rust);border-color:var(--rust)}
+.tr input:checked::after{opacity:1}
+.tr input:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+.tr .name{font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap;cursor:pointer}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.dot[data-g=Bronze]{--c:var(--bronze)} .dot[data-g=Silver]{--c:var(--silver)} .dot[data-g=Gold]{--c:var(--gold)} .dot[data-g=Platinum]{--c:var(--plat)}
+.tag{font-size:12px;font-weight:500;padding:1px 7px;border-radius:10px;background:var(--sea-soft);color:var(--sea)}
+.tag.miss{background:var(--rust-soft);color:var(--rust)}
+.tag.story{background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--mute)}
+.kind{font-size:12px;font-weight:500;padding:1px 7px;border-radius:3px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.kind.k-doc,.kind.k-phone,.kind.k-signal,.kind.k-postcard,.kind.k-lockbox,.kind.k-container{border-color:transparent;background:var(--rust-soft);color:var(--rust)}
+.kind.k-dog,.kind.k-scifi{border-color:transparent;background:var(--sea-soft);color:var(--sea)}
+.desc{grid-column:2;color:var(--mute);font-size:15px}
+.tip{grid-column:2;font-size:15px;margin-top:2px}
+.cl .desc{color:var(--ink);opacity:.85}
+.tr.done .name span.t{text-decoration:line-through;text-decoration-color:var(--rust);text-decoration-thickness:2px}
+.tr.done .desc,.tr.done .tip{opacity:.5}
+body.hide-done .tr.done{display:none}
+.tr.filtered{display:none}
+.empty{color:var(--mute);font-size:14px;padding:10px 0;display:none}
+.part.alldone .empty,.cpart.alldone .empty{display:block}
+body:not(.hide-done) .part .empty{display:none}
+
+[hidden]{display:none!important}
+footer{margin-top:60px;color:var(--mute);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+footer button{font:inherit;color:var(--rust);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+@media (prefers-reduced-motion: reduce){.tick,.bar i,details.cpart>summary::after{transition:none}}
+@media (max-width:520px){main{padding:28px 16px 64px}.tabs{margin:0 -16px 20px;padding:8px 16px 0}.stage-num{font-size:36px}}
+</style>
+</head>
+<body>
+<main id="root"></main>
+<script id="state" type="application/json">{"done":{"welcome":true,"isolating":true,"alarm":true,"resignation":true,"static":true,"night":true,"patient":true,"scratch":true},"items":{"c0":true,"c1":true,"c2":true,"c4":true,"c5":true,"c6":true,"c7":true,"c8":true,"c9":true,"c10":true,"c12":true,"c14":true,"c15":true,"c17":true,"c18":true,"c20":true,"c19":true,"c21":true,"c22":true,"c25":true,"c24":true,"c23":true,"c26":true,"c27":true,"c28":true,"c29":true,"c30":true,"c31":true,"c45":true,"c48":true,"c71":true,"c72":true,"c74":true,"c73":true,"c70":true,"c68":true,"c69":true,"c67":true,"c65":true,"c64":true,"c63":true,"c62":true,"c60":true,"c61":true,"c59":true,"c58":true,"c55":true,"c54":true,"c53":true,"c51":true,"c50":true,"c47":true,"c49":true,"c33":true,"c34":true,"c35":true,"c36":true,"c37":true,"c38":true,"c39":true,"c41":true,"c42":true,"c43":true,"c44":true,"c3":true,"c11":true,"c16":true,"c32":true,"c40":true,"c46":true,"c52":true,"c56":true,"c97":true,"c96":true,"c95":true,"c94":true,"c93":true,"c92":true,"c91":true,"c89":true,"c88":true,"c87":true,"c86":true,"c85":true,"c84":true,"c83":true,"c82":true,"c81":true,"c80":true,"c79":true,"c78":true,"c77":true,"c75":true,"c76":true,"c98":true,"c99":true,"c66":true,"c100":true,"c103":true,"c101":true,"c102":true,"c104":true,"c105":true,"c106":true,"c107":true,"c108":true,"c109":true,"c110":true,"c111":true,"c112":true,"c113":true,"c114":true,"c115":true,"c116":true,"c117":true,"c118":true,"c119":true,"c120":true,"c121":true,"c122":true,"c123":true,"c125":true,"c124":true,"c126":true,"c127":true,"c128":true,"c129":true,"c130":true,"c131":true,"c132":true,"c133":true,"c134":true,"c135":true,"c136":true,"c138":true,"c139":true,"c140":true,"c141":true,"c142":true,"c143":true},"hideDone":false,"tab":"items","ts":1792846360805}</script>
+<script id="app">
+(function(){
+const G = {B:"Bronze",S:"Silver",G:"Gold",P:"Platinum"};
+const STAGES = [
+ {n:1, title:"First playthrough", meta:"Story Mode · all collectibles · Abandoned ending",
+  intro:"Explore thoroughly. Almost every collectible is missable because areas lock off and there is no chapter select. Fight enemies as Simon whenever practical: qualifying Simon kills lower the hidden Ending Score, which you want below 0 for Abandoned.",
+  how:["Follow the Collectibles tab as you play: 85 Clues & Documents, 19 CRTV signals, 15 Strange Postcards, 12 of the 13 phone numbers and 7 Resource Containers.","Call each new phone number as soon as you find it, since some can't be called later.","Ignore Fleeting Visit and Reject The Help for now."],
+  parts:[
+   {t:"Part 1: Arrival", who:"Simon", items:[
+    ["welcome","Welcome To St. Amelia","B","Escape the Otherworld and return to the town square.","",["Story"]],
+    ["isolating","Isolating Experience","B","Wait in a hiding spot for 60 seconds.","Earliest spot: the closet on the street behind Main Street, just before the pharmacy (Landmark #7) while searching for Zoe.",[]],
+    ["alarm","Alarmingly Effective","B","Successfully distract an enemy by setting off a car alarm.","Near Farrow Street while hunting for Jess's house key. Check the CRTV that an enemy is close, then hit the car.",["Missable"]],
+    ["resignation","Resignation","B","At the Shorefront Family Clinic, show Zoe you understand.","Place Zoe's Lanyard, the Prescription Bag (pharmacy code 6539) and the Broken Stethoscope on the scales.",["Story"]]
+   ]},
+   {t:"Part 2: Zoe — Rounds & Journey to Medical", who:"Zoe, then Simon", items:[
+    ["static","Static Distractions","B","Distract 10 Enemies with a radio in the world.","Farm it at Mr. Stewart's house: loop him between the two radios. Repeat distractions on the same enemy count.",["Missable"]],
+    ["masonry","Long-Range Masonry","B","Hit any enemy in the head with a brick from over 15 meters away.","About three car lengths. Good chance as Zoe just after leaving Mr. Stewart's house; save at a phone first.",["Missable"]],
+    ["lured","Lured Off Track","B","Distract 20 Enemies with a bottle.","Start farming early as Zoe. The same enemy can be lured repeatedly; walk, don't run, as Simon.",["Missable"]],
+    ["pull","Pull!","B","Throw a bottle into the air, and shoot it with the pistol.","Simon gets the Pistol from Richard's gift box in Town Square. Aim straight up, throw, swap and shoot. Save at a phone booth first, in daylight St. Amelia.",["Missable"]],
+    ["night","A Long Night Ahead","B","Report to Dr. Glenn at the Medical Centre.","",["Story"]]
+   ]},
+   {t:"Part 3: The Patient", who:"Zoe, then Simon", items:[
+    ["patient","The Patient","B","Tend to the Patient.","",["Story"]],
+    ["savepatients","Save It For The Patients","S","During the missions “Rounds” and “The Patient”, don't use any healing items.","Covers both Zoe chapters. Carrying healing items is fine; just never use one as Zoe.",["Missable"]],
+    ["many","Many Into One","B","Accept the transfusion in the Alternate Medical Centre.","",["Story"]]
+   ]},
+   {t:"Part 4: Clara Woods", who:"Simon", items:[
+    ["pinpoint","Pinpoint Inaccuracy","B","Land a head shot on any enemy with the Flare Gun from over 10 meters away.","Flare Gun is in Locker 75 at the CEG Employee Lockers. Save on the phone inside, then shoot the hanging enemy visible from near the monument outside.",["Missable"]],
+    ["castle","Key To The Castle","B","Unlock the path to CEG Tower.","Lost-and-found code at the lockers is 772.",["Story"]]
+   ]},
+   {t:"Part 5: Richard", who:"Richard", items:[
+    ["find","Find Yourself","B","Make it back to the office on the 10th Floor.","Kill Widows here with the Shotgun; they count toward Missing The Point Entirely (Stage 2) and don't affect the ending.",["Story"]]
+   ]},
+   {t:"Part 6: Simon — Trying Again to Returning", who:"Simon", items:[
+    ["cant","Can't Change Things","B","Exhaust the options in the Alternate Facility.","Unlocks after the SWDP – Different machinery sequence.",["Story"]],
+    ["eraser","Eraser","B","Defeat the Weight.","Extra enemies before and during this fight are a handy place to add Simon kills for Abandoned.",["Story"]],
+    ["abandoned","Just Making Things Worse","G","Reach the “Abandoned” ending.","Needs an Ending Score below 0. If it misses, you can retry in Stage 2.",[]]
+   ]},
+   {t:"By the end of the run", who:"Running totals and collectibles", items:[
+    ["observation","Observation","S","Collect 50% of all documents.","Pops partway through.",[]],
+    ["scratch","From Scratch","B","Create 20 new items by combining others.","Comes naturally; combine everything you can.",[]],
+    ["creative","Creative Process","B","Kill at least one enemy with Plank, Pipe, Pistol, Shotgun, Flare Gun, Bottle and Brick in a single playthrough.","Doesn't carry across runs. Bottles and bricks are the ones people forget.",["Missable"]],
+    ["thorough","Thorough Inspection","G","Collect all of the documents.","85 Clues & Documents.",["Collectible"]],
+    ["signals","Sweeping Signals","S","Tune into all signals on the CRTV.","18 signals.",["Collectible"]],
+    ["postcards","Blur Your Eyes","S","Collect all of the strange postcards","15 postcards.",["Collectible"]],
+    ["resourceful","Resourceful","B","Unlock all resource containers.","7 lockbox keys and 7 containers, as Simon.",["Collectible"]]
+   ]}
+  ]},
+ {n:2, title:"New Game+", meta:"Justice, Sci-fi, Dog & Forever from one run",
+  intro:"One NG+ run with two manual saves branches into four endings. Grab every Clue and Document, avoid Simon kills, Cannula refills and Zoe procedure mistakes, and keep a manual tally of all three.",
+  how:["Follow the New Game+ section of the Collectibles tab. Grab the Axe right away, then collect the 3 Dog Coins and 3 Strange Books (plus the Strange Access Card in Zoe's section) as you go.","Save 1: Part 4, Clara Woods, with the Constructed Mechanical Device assembled but not yet used on the Strange Gate.","Save 2: Part 6, at the control panel that releases the D71 container, after collecting the Gold Coin and third Strange Book in SWDP – Different.","From Save 2, finish without the Gold Coin deposit or Access Card: Justice. Note your Discoveries total.","Reload Save 2, use the Strange Access Card at the keypad: Sci-fi.","Reload Save 2, deposit the Gold Coin in the third Guide Dogs bank, skip the keypad: Dog.","Reload Save 1 and finish with a score of 0–19: Forever. 30 Discoveries remain after CEG Tower; kills are −2, Cannula refills −4, Zoe mistakes −3."],
+  parts:[
+   {t:"Early in the run", who:"Simon", items:[
+    ["axe","Here's Simon!","B","Obtain the Axe.","Through the white gate by the For Sale houses near the start; second-to-last storage unit on the right.",[]],
+    ["calling","Cold Calling","S","Call all the phone numbers found in St. Amelia.","The 13th number only exists in NG+: at the Town Square phone booth, dial 946 to get it, then call it. The other 12 should be done in Stage 1.",["Collectible"]]
+   ]},
+   {t:"Part 5: CEG Tower", who:"Richard", items:[
+    ["widows","Missing The Point Entirely","B","Silence 30 Widows.","Cumulative across playthroughs. Finish off the remaining Widow kills here.",[]]
+   ]},
+   {t:"Endings from Save 2", who:"", items:[
+    ["justice","For St. Amelia","G","Reach the “Justice” ending.","Ending Score of 20 or higher.",[]],
+    ["nightmare","Reliving A Nightmare","S","Complete New Game Plus (any difficulty).","Pops with your first NG+ ending.",[]],
+    ["scifi","Sci-fi-lent Hill","S","Reached the “Sci-fi” ending.","3 Strange Books plus the Strange Access Card at the late keypad.",[]],
+    ["dog","Let's Talk This Out","S","Reached the “Dog” ending.","All 3 coins deposited in the Guide Dogs banks, then beat the final boss.",[]]
+   ]},
+   {t:"Ending from Save 1", who:"", items:[
+    ["forever","Here To Stay","G","Reach the “Forever” ending.","Collect only the Discoveries you need to land between 0 and 19.",[]]
+   ]}
+  ]},
+ {n:3, title:"Speedrun", meta:"NG+ under 4 hours, no manual saves",
+  intro:"Ignore everything optional. A route-only run takes well under 2½ hours. The timer pauses on the pause menu but not in cutscenes, so skip them. Turn on Options → Game Options → Show Time Played.",
+  how:["At the first Town Square phone with Richard, open the save menu when prompted, then back out without saving.","Never dial 100 again this run. Autosaves still happen.","Use the Pistol-3000 as Simon and Richard; Zoe can use the Axe."],
+  parts:[
+   {t:"During the run", who:"", items:[
+    ["p3000","Future Hardware","B","Obtain the Pistol-3000.","Unlocked by the Sci-fi ending. Also on the 5th Floor Boardroom table in Richard's section.",[]],
+    ["reject","Reject The Help","G","After meeting Richard, do not use a phone to save the game.","",["Missable"]],
+    ["fleeting","Fleeting Visit","S","Finish the game in under 4 hours.","May already have popped in Stage 2.",[]]
+   ]},
+   {t:"Finale", who:"", items:[
+    ["plat","Doing The Right Thing","P","Collect all other trophies in the game.","",[]]
+   ]}
+  ]}
+];
+const COLL = [[1,"doc","Document #1 - Boat Tour Cancelled Notice","Very early on once in control of Simon, you will see a short, ominous cutscene that displays the 'Welcome to St. Amelia' sign. Once in control again, turn back around to see the notice on the harbourmaster door.",1],[1,"key","Shorefront Map","The map is automatically obtained by Simon early in the chapter after the short scene when you pass the red fog.",0],[1,"doc","Document #2 - Shorefront Family Clinic Notice","Now that you have access to the map, make your way to the Clinic (6) to find the family notice to the right of the shuttered door.",1],[1,"phone","Phone Number #1 (496 0496)","Access the reverse of Simon's map to display this number. Use the phone and dial the number. Soon, you will find the game's first phone booth. Be sure to dial this number as well as the three others you obtain once you arrive at the phone booth.",1],[1,"phone","Phone Numbers #2, #3 & #4 (900, 010, 100)","From Town Square (5), head west to the sound of the phone ringing and enter the phone booth to pick up the 'Your Local Services' note.",3],[1,"signal","Signals #1 & #2","Right after gaining access to the CRTV in this chapter, hold [L1], then use [L2] / [R2] until you fall on both yellow-lined channels. Store these signals with [Cross]. Once stored, the colours will change to teal.",2],[1,"doc","Clue #1 - Room Service Card","Right after you gain access to the CRTV with Simon, you will find the clue on top of a desk opposite the bedroom.",1],[1,"puzzle","Puzzle #1 - Hotel Door Wheel","After gaining access to the above clue, you will have the solution to the puzzle for the door in the same bedroom. Solution: 18 January 1996",0],[1,"doc","Document #3 - Hotel Room Note","Sitting on top of the counter next to the sink, right after opening the puzzle door here.",1],[1,"key","Room 204 Key","On the very same counter, you will see the key that unlocks this hotel room.",0],[1,"doc","Document #4 - Hotel Reception Notice","After using the CRTV to detect enemies for the first time, take the elevator down and take an immediate right, heading behind the hotel reception. The notice is on the counter.",1],[1,"phone","Phone Number #5 (496 0244)","After grabbing the above document, you will notice the number for the hotel reception at the bottom. Dial this number once you access a phone booth.",1],[1,"signal","Signal #3","As soon as this chapter begins, take out your CRTV and tune into the yellow-boxed frequency. Go through the same procedure as before with the previous two to store the signal.",1],[1,"doc","Document #5 - Vigil and Poster Flyer","Look to the west of the pillar to see all of the protest signs. The flyer is on the wooden bench.",1],[1,"postcard","Strange Postcard #1","Head west of Town Square all the way to Video Star (1). Inside the store you'll find the first postcard on the store's clerk countertop.",1],[1,"key","Flashlight (No Batteries)","Head west from Town Square and take one of the northwestern alleyways to access the upstairs backdoor of Zoe's house. Inside in the kitchen you'll find a flashlight in a drawer.",0],[1,"doc","Document #6 - Hand Delivered Letter","Head to the living room opposite the entrance to the kitchen to find a harsh handwritten note on the coffee table.",1],[1,"key","AA Batteries","Head upstairs. Ignore the first door and take the second on the left. The batteries are inside a drawer in this room. Combine it with your flashlight to get a functioning one.",0],[1,"doc","Clue #2 - Organ Transplant Card","Take the room opposite upstairs and head into the backroom. You'll find the card on the shower mat on the floor.",1],[1,"doc","Clue #3 - Power Card Credit Guide","Return downstairs and to the right of the stairs you'll find a door you can crawl through. Head through to find the guide on a cardboard box.",1],[1,"doc","Document #7 - Newsagents Note","Head back to street level for a short cutscene. Make your way to the back of Peter's Newsagents, take the first door on the left and find the note on the clerk's counter.",1],[1,"key","Prepaid Power Card","Head behind the clerk's counter to find the card inside the cash register.",0],[1,"puzzle","Puzzle #2 - Electricard","Now that you have the prepaid card, return to the small door underneath the stairs of Zoe's house. Insert the card into the supply slot, press [Up] and press [Cross] on A until it displays 'Card Credit £5.00', then hit B to apply the credit. Flick the switch from off to on.",0],[1,"doc","Documents #8, & #9, Clue #4 - \"Your Letter\", \"Please Report In\" & \"For Attending...\"","With the power on, return to the living room and interact with the computer in the corner. Refresh the inbox and read all three emails.",3],[1,"puzzle","Puzzle #3 - Organ Transport Box","Return to the organ transport box in the kitchen. After gaining access to the \"For Attending...\" email, the solution is made clear. Use the first three and last three numbers of the ET-No. of the organ transport card in the left and right components of the box respectively. 956 - 133",0],[1,"key","Zoe's Lanyard","Automatically obtained from the organ transport box.",0],[1,"signal","Signal #4","As soon as you obtain Zoe's lanyard, access your CRTV with [L1] and head to the frequency to unlock this signal.",1],[1,"doc","Document #10 - Note on Patient Records","After you receive Zoe's lanyard, use it to enter the Clinic. Enter the first door on the right and find the patient records inside the desk drawer on the right.",1],[1,"doc","Clue #5 - Resignation Letter","Head to the end of the hall into Zoe Ellis's office. Find the letter on top of a cardboard box to the left.",1],[1,"doc","Clues #6 & #7 - \"Where Are You?\" & Clinic Email: Reception Answer Phone Message","In Zoe's office, access the computer in the right corner and reconnect to the inbox. Read both emails.",2],[1,"key","Scalpel","Right next to the computer, interact with the medical box to obtain the scalpel. This is later used to enter the Pharmacy as well as other future locker doors.",0],[1,"puzzle","Puzzle #4 - Clinic Reception Door","Take note of the post-it note on the computer (2896) and return to the reception door near the front of the Clinic. Enter the code to get inside.",0],[1,"doc","Document #11 - Nurse's Rounds Form","Inside the reception, find the form on the receptionist's desk next to the telephone.",1],[1,"key","Updated Map (Pharmacy)","Interact with the telephone and listen to the voicemail that's been left. This will update your map to include the Pharmacy location at (7).",0],[1,"doc","Document #12 - Restock Issues","Head to the Pharmacy and unlock the door with the scalpel. Inside you'll find the note at the clerk countertop.",1],[1,"signal","Signal #5","Behind the reception of the Pharmacy you'll find a CRTV on the desk. Use the motion controls on the CRTV to realign the RGB. Once you have moved the icon in the right position, adjust each colour with [Up] / [Down] and store it by holding [R2] when prompted.",1],[1,"puzzle","Puzzle #5 - Rusty Pharmacy Locker","The solution of this locker combination is revealed through the CRTV signal in viewing order and is pretty clever. Use the combination to open the locker. The first number is revealed by visible fingers/thumbs (6). The second reveals 'Prescription Drugs And You' poster which displays a large (5). The next shows the 'Nurse Consulation Service' which shows (3) on the dial. And lastly, the final poster showcases (9) red pills.",0],[1,"key","Prescription Dosage Error Note","Inside the Pharmacy locker from above.",0],[1,"postcard","Strange Postcard #2","Use the scalpel to enter the locked door north of Town Square (5), then go southwest of St. Amelia Park towards the north of (3). Find the card to the right of a large dumpster here.",1],[1,"postcard","Strange Postcard #3","Proceed northwest of St. Amelia Park and take a fenced door through a backyard. Squeeze past a shed and proceed all the way northwest past the phone booth to find the postcard placed on the cracked concrete wall.",1],[1,"doc","Document #13 - Feeling Sick Note","Head to the large building in the southwest of the Farrow Street Parking (13) area and up to the second floor. Enter the first apartment on the right, then the first room on the left to find the note on a dresser.",1],[1,"postcard","Strange Postcard #4","Go into the bedroom opposite to find the postcard lying on the floor at the foot of the bed.",1],[1,"key","21 Farrow St. - Back Door Key","Head to the living room of the same apartment and you'll find the key on the dining table.",0],[1,"doc","Clue #8 - Jess's Door Note","Head northwest and north of Jess's house to access the stairs and the note left on the front door.",1],[1,"doc","Document #14 - Task Assignment","Enter Jess's house using the 21 Farrow St. - Back Door Key. You'll immediately find yourself in the kitchen - find the note in the corner of the kitchen counter.",1],[1,"lockbox","Lockbox Key #1","To the left of the previous note, open the drawer to find the key there.",1],[1,"doc","Document #15 - Jess Legal Advice","Inside the living room next door on a small coffee table.",1],[1,"key","Broken Stethoscope","Head into Jess's bedroom to find the broken stethoscope sitting on the single bed.",0],[1,"container","Resource Container #1","Unlock the front door of Jess's house and return to the apartment building southwest of the Farrow Street Parking area. Head into the first building on the right (0/1) and use your lockbox key on the small roundtable of the living room.",1],[1,"puzzle","Puzzle #6 - Clinic Scales","Now that you have the broken stethoscope, return to the Clinic and head into Zoe Ellis's office once more. Inside, place items on the scale to complete this segment of the game. Broken stethoscope left, prescription dosage error note middle, and Zoe's lanyard right",0],[2,"doc","Document #16 - Water Warning","Now in control of Zoe, head downstairs and into the living room. You'll find the warning notice on the coffee table.",1],[2,"doc","Document #17 - Zoe's Email \"Coming Back\"","In the same room, access Zoe's computer in the corner to read an email.",1],[2,"phone","Phone Number #6 (01632 960595)","Use [Touch Pad] to access your documents and re-examine your new Water Warning document. At the bottom, you'll find a number for telephone enquiries. Dial the number on the phone located at the bottom hall of this house.",1],[2,"puzzle","Puzzle #7 - Jane's Locked Shed","Leave the house, head north of Town Square and east into the Community Garden. You will find a locked shed with a four-digit combination required. Look south in the garden to find a plaque of Jane Chalmers with the solution. 1-9-9-3",0],[2,"key","Community Garden Key","Once inside the shed, turn right to find a key placed on a metal storage shelf.",0],[2,"doc","Document #18 - Jane Chalmers Obituary","From the previous key, turn 180 degrees to find it on another metal storage shelf in the middle of the shed.",1],[2,"doc","Document #19 - St. Amelia Standard","Head east and unlock the door using the Community Garden Key. After heading through the alleyway, your map marker will update. Enter Mr. Stewart's house via the backyards and head to the living room to find the newspaper on the table.",1],[2,"phone","Phone Number #7 (496 0103)","In the same room you'll see a phone with an interactable folder to the right. Examine it to reveal a phone number. Call it here before progressing.",1],[2,"key","Mr. Stewart's Key","Deal with the next encounter as best you can and find Mr. Stewart's key in the bathroom.",0],[2,"doc","Clue #9 - Medical Security Note","Leave the house and slowly make your way northwest to St. Amelia Medical Centre. At the window of the security booth outside the main gate, you'll find a security note.",1],[2,"phone","Phone Number #8 (496 0556)","The above note, when read, will reveal the number for Dr. Glenn.",1],[2,"puzzle","Puzzle #8 - Dr. Glenn's Phone Number","Return now to the phone booth you saw northwest of your position. Enter Dr. Glenn's phone number and, when prompted, dial the additional numbers. A cutscene will open the gate to the medical facility.",0],[2,"doc","Document #20 - Community Help Needed","Make your way to the now-open medical centre gates and take the left at the building to reach the parking lot. You'll find this note on a donations station plastic table.",1],[2,"doc","Document #21 - Exhausted Supplies","Head to the back left area of the parking lot to a makeshift treatment area. You'll find the note on a blue medical bed.",1],[2,"signal","Signal #6","Back in control of Simon, leave the Clinic and hold [L1] while walking to discover the new signal. Tune in to frequency 63.",1],[2,"postcard","Strange Postcard #5","Head through the alleyways to the east of the Pharmacy until you reach north of Main Street. The postcard at at the bottom of stairwell at the entrance of an apartment.",1],[2,"doc","Document #22 - Scaffold Notice","Head north to Flemington Street and open the door there with your scalpel. Follow the linear path, dealing with monsters along the way, until you reach an apartment that has a blinking street light above it. Distract the monster and enter, finding the notice on the opposite entrance door from where you entered.",1],[2,"doc","Document #23 - Handwritten Note","On the second floor of the same apartment complex, head to the first apartment on the left and find the note on the living room coffee table.",1],[2,"signal","Signal #7","In the same living room, find a radio to recalibrate. Like before, use the motion sensor to align the RGB.",1],[2,"doc","Document #24 - Press Photos \"Note.txt\"","Head upstairs to the next floor and open the locked door to the right. Enter the first bedroom on the left and interact with the computer - read the first email.",1],[2,"doc","Documents #25 & #26 - Photo1.jpg & Photo2.jpg","Head to the kitchen to turn on the printer. Once you've done that, return to the computer and print both photos. Return to the printer and collect both photos.",2],[2,"lockbox","Lockbox Key #2","Head upstairs and left to the next apartment. Exit the window and take the scaffolding down to the floor below. Enter the window into an apartment on the second floor, then exit this apartment and head downstairs to apartment 1/1. The key is on the bottom bunk of a bed in the room with the monster.",1],[2,"container","Resource Container #2","Head upstairs to the top floor to find the container on a table on the landing. Use your key here.",1],[2,"postcard","Strange Postcard #6","Return to the apartment where you found the key and use the drop down prompt on the fragile wood in the living room. Leave the apartment and take the south-facing exit of the complex. Open the last shed on the left to find the postcard on a metal storage shelf inside.",1],[3,"key","St. Amelia Medical Centre Map","In the first room of the chapter, grab it from the wall next to the medical cabinets.",0],[3,"puzzle","Puzzle #9 - Medical Readings","Once you interact with the intercom, you will be asked to give the correct responses to Dr. Glenn. Use the machine readings around the room to give the appropriate responses. For blood pressure, give the Systolic and Diastolic reading on the machine second from the right of the side door. For pulse, check the next machine to the left and interact with the pulse reading. Lastly, for blood oxygen, interact with the machine closest to the bed on the left and give the SpO2% figure.",0],[3,"puzzle","Puzzle #10 - Patient Skull Procedure","Unlock the door and use the computer in the next room. Using and accordingly, have all four white squares align with the four square boxes on the camera until it says 'Patient Skull - Aligned'. Exit the computer and interact with the panel to the left. The correct solution comes from the laptop in the patient room. Flip the power to on, SITE to Skull, kV to 3, mA to 7 and TIME to 1. Press the Alignment X-Ray button when ready.",0],[3,"puzzle","Puzzle #11 - Patient Chest Procedure","Same situation as above, but this time align the computer's camera to the patient's chest and then alter the figures on the panel. SITE to Chest, kV to 7, mA to 3 and TIME to 1.2.",0],[3,"key","Head and Chest X-Rays","Once the above puzzles are completed, grab the printed X-rays from the printer in the same room.",0],[3,"doc","Documents #27 & #28 - Supply Situation Update & RE: Supply Situation Update","After finishing with the X-rays, exit the room and head east towards Consult. Room B, avoiding the monster in the hallway. Interact with the computer and read both emails.",2],[3,"key","Tensobromide 11mg","Sneak past the monster and into the Pharmacy Store room. Collect the tensobromide in the green medical box.",0],[3,"doc","Document #29 & Clue #10 - Unrealistic Expectations... & Dailies - Infusion Status","Return west and take the stairs up and head south behind the first desk. Interact with the southernmost computer for both emails.",2],[3,"doc","Clue #11 - Dailies - Records Room Code","Head to the north Office room. The code is pinned to the blue noticeboard. This code can be used to open the Records Room door on the first floor.",1],[3,"key","Dextracyclate 2.5mg","Head to the northeast corner to Bay 6 of this floor. The dextracyclate can be collected from the infusion pump.",0],[3,"key","Hydroxalene 3mg","Return to the ground floor and head northwest to the Records Room. Open it with your newly obtained code 2605 and find the hydroxalene inside a green medical box in the cabinet.",0],[3,"puzzle","Puzzle #12 - Patient Infusion","With the objective complete, return to Surgery. To find tips to solve this puzzle, use the whiteboard and Medication Dosage Table from the laptop. Interacting with each infusion pump, do the following: Tensobromide 11mg - SET RATE - 8 - ✓ - READY PUMP Dextracyclate 2.5mg - SET RATE - 15 - ✓ - READY PUMP Hydroxalene 3mg - SET RATE - 7 - ✓ - READY PUMP Interact with START on console by the bed",0],[3,"phone","Phone Number #9 (5353)","Given to you by Dr. Glenn right after. Exit Surgery and head west into Reception to use the phone there.",1],[3,"doc","Document #30 - Equipment Cleanup Notice","Take the nearby elevator down to the basement. Head right and right again down the hallway to find the notice on a patient bed.",1],[3,"key","Medical Intubation Kit","Sneak past the monster and into the Storage room. Squeeze through the gap to access the east side of the room to find the kit on a storage shelf.",0],[3,"puzzle","Puzzle #13 - Patient Intubation","Return once more to Surgery to go through the intubation process. Interact with the patient and, using the motion sensors, move the controller until the visual cue is red and shaking, then hold [R2] in this position. Complete this process twice more.",0],[3,"postcard","Strange Postcard #7","You'll find yourself in Surgery but this time as Simon. Use the same code 7103 to enter the adjacent room and grab the postcard on the medical counter.",1],[3,"signal","Signal #8","Head down the ladder and follow the linear path until you can squeeze through the gap. The radio is on a metal dresser.",1],[3,"key","Medical Centre - Different Map","Take the metal door opposite of where you entered on the upper floor to find the map on a metal desk.",0],[3,"doc","Clue #12 - Zoe's Patient List","Head southeast of this area into the last door on the right. Through here, pass through the vent at the back-right of the room to access the room next door. Pick up the list on the small metal table. If this is your first run and you've followed accordingly, you should unlock Observation here.",1],[3,"key","Alan Duncan Blood Bag","In the same room, to the left of the patient's bed attached to an IV stand.",0],[3,"key","Sarah Watson Blood Bag","Use Alan Duncan's blood bag to access the west door and then head down and into to Room 05 (S.W.). Grab the blood bag from the IV stand.",0],[3,"key","Ward W Master Key","Continue west to head downstairs and enter Room 04. Inside on the metal dresser you'll find the key.",0],[3,"postcard","Strange Postcard #8","Inside Room 06 on the same floor (use Ward W Master Key), you'll find the postcard on a metal dresser.",1],[3,"lockbox","Lockbox Key #3","Head north to Room 11. Hanging on a metal keybox, you'll find the key.",1],[3,"key","Lesley Greer Blood Bag","Use the Master Key to open Room 13 and take the ladder up. On an IV stand you'll find the next blood bag.",0],[3,"container","Resource Container #3","Before returning to the central area, go to Room 01 to find the container on the floor. Use your lockbox key.",1],[3,"key","Matthew Clark Blood Bag","Head back to where you originally picked up the map and use Lesley Greer's blood bag to unlock the east door. Head down the ladder and make your way to Room 03. From here, navigate to Room 02 and hit the elevator switch to bring the blood bag to the floor below. Remember to grab it once you reach the lower floor.",0],[3,"key","George McEwan Blood Bag","North of Room 06 and before the stairs, you'll see a vent you can open. Follow the path until you drop down to the lower level. Access the blood bag in Room 10. You will also receive Ward P Master Key when you pick it up.",0],[3,"postcard","Strange Postcard #9","Exit the room with the key and head east to Room 08. Inside here in a metal container you'll find the postcard.",1],[3,"puzzle","Puzzle #14 - Blood Bags","Once you have escaped and returned to the central area, you'll be tasked with correctly placing the blood bags. Facing the locked metal door at the south of the room, the solution is as follows: Left, spot 2: Sarah Watson Left, spot 3: Matthew Clark Right, spot 1: George McEwan Hit the switch next to the door",0],[3,"puzzle","Puzzle #15 - Blood Door","Right beyond the previous door is another puzzle to complete. The game asks you to select the appropriate blood bags of those outside to enter the room. Connect T.F., H.M. and S.W. with lines on the wheel, then interact with ORDELL in the middle.",0],[4,"doc","Document #31 - Harbour Notice","Back at the pier again with Simon, follow the linear harbour path until you see the small boat called 'Lesley'. To the left of it is the notice on a railing.",1],[4,"postcard","Strange Postcard #10","After the scene, you will resume on a street flooded with corpses. Head to the end of the road and take a right. Head towards the last vehicle on the right and take the alleyway path next to it. Pass the two wooden doorways and head into the shed to find the postcard on the storage shelf inside.",1],[4,"key","Clara Woods Estate Map","Return to the fork in the road and take the left path this time. When you see the railings to your right, look down that path to spot the map on the Clara Woods sign.",0],[4,"doc","Document #32 - Store Staff Notice","A little further up the road, you'll see a car with its hazard lights flashing. Head into the store next to it and you'll find the notice near the cash register on the right.",1],[4,"signal","Signal #9","From the last notice, turn around and you'll see the radio on a table next to some clothes and supplies.",1],[4,"phone","Phone Numbers #10 & #11 (946 & 496 0112)","As this chapter begins, you'll exit a phone booth. Re-enter and look at the number written on the poster to the right. Dial the number to be given a second number for you to dial after.",2],[4,"postcard","Strange Postcard #11","Head to the apartment complex in the northeast area of Atlas Square. Head to the second floor and take the first apartment on the left. Inside the far-left room, you'll find the postcard in a chest of drawers.",1],[4,"doc","Document #33 - Atlas Square Apartment Note","Return to the ground floor and take the first apartment on the right. Enter the living room, first door on the right and you'll find the note on a wooden dresser near the couch.",1],[4,"lockbox","Lockbox Key #4","Head towards Atlas Way and into the northeast building called Post Service. Inside the first cash register on your right you'll find the key.",1],[4,"container","Resource Container #4","Return once more to the apartment complex northeast of Atlas Square and back to the apartment where you picked up the Atlas Square Apartment Note. You'll find the container on the kitchen counter.",1],[4,"postcard","Strange Postcard #12","Proceed east towards Atlas Way once more and check the windows of the vacant stores to see a postcard sitting on a small table. Smash the window to obtain it.",1],[4,"signal","Signal #10","Head east of Atlas Way towards the strange gate structure. Walk around this area until you hear interference on your CRTV. Quickly check it to find the signal and tune in to its frequency.",1],[4,"signal","Signal #11","Make your way north of Atlas Way and towards the building west of CEG Staff Parking. Like before, enter the building and wait to hear the interference from your CRTV to store the signal.",1],[4,"doc","Clues #13 & #14 - Lost and Found & CEG Employee Locker List","Continue through CEG Staff Parking and then west into CEG Employee Lockers. Interact with the computer behind the desk on the left and read both files.",2],[4,"key","Barcode (CEG Lockers) - Locker 75","Opposite the computer, you'll find this card next to a scanner. Place the card into the scanner to obtain the locker code. 184",0],[4,"key","Flare Gun","Inside locker 75 (now accessible with the code), you'll find the flare gun and cartridges.",0],[4,"puzzle","Puzzle #16 - Lost and Found","Head into the office to the southwest of the building and interact with the locker to access lost and found. The solution was on the 'Lost and Found' file from the computer. Inside you'll find the South Brae House Key.",0],[4,"doc","Document #34 - CEG Lockers Managers Note","In the same office, check the drawer of the desk to your left.",1],[4,"phone","Phone Number #12 (496 0993)","This number is displayed in the top left-hand corner of the the card for locker 75 that you recently received. Use it on the phone in the office.",1],[4,"signal","Signal #12","Leave the building and head south through the shuttered door shortcut. Enter 5 South Brae south past Atlas Square with your new key and find the radio in the living room on your right as you enter. Use the motion sensor once more to calibrate.",1],[4,"doc","Clue #15 - Gaming Magazine","Go upstairs and take the first door to the left. Interact with the magazine on the bed.",1],[4,"key","Disk Case Key","Enter the last room on the right of the upstairs of the house and open up the bedside locker drawer. Inside is the key. Use the key on the room next door to get the Grouped Floppy Disks.",0],[4,"key","\"Fix-a-Disk!\" Software","Now that you have the Disk Case Key, leave the house, head north and then west for Atlas Computers. Head inside and left past the cashier's counter into a storage room.",0],[4,"puzzle","Puzzle #17 - Floppy Disk Software","Return again to 5 South Brae and back to the computer from upstairs and turn it on. Insert \"Fix-a-Disk!\" Software in the disk drive Press 'Insert a disk to scan' on the computer then press Insert Floppy Disk (2 of 3) - 'Repair Volume' - confirm Insert Floppy Disk (1 of 3) - 'Unzip to RAM' Insert Floppy Disk (2 of 3) - Insert Floppy Disk (3 of 3) Turn on printer - interact with computer to print 'Manual.eml'",0],[4,"doc","Clue #16 - Reciprocating Compressor","Retrieved from the printer once you complete the above puzzle.",1],[4,"key","Barcode (South Brae) - Locker 17","Interact with the case to the right of the phone in this room. The combination is the Part ID from the previous printout. 956 Retrieve the card from the case.",0],[4,"key","Boltcutters & Mechanical Part [1]","Return to CEG Employee Lockers and use your new card on the scanner. Access the boltcutters and the mechanical part once you have gained access to the combination for locker 17. 575",0],[4,"signal","Signal #13","Once you gain access to both, equip your CRTV and scan the next signal.",1],[4,"doc","Clue #17 - Lamenting Poem","Exit the locker building and head northeast up the stairs, using your boltcutters to break the chained lock. Head to 6 North Brae and enter from the backdoor - you'll find the poem upstairs on a chair in the first bedroom on the right.",1],[4,"key","Barcode (North Brae) - Locker 204","Inside the case next to the previous poem. The hint for the combination is linked to the number of boats, arches and children - referenced in the poem - painted around the house. 736",0],[4,"postcard","Strange Postcard #13","Remaining on the upper level, head to the southeast of the map, dealing with the monsters along the way. You'll find the postcard on the ground next to a roll cage.",1],[4,"doc","Clue #18 - The Code Today","Head west from the last postcard into 5 Upper Brae. Upstairs, take the first door on the left and the code can be seen on the table next to the case.",1],[4,"key","Tape: Today","Interact with the tape recorder to the right, then eject the tape from inside.",0],[4,"key","Tape: Yesterday","Enter the last room at the end of the hallway and take the tape from the black case on the small wooden table.",0],[4,"key","Tape: Tomorrow","Place the Tape: Yesterday into the tape recorder, press play and it will turn back time in the house. Head downstairs to find this tape in a black box in the living room.",0],[4,"doc","Clue #19 - The Code Before","Enter the kitchen to find the code sitting on the corner of the dinner table.",1],[4,"doc","Clue #20 - The Code After","Return to the tape recorder, enter and play Tape: Tomorrow, and find another clue in the living room once the time shifts once more.",1],[4,"key","Tape: Do Not Play","Return to the kitchen to find this tape in a black box at the corner of the countertop.",0],[4,"key","Back Door Key","Use the tape recorder once more to play Tape: Do Not Play. When everything shifts, grab the back door key from the kitchen counter.",0],[4,"postcard","Strange Postcard #14","Back to the tape recorder! Replace the tape once more with Tape: Tomorrow. Exit with the back door key. You'll find the postcard inside an open storage shed when you exit from the rear of the house and turn left.",1],[4,"key","Ammonite Disk","Return to the house and tape recorder and play Tape: Today. This time enter the door before the storage door outside for the postcard to find the disk.",0],[4,"doc","Clue #21 - Current Count","You guessed it - play Tape: Yesterday in the tape recorder. Interact with the computer on the desk and place the Ammonite Disk into the disk drive. Turn on the computer and access the file.",1],[4,"key","Barcode (Upper Brae) - Locker 94","Shift time by playing Tape: Today in the tape recorder and enter the combination into the black case on the desk. 129, combining the information from Current Count, The Code Before and The Code After",0],[4,"signal","Signal #14","Equip your CRTV as soon as you get the above key item. Tune into the available frequency and store it.",1],[4,"lockbox","Lockbox Key #5","Return to the lower level and use the boltcutters on a gate behind Post Service store to gain access to the emergency exit door of the laundromat. The key is inside above a washing machine.",1],[4,"container","Resource Container #5","Return to the CEG Employee Lockers building and enter the room with the phone. Use your key to open the container in this room.",1],[4,"key","Mechanical Part [2]","Use your new cards to get the combinations of the employee lockers. Starting with Barcode (Upper Brae), scan the card and get the combination 490. Inside you'll find the second mechanical part.",0],[4,"key","Mechanical Part [3]","Use the Barcode (North Brae) this time and access locker 204. Use the combination and get the third mechanical part. Combine all three to make the Constructed Mechanical Device. Use it on the strange gate to unlock Key To The Castle.",0],[4,"signal","Signal #15","Once you've obtained all three mechanical parts, equip your CRTV and scan the next signal.",1],[4,"key","CEG HQ - Ground Floor Map","Once you enter the building, find the map behind the reception desk.",0],[4,"doc","Document #35 - Inquiry Preparation Notice","On the same desk. Look right from the map location.",1],[4,"doc","Clue #22 - Box IDs and Names","Head southwest from the Atrium to the CEG assembly area. Head to the stage and find the clue placed on the podium.",1],[4,"doc","Clue #23 - Grid of Codes [1]","Head into the Maintenance room with its door ajar. This clue was thrown into the trash next to the computer desk.",1],[4,"doc","Clue #24 - Grid of Codes [2]","Enter the Security room 4895 and find the second half of the grid of codes in the trash can here. Combine both in your inventory to make the Complete Grid of Codes (Clue #25).",2],[4,"signal","Signal #16","Inside the same room. Interact with the CRTV and use your motion sensor once more.",1],[4,"doc","Documents #36 & #37 - CEG Security: Out of Hours Access & Urgent Message","Interact with the computer in this room and read both emails.",2],[4,"doc","Clue #26 - Employee File Cover Note","Return to the assembly area to interact with one of the black cases. Inside the one you need is the clue. From the back, head 5 rows up and interact with case 36. Enter the code 486.",1],[4,"key","Printed Access Card","Return to Security with your new employee note, turn on the printer on the left and interact with the computer next to it. Search for user and enter the employee ID written on the note (00007820518). Generate the access card and print it. Pick it up from the printer.",0],[5,"doc","Document #38 - Construction Halted Notice","You are now in control of Richard. Open the gate from the security booth and then enter the first prefab on the left at the parking lot. In the last room on the left of this prefab you'll find the notice one a small cabinet.",1],[5,"doc","Document #39 - CEG Kiosk Note","Open up the garage door shutter and you'll see the note on a dresser on the right.",1],[5,"doc","Document #40 - CEG Memo","Head to the hallway to the left of the previous note and up the stairs. Enter the Manager's Office at the left hallway of the upper floor and you'll find the note at the manager's desk.",1],[5,"key","Generator Key","Before exiting the office, open the keybox to the left of the door to find the generator key.",0],[5,"puzzle","Puzzle #18 - Parking Lot Generator","Return back outside and proceed to the generator in the top-left area from the building's exit. Go to the back of the generator and turn the right-most lever once with [Cross]. Return to the front, place the generator key in, then pull the red lever to the left with.",0],[5,"doc","Document #41 & Clue #27 - Facilities: Works Halted & Facilities: \"DONTREAD.DOC\"","Before heading up the elevator, return to the prefab you first entered here but this time enter the right room and access the computer. Read both emails.",2],[5,"key","CEG HQ - Building Map","After obtaining the shotgun, head upstairs to the third floor and you'll find it between both floors next to a familiar-looking corpse.",0],[5,"doc","Document #42 - CEG Tower Meeting Minutes","Head east on the third floor and into the room south of the bathroom. You'll find the minutes on the meeting room table on the opposite side of where you entered.",1],[5,"key","Access Card - Level 2/3","Progress until you reach a cutscene on the fifth floor. The card is on the table in the conference room.",0],[5,"doc","Documents #43 & #44 - CEG Tower: Evening News, CEG Tower: Engineer Public Statement","With the access card, return to the third floor and enter the Public Relations area and room. Interact with the computer and read both emails in the first room on the left.",2],[5,"doc","Document #45 - PR Meeting Note","Return to the Public Relations main room and enter the room opposite where the computer was. Inside a filing drawer you'll find the note.",1],[5,"doc","Clue #28 - Richard's Note","Continue deeper into Public Relations and take the next room on the right. Next to a corpse you'll find shotgun shells and the note.",1],[5,"key","CEG Storeroom Key","Head upstairs in Public Relations and to the northwestern room that's ajar. Inside you'll find the key next to a corpse.",0],[5,"doc","Clue #29 - CEG Checkout Sheet","Use the key to unlock the room in the eastern area. Inside, there are five cabinets - open the one labelled 'General Storage' to get the sheet. Make sure to pick up the Projector Bulb on the same shelf.",1],[5,"key","Projector Lens","Return to the third floor and enter the Finance area with the code from the checkout sheet 2709. Go to the C.F.O. room and grab the projector lens from the desk drawer.",0],[5,"key","CEG Maintenance Key","Return to the conference room on the fifth floor and place both the bulb and lens into the front of the projector. Once the projector is on, a corpse's hand frees the maintenance key for you to grab.",0],[5,"key","Projector Slides","Use the maintenance key to access the maintenance door behind the elevator and take each ladder down to the second floor. Continue down beneath the first floor to the Mezzanine Meeting Room to find the slides on the meeting table.",0],[5,"puzzle","Puzzle #19 - Projector Slides","Return to the conference room on the fifth floor and place the projector slides in the correct order. Hold [L1] to display the slides. Press [Left] / [Right] to toggle between them. 1. Slide D > Slot 1 2. Slide F > Slot 2 3. Slide B > Slot 3 4. Slide C > Slot 4 5. Slide E > Slot 5 6. Slide A > Slot 6 Exit and press 'Play'",0],[5,"doc","Document #46 - CEG Tower: He's Done","After the scene, you gain access to the CEO Access Card. Open the elevator with it and head to the tenth floor. Access the computer before entering the large, well-lit office and read the email.",1],[6,"doc","Document #47 - Ordell File","Once in control of Simon at the beginning of this chapter, you'll find it on the desk to your left.",1],[6,"doc","Document #48 - CEG Tower: What did you do?","Exit the room and access the same computer you finished Richard's section with. Read the available email.",1],[6,"doc","Clue #30 - Reference Sheet","Head to the ground floor in the elevator for a scene. Head up the short stairs and take a right in the new room to find the sheet.",1],[6,"signal","Signal #17","Next to the clue on the left. Use your motion sensor to store the signal.",1],[6,"key","Controller Key","Take the elevator up on the other side of the room and you'll find this key inside a rusted box as you exit left of the elevator. Next to a red handwheel.",0],[6,"puzzle","Puzzle #20 - CEG HQ Alarm (Part 1)","Head back down to the floor below and interact with the console with the red handwheel. Insert the controller key into the keyhole left Input A5D7 - OK to shut off alarm Interact with the right panel - input E3E3 - OK.",0],[6,"puzzle","Puzzle #20 - CEG HQ Alarm (Part 2)","You must now go to each floor and interact with the red handwheels. Ground Floor: Turn handwheel right/left twice. Floor 2: Turn handwheel left () once. Floor 3: Turn handwheel right/left twice. Floor 4: Turn handwheel right/left twice. Return to Ground Floor panel, press Gas Flow - Flow Test - IGNITE",0],[6,"signal","Signal #18","Crawl through the nearby debris, down the ladder and through the pipes. Before proceeding down the second ladder, head to the room on the left to find a radio.",1],[6,"postcard","Strange Postcard #15","Soon you will enter another pipe. At the intersection where you can go left, right or straight, take a left. The postcard is on the floor here and will unlock Blur Your Eyes.",1],[6,"lockbox","Lockbox Key #6","After receiving the map to SWDP, go south in the main room and upstairs. Enter the door and head right through the second door. Proceed into the next room and you'll find the key next to a metal countertop.",1],[6,"doc","Document #49 - SWDP: Ordell Site Visit","After an intense encounter, you'll take an elevator to the first floor. Head to the northeast corner into a room full of obsolete computers. Interact with the one that's functioning and read the single email. Make sure to pick up the JOE Key on the computer desk behind you.",1],[6,"key","Access Card","Use the JOE Key on the door labelled JOE (southwest), then squeeze through the gap in the wall. The card is on the metal countertop.",0],[6,"doc","Document #50 - RCU Refit Note","The note is on top of a dilapidated bed.",1],[6,"signal","Signal #19","Right next to the note, you'll find the game's final signal frequency, unlocking Sweeping Signals.",1],[6,"doc","Document #51 - Photo of Joe McKenzie","As you're exiting this room, you'll notice the photo stuck between the frame of the door and the wall.",1],[6,"container","Resource Container #6","Return to the ground floor from the elevator now that you have your Access Card. Take the stairs in the northwest corner and follow the path that joins the upper section to the southeast. Use the card on the shuttered door to open the Control Room and find the container inside.",1],[6,"doc","Clue #31 - Remote Systems Control","In the very same room next to the control panel.",1],[6,"puzzle","Puzzle #21 - Control Room Printer 1","In the same room, interact with the panel next to the last clue. Use both switches to turn it on. Interact with the buttons on the right. Press Column 1, Row 1, then Column 3, Row 2. Press 245 and then ENTER. Press Column 1, Row 2, then Column 4, Row 3. Press 130 and then ENTER.",0],[6,"key","AUX Key","The above puzzle provides a code 0825 to open the rusted container by the door opposite of where you entered from. Grab the key and shotgun shells inside.",0],[6,"key","AUX Disk","Return to the first floor via the elevator and use the AUX Key to open the door northwest of here. Inside you'll find the disk on the shelf of a cabinet.",0],[6,"doc","Clue #32 - Auxiliary Lines","Insert the AUX Disk into the nearby computer disk drive. Read the file that's on the disk.",1],[6,"puzzle","Puzzle #22 - Auxiliary Valves","Use the Auxiliary Lines clue to help you determine the valve positions (eg. | = Up, _ = Right). Lines 1 and 2 have 9 valves and start from the wall furthest from the entrance - Line 3 has 8 and starts from the wall next to the door. The valves have white paint next to them to determine which line they belong to (eg. 3 white lines = Line 3).",0],[6,"puzzle","Puzzle #23 - Control Room Printer 2","Return to the Control Room downstairs. Press Column 2, Row 2, then Column 4, Row 4. Press 246 then ENTER. Press Column 1, Row 4, then Column 3, Row 4. Press 781, then ENTER. Press Column 3, Row 1, then Column 2, Row 4. Press 592, then ENTER.",0],[6,"lockbox","Lockbox Key #7","Before leaving, unlock door 047 from the control panel Column 3, Row 1, Column 2, Row 4, 047, ENTER then return to the lower floor to access the key in the northwest room.",1],[6,"container","Resource Container #7","On the same floor, head south into long central room with the valves. In the north of this room, you'll find the container on a metal table - opening this will unlock Resourceful.",1],[6,"doc","Clue #33 - Clamp Release Procedure","Take the southwest room from here and turn on Valve F. Return to the Control Room to find this at the printer.",1],[6,"puzzle","Puzzle #24 - Control Room Panel","Interact with the panel in this room. Using the above clue can help you complete this puzzle. RUN OFF to Disengaged NOTIFY to ON for both switches BALANCE to INTERMEDIATE for both switches CLAMP CONNECTION D71 PRESSURE CONTROL to SET INTUBATE FLOW to NONE BATTERY ONE B, BATTERY TWO C REPORT, turn on switches 1, 3 and 6 Press RELEASE Turn the main valve downstairs when complete",0],[6,"doc","Document #52 - Crew Patch","After a significant fight, you'll find yourself at the pier. When you head down to the small beach area, instead of climbing up the stairs, proceed past them on the right side to find the final document. This will unlock the trophy Thorough Inspection.",1],["ng","key","Axe (Simon)","At the beginning of the game when make your way to the railings and housing sale advertisements, you can enter a white door that was previously locked. On the right you'll find storage container doors. Enter the one to the right of the bicycle and grab the axe inside. This will unlock the Here's Simon! trophy.",0],["ng","key","Pistol-3000 (Simon)","If you've previously completed the \"Sci-fi\" ending for Sci-fi-lent Hill, you will gain access to an infinite ammunition pistol for your next playthrough. This item can be obtained with Simon in the storage locations where you originally found his Axe.",0],["ng","dog","Bronze Coin","Head all the way west from Town Square into the Video Star store. In the backroom of this store you'll find the first dog coin on a shelf.",0],["ng","dog","Blind Bank [1]","Return east towards the Pharmacy and you'll find the blind bank just outside a store. Place the Bronze Coin into the bank.",0],["ng","phone","Phone Number #13 (496 0842)","After turning to the phone booth at Town Square, dial 946 to get the number that previously dialled you. Phone this number once it becomes available. This will unlock the trophy Cold Calling.",1],["ng","scifi","Strange Book [1]","When you arrive at Zoe's house, head to the bedroom and you'll find the book placed underneath the bedside locker to the left of the bed.",0],["ng","key","Axe (Zoe)","When you reach the backyard of Mr. Stewart's house, you'll find the axe for Zoe next to a shed.",0],["ng","scifi","Strange Access Card","Head to the hotel with the 'CEG Widows Demand Justice' protest banner above and go upstairs. You'll find a door with a numbers panel. Press the following: Bird, Tree, Planet, Bird, Triangle, Satellite, Satellite, Fish, Rocket, Planet, Dog, Pillar. Inside on a chest of drawers you'll find the access card needed for the ending.",0],["ng","dog","Silver Coin","When you are walking the street with all of the corpses, take the right at the intersection and all the way to the end next to the vehicle on the right. Proceed through the alleyway, past both wooden doors and enter the wooden shed at the end of the garden. The coin is on a metal storage shelf inside.",0],["ng","scifi","Strange Book [2]","Head to the store southwest of Atlas Square. Take a left as you enter and find the book on a bookshelf next to the window.",0],["ng","dog","Blind Bank [2]","After receiving the boltcutters, head to the laundromat where you obtained the lockbox key from your previous playthrough. Place the silver coin into the bank just beyond the clerk desk.",0],["ng","dog","Gold Coin","When you are back in the Control Room for Puzzle #23 from your first playthrough, be sure to unlock doors 793 and 621. Head to the floor below to find the coin on the metal console in the room just north of the generator.",0],["ng","scifi","Strange Book [3]","Now that you've unlocked the door for 621 above, go there to find the book sitting next to a resource container.",0],["ng","dog","Blind Bank [3]","Continue the chapter as normal, turning the red handsheel and proceeding down the ladder. When you reach the four-way intersection in the red corridor, go straight to find the final blind bank. This will trigger the \"Dog\" ending when you complete the game, unlocking Let's Talk This Out.",0],["ng","scifi","Final Requirement","Returning from the blind bank, take the left at the four-way intersection to proceed towards the end of the game. Instead of passing through the door at the end, interact with the access panel on the left and use the Strange Access Card. This will immediately trigger the \"Sci-fi\" ending, overwriting your \"Dog\" ending and unlocking Sci-fi-lent Hill.",0],["ng","key","Pistol-3000 (Richard, backup)","If you've previously completed the \"Sci-fi\" ending for Sci-fi-lent Hill, you will gain access to an infinite ammunition pistol for your next playthrough. While this item can be obtained with Simon (in the storage locations where you originally found his axe), the screenshot highlights an area where you can find it with Richard, should you accidentally miss your chance to unlock Future Hardware earlier. Find the weapon in the conference room in Part 5 as Richard.",0]];
+const PARTS = {1:"Arrival",2:"Zoe",3:"The Patient",4:"Clara Woods",5:"Richard",6:"Simon",ng:"New Game+ only"};
+const PNOTES = {1:"Simon. Shorefront and Town Square.",2:"Zoe's rounds, then Simon back in Shorefront.",3:"Zoe in the Medical Centre, then Simon in its altered version.",4:"Simon. Clara Woods, Atlas Square, the Brae houses and the lockers.",5:"Richard inside CEG HQ.",6:"Simon. CEG HQ – Different and SWDP – Different.",ng:"Pick these up during your New Game+ run (Stage 2), in this order. Simon's Pistol-3000 only appears after you've earned the Sci-fi ending."};
+const KIND = {doc:"Document / clue",phone:"Phone number",signal:"CRTV signal",postcard:"Postcard",lockbox:"Lockbox key",container:"Resource container",key:"Key item",puzzle:"Puzzle",dog:"Dog ending",scifi:"Sci-fi ending"};
+const METERS = [["doc","Documents & clues",85],["phone","Phone numbers",13],["signal","CRTV signals",19],["postcard","Strange postcards",15],["lockbox","Lockbox keys",7],["container","Resource containers",7]];
+const FILTERS = [["all","Everything"],["doc","Documents & clues"],["phone","Phone numbers"],["signal","Signals"],["postcard","Postcards"],["res","Lockboxes & containers"],["key","Key items"],["puzzle","Puzzles"],["ending","NG+ ending items"]];
+let filter = "all";
+
+const ALL = []; STAGES.forEach(s=>s.parts.forEach(p=>p.items.forEach(i=>ALL.push(i))));
+COLL.forEach((c,i)=>c.push("c"+i));   // [part,kind,title,desc,count,id]
+
+let state; try{ state = JSON.parse(document.getElementById("state").textContent) }catch(e){ state = {} }
+function norm(s){ s=s||{}; s.done=s.done||{}; s.items=s.items||{}; s.tab=s.tab==="items"?"items":"trophies"; s.ts=s.ts||0; return s; }
+state = norm(state);
+let mode = "local", artifactNs = null;
+try{
+  const ls = JSON.parse(localStorage.getItem("townfall-roadmap")||"null");
+  if(ls && (ls.ts||0) > state.ts) state = norm(ls);
+}catch(e){}
+
+const root = document.getElementById("root");
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function trophiesHTML(){
+  const counts = {Bronze:0,Silver:0,Gold:0,Platinum:0};
+  ALL.forEach(i=>counts[G[i[2]]]++);
+  let html = `<div class="dial" aria-label="Trophy progress">
+    <div class="ticks">${ALL.map(i=>`<span class="tick" title="${esc(i[1])}"></span>`).join("")}</div>
+    <div class="readout"><div class="freq" id="freq"></div>
+      <div class="grades">${["Bronze","Silver","Gold","Platinum"].map(g=>`<span style="--c:var(--${g==="Platinum"?"plat":g.toLowerCase()})">${counts[g]} ${g.toLowerCase()}</span>`).join("")}</div></div>
+  </div>`;
+  STAGES.forEach(s=>{
+    html += `<section class="stage"><div class="stage-head"><div class="stage-num">${s.n}</div><h2>${esc(s.title)}</h2><div class="stage-meta">${esc(s.meta)}</div></div>
+    <p class="stage-intro">${esc(s.intro)}</p>
+    <details class="how"><summary>How to run this stage</summary><ol>${s.how.map(h=>`<li>${esc(h)}</li>`).join("")}</ol></details>`;
+    s.parts.forEach(p=>{
+      html += `<div class="part" data-part><h3>${esc(p.t)}</h3>${p.who?`<div class="who">${esc(p.who)}</div>`:""}<ul class="list">`;
+      p.items.forEach(([id,name,g,desc,tip,tags])=>{
+        const done = !!state.done[id];
+        html += `<li class="tr${done?" done":""}" data-id="${id}" data-set="done">
+          <input type="checkbox" id="t-${id}" ${done?"checked":""} aria-label="${esc(name)}">
+          <label class="name" for="t-${id}"><span class="dot" data-g="${G[g]}" title="${G[g]}"></span><span class="t">${esc(name)}</span>${tags.map(t=>`<span class="tag${t==="Missable"?" miss":t==="Story"?" story":""}">${t}</span>`).join("")}</label>
+          <div class="desc">${esc(desc)}</div>${tip?`<div class="tip">${esc(tip)}</div>`:""}</li>`;
+      });
+      html += `</ul><div class="empty">All earned here.</div></div>`;
+    });
+    html += `</section>`;
+  });
+  return html;
+}
+
+function itemsHTML(){
+  let html = `<div class="meters">${METERS.map(([k,l,t])=>`<div class="meter" data-meter="${k}"><div class="lbl">${l}</div><div class="num"><span>0</span> <small>/ ${t}</small></div><div class="bar"><i style="width:0"></i></div></div>`).join("")}</div>
+  <div class="chips" role="group" aria-label="Show">${FILTERS.map(([k,l])=>`<button type="button" data-filter="${k}" aria-pressed="${k===filter}">${l}</button>`).join("")}</div>`;
+  [1,2,3,4,5,6,"ng"].forEach(p=>{
+    const rows = COLL.filter(c=>c[0]===p);
+    html += `<details class="cpart" open data-cpart="${p}"><summary><span class="pnum">${p==="ng"?"+":p}</span><h2>${PARTS[p]}</h2><span class="pc"></span></summary>
+      <p class="pnote">${esc(PNOTES[p])}</p><ul class="list">`;
+    rows.forEach(([_,k,title,desc,n,id])=>{
+      const done = !!state.items[id];
+      html += `<li class="tr cl${done?" done":""}" data-id="${id}" data-set="items" data-kind="${k}">
+        <input type="checkbox" id="i-${id}" ${done?"checked":""} aria-label="${esc(title)}">
+        <label class="name" for="i-${id}"><span class="t">${esc(title)}</span><span class="kind k-${k}">${KIND[k]}</span></label>
+        <div class="desc">${esc(desc)}</div></li>`;
+    });
+    html += `</ul><div class="empty">Nothing left to show in this part.</div></details>`;
+  });
+  return html;
+}
+
+function render(){
+  const tN = ALL.filter(i=>state.done[i[0]]).length, iN = COLL.filter(c=>state.items[c[5]]).length;
+  root.innerHTML = `${/\.github\.io$/.test(location.hostname)?`<a class="hub-link" href="../">← All trackers</a>`:""}<h1>Silent Hill: Townfall<br>trophy roadmap</h1>
+  <p class="sub">All ${ALL.length} trophies in the order you'll earn them, plus every collectible, key item and puzzle in the order you'll find them. Based on the PSNProfiles trophy and collectible guides by angelbless45 and Flynnerigan.</p>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-trophies" aria-selected="${state.tab==="trophies"}" aria-controls="p-trophies" data-tab="trophies">Trophies<span class="count" id="tc">${tN}/${ALL.length}</span></button>
+    <button role="tab" id="tab-items" aria-selected="${state.tab==="items"}" aria-controls="p-items" data-tab="items">Collectibles<span class="count" id="ic">${iN}/${COLL.length}</span></button>
+    <button type="button" class="guide-link" id="dlPage" title="Download this tracker with your progress as an .html file">Save<span class="wide"> as</span> .html ↓</button>
+    <a class="guide-link" href="https://psnprofiles.com/guide/26096-silent-hill-townfall-trophy-guide" target="_blank" rel="noopener noreferrer"><span class="wide">Original </span>guide ↗</a>
+  </div>
+  <div class="controls"><label><input type="checkbox" id="hide" ${state.hideDone?"checked":""}> Hide checked</label><span class="ctl-right"><span class="status" id="status"></span><button type="button" class="linkbtn" id="syncToggle" aria-expanded="${syncOpen}" aria-controls="syncPanel">Sync</button></span></div>
+  ${syncPanelHTML()}
+  <div id="p-trophies" role="tabpanel" aria-labelledby="tab-trophies" ${state.tab!=="trophies"?"hidden":""}>${trophiesHTML()}</div>
+  <div id="p-items" role="tabpanel" aria-labelledby="tab-items" ${state.tab!=="items"?"hidden":""}>${itemsHTML()}</div>
+  <footer>Checks save automatically. Collectibles only count once the game saves (manual or autosave), so save often. Ending-score details come from community testing and may change. <button id="reset">Clear all checks</button></footer>`;
+  document.body.classList.toggle("hide-done", !!state.hideDone);
+  applyFilter(); refresh(); setStatus();
+}
+
+function applyFilter(){
+  root.querySelectorAll("#p-items .tr").forEach(li=>{
+    const k=li.dataset.kind;
+    const show = filter==="all" || k===filter || (filter==="res"&&(k==="lockbox"||k==="container")) || (filter==="ending"&&(k==="dog"||k==="scifi"));
+    li.classList.toggle("filtered", !show);
+  });
+  root.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.filter===filter));
+  refreshEmpty();
+}
+
+function refreshEmpty(){
+  root.querySelectorAll("[data-part],[data-cpart]").forEach(p=>{
+    const rows=[...p.querySelectorAll(".tr")];
+    const visible = rows.some(r=>!r.classList.contains("filtered") && !(state.hideDone && r.classList.contains("done")));
+    p.classList.toggle("alldone", !visible);
+  });
+}
+
+function refresh(){
+  const tN = ALL.filter(i=>state.done[i[0]]).length;
+  document.getElementById("freq").innerHTML = `${tN} <small>of ${ALL.length} earned</small>`;
+  const ticks = root.querySelectorAll(".tick");
+  ALL.forEach((i,k)=>ticks[k].classList.toggle("on", !!state.done[i[0]]));
+  document.getElementById("tc").textContent = `${tN}/${ALL.length}`;
+  document.getElementById("ic").textContent = `${COLL.filter(c=>state.items[c[5]]).length}/${COLL.length}`;
+  METERS.forEach(([k,l,t])=>{
+    const got = COLL.filter(c=>c[1]===k && state.items[c[5]]).reduce((a,c)=>a+c[4],0);
+    const m = root.querySelector(`[data-meter="${k}"]`);
+    m.querySelector(".num span").textContent = got;
+    m.querySelector(".bar i").style.width = Math.min(100,got/t*100)+"%";
+    m.classList.toggle("full", got>=t);
+  });
+  root.querySelectorAll("[data-cpart]").forEach(d=>{
+    const rows = COLL.filter(c=>String(c[0])===d.dataset.cpart);
+    d.querySelector(".pc").textContent = `${rows.filter(c=>state.items[c[5]]).length} / ${rows.length}`;
+  });
+  refreshEmpty();
+}
+
+let statusText = "";
+function setStatus(t){ if(t!==undefined) statusText=t; const el=document.getElementById("status"); if(el) el.textContent = statusText || (mode==="artifact"?"Progress saves to this page":syncOn()?"Sync on":"Saved on this device"); }
+
+function buildDoc(){
+  const css = document.getElementById("css").textContent;
+  const app = document.getElementById("app").textContent;
+  const json = JSON.stringify(state).replace(/</g,"\\u003c");
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>Silent Hill: Townfall — Trophy Roadmap</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">\n<style id="css">'+css+'<\/style>\n</head>\n<body>\n<main id="root"></main>\n<script id="state" type="application/json">'+json+'<\/script>\n<script id="app">'+app+'<\/script>\n</body>\n</html>\n';
+}
+
+async function downloadPage(){
+  const d=new Date(), filename="townfall-trophy-roadmap-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".html";
+  const text = buildDoc();
+  let dl = null;
+  try{ if(window.claude && typeof window.claude.use==="function") dl = await window.claude.use("downloads"); }catch(e){}
+  if(dl){
+    try{ await dl.save({filename, data:text}); setStatus("Saved "+filename); }
+    catch(e){ const c=e&&e.code; setStatus(c==="declined"?"Download cancelled":c==="rate_limited"?"A download prompt is already open":"Downloads aren't available here"); }
+    return;
+  }
+  try{
+    const url = URL.createObjectURL(new Blob([text],{type:"text/html"}));
+    const a = document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    setStatus("Downloaded "+filename);
+  }catch(e){ setStatus("Downloads aren't available here"); }
+}
+
+/* ---------- GitHub Gist sync ---------- */
+const SYNC_KEY = "townfall-sync", GIST_FILE = "townfall-progress.json";
+let sync = null; try{ sync = JSON.parse(localStorage.getItem(SYNC_KEY)||"null"); }catch(e){}
+let syncOpen = false, syncReady = false, syncBusy = false, pushTimer = null, syncMsg = "", syncErr = false, lastSync = null;
+function syncOn(){ return !!(sync && sync.token && sync.gistId); }
+function syncPanelHTML(){
+  const body = syncOn()
+    ? `<p>Your checks sync to a secret GitHub gist${lastSync?`, last synced at ${lastSync}`:""}. Open this page on another device and connect it with a token to share the same progress.</p>
+       <div class="row"><button type="button" class="btn primary" id="syncNow">Sync now</button><button type="button" class="btn" id="syncOff">Disconnect this device</button></div>`
+    : `<p>Paste a GitHub personal access token with the <strong>gist</strong> scope. The token stays in this browser only. The first device creates a secret gist named ${GIST_FILE}; other devices find it automatically.</p>
+       <div class="row"><input type="password" id="tokenIn" placeholder="ghp_…" autocomplete="off" spellcheck="false" aria-label="GitHub token"><button type="button" class="btn primary" id="syncConnect">Connect</button></div>`;
+  return `<section class="syncp" id="syncPanel" ${syncOpen?"":"hidden"} aria-labelledby="sync-h"><h2 id="sync-h">Sync between devices</h2>${body}<div class="smsg${syncErr?" err":""}" id="smsg" role="status">${esc(syncMsg)}</div></section>`;
+}
+function sMsg(t, err){ syncMsg=t||""; syncErr=!!err; const el=document.getElementById("smsg"); if(el){ el.textContent=syncMsg; el.classList.toggle("err",syncErr); } }
+function sStatus(t){ statusText = t; setStatus(); }
+async function gh(path, opts){
+  opts = opts||{};
+  const r = await fetch("https://api.github.com"+path, {method:opts.method||"GET", cache:"no-store",
+    headers:Object.assign({"Authorization":"Bearer "+(opts.token||sync.token),"Accept":"application/vnd.github+json"}, opts.body?{"Content-Type":"application/json"}:{}),
+    body: opts.body?JSON.stringify(opts.body):undefined});
+  if(!r.ok){ const e=new Error("GitHub "+r.status); e.status=r.status; throw e; }
+  return r.json();
+}
+function payload(){ return JSON.stringify({app:"townfall-roadmap",done:state.done,items:state.items,hideDone:!!state.hideDone,ts:state.ts},null,1); }
+function errText(e){
+  if(e && (e.status===401||e.status===403)) return "GitHub rejected the token. Check that it has the gist scope and hasn't expired.";
+  if(e && e.status===404) return "The sync gist wasn't found. Disconnect and connect again to recreate it.";
+  return "Couldn't reach GitHub. Your checks are kept on this device and will sync when you're back online.";
+}
+function stampNow(){ return new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}); }
+async function connect(token){
+  token = (token||"").trim();
+  if(!token){ sMsg("Paste your token first.", true); return; }
+  sMsg("Connecting…");
+  try{
+    let id = null;
+    for(let page=1; page<=5 && !id; page++){
+      const list = await gh("/gists?per_page=100&page="+page, {token});
+      const hit = list.find(g=>g.files && g.files[GIST_FILE]); if(hit) id = hit.id;
+      if(list.length<100) break;
+    }
+    if(!id){
+      state.ts = state.ts || Date.now();
+      const g = await gh("/gists", {token, method:"POST", body:{description:"Silent Hill: Townfall trophy tracker progress", public:false, files:{[GIST_FILE]:{content:payload()}}}});
+      id = g.id;
+    }
+    sync = {token, gistId:id};
+    try{ localStorage.setItem(SYNC_KEY, JSON.stringify(sync)); }catch(e){}
+    syncReady = false;
+    await pull();
+    render(); sMsg("Connected. Progress now syncs automatically.");
+  }catch(e){ sync=null; sMsg(errText(e), true); }
+}
+async function pull(){
+  if(!syncOn() || syncBusy) return;
+  syncBusy = true; sStatus("Syncing…");
+  try{
+    const g = await gh("/gists/"+sync.gistId);
+    const f = g.files && g.files[GIST_FILE];
+    let remote = null;
+    if(f){ let txt = f.content; if(f.truncated){ txt = await (await fetch(f.raw_url,{cache:"no-store"})).text(); } remote = JSON.parse(txt||"{}"); }
+    syncReady = true;
+    if(remote && (remote.ts||0) > (state.ts||0)){
+      state.done = remote.done||{}; state.items = remote.items||{}; state.hideDone = !!remote.hideDone; state.ts = remote.ts;
+      try{ localStorage.setItem("townfall-roadmap", JSON.stringify(state)) }catch(e){}
+      const y = window.scrollY; render(); window.scrollTo(0,y);
+    } else if(!remote || (state.ts||0) > (remote.ts||0)){
+      syncBusy = false; await push(); return;
+    }
+    lastSync = stampNow(); sStatus("Synced "+lastSync); sMsg("");
+  }catch(e){ sStatus("Not synced"); sMsg(errText(e), true); }
+  finally{ syncBusy = false; }
+}
+async function push(){
+  if(!syncOn()) return;
+  if(!syncReady){ return pull(); }
+  syncBusy = true; sStatus("Syncing…");
+  try{
+    await gh("/gists/"+sync.gistId, {method:"PATCH", body:{files:{[GIST_FILE]:{content:payload()}}}});
+    lastSync = stampNow(); sStatus("Synced "+lastSync); sMsg("");
+  }catch(e){ sStatus("Not synced"); sMsg(errText(e), true); }
+  finally{ syncBusy = false; }
+}
+function schedulePush(){ if(!syncOn()) return; sStatus("Syncing…"); clearTimeout(pushTimer); pushTimer = setTimeout(()=>{ pushTimer=null; syncBusy ? schedulePush() : push(); }, 1500); }
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible" && !pushTimer) pull(); });
+window.addEventListener("online", ()=>{ if(syncOn()) push(); });
+
+let timer = null;
+function save(publish){
+  state.ts = Date.now();
+  try{ localStorage.setItem("townfall-roadmap", JSON.stringify(state)) }catch(e){}
+  if(publish!==false) schedulePush();
+  if(mode!=="artifact" || publish===false) return;
+  setStatus("Saving…");
+  clearTimeout(timer);
+  timer = setTimeout(async ()=>{
+    try{ sessionStorage.setItem("townfall-scroll", String(window.scrollY)) }catch(e){}
+    try{ await artifactNs.publish(buildDoc()); setStatus("Saved"); }
+    catch(e){
+      const code = e && e.code;
+      if(code==="not_granted"||code==="not_writer"){ mode="local"; setStatus("Saved on this device only"); }
+      else if(code==="conflict"){ setStatus(""); }
+      else setStatus("Couldn't save to the page; kept on this device");
+    }
+  }, 2000);
+}
+
+root.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.id==="hide"){ state.hideDone = t.checked; document.body.classList.toggle("hide-done", t.checked); refreshEmpty(); save(); return; }
+  const li = t.closest(".tr"); if(!li) return;
+  const bag = state[li.dataset.set], id = li.dataset.id;
+  if(t.checked) bag[id]=true; else delete bag[id];
+  li.classList.toggle("done", t.checked);
+  refresh(); save();
+});
+root.addEventListener("click", e=>{
+  const tab = e.target.closest("[data-tab]");
+  if(tab){ state.tab = tab.dataset.tab;
+    root.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-selected", b===tab));
+    document.getElementById("p-trophies").hidden = state.tab!=="trophies";
+    document.getElementById("p-items").hidden = state.tab!=="items";
+    save(false); return; }
+  const f = e.target.closest("[data-filter]");
+  if(f){ filter = f.dataset.filter; applyFilter(); return; }
+  if(e.target.closest("#dlPage")){ downloadPage(); return; }
+  if(e.target.id==="syncToggle"){ syncOpen=!syncOpen; e.target.setAttribute("aria-expanded",syncOpen); document.getElementById("syncPanel").hidden=!syncOpen; if(syncOpen&&!syncOn()) document.getElementById("tokenIn").focus(); return; }
+  if(e.target.id==="syncConnect"){ const b=e.target; b.disabled=true; connect(document.getElementById("tokenIn").value).finally(()=>{ const nb=document.getElementById("syncConnect"); if(nb) nb.disabled=false; }); return; }
+  if(e.target.id==="syncNow"){ pull(); return; }
+  if(e.target.id==="syncOff"){ sync=null; syncReady=false; try{ localStorage.removeItem(SYNC_KEY) }catch(err){} statusText=""; render(); sMsg("This device is disconnected. Your gist and its progress are untouched."); return; }
+  if(e.target.id==="reset" && confirm("Clear every trophy and collectible check?")){ state.done={}; state.items={}; render(); save(); }
+});
+root.addEventListener("keydown", e=>{
+  if(e.target.id==="tokenIn" && e.key==="Enter"){ document.getElementById("syncConnect").click(); return; }
+  if(!e.target.matches("[data-tab]") || !["ArrowLeft","ArrowRight"].includes(e.key)) return;
+  const other = root.querySelector(`[data-tab="${e.target.dataset.tab==="trophies"?"items":"trophies"}"]`);
+  other.focus(); other.click();
+});
+
+render();
+if(syncOn()) pull();
+try{ const y = +sessionStorage.getItem("townfall-scroll"); if(y){ sessionStorage.removeItem("townfall-scroll"); requestAnimationFrame(()=>window.scrollTo(0,y)); } }catch(e){}
+(async ()=>{
+  try{
+    if(window.claude && typeof window.claude.use==="function"){
+      artifactNs = await window.claude.use("artifact");
+      if(artifactNs){ mode="artifact"; setStatus(); }
+    }
+  }catch(e){}
+})();
+})();
+</script>
+</body>
+</html>

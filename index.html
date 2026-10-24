@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platinum trackers</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fog:#E4E5E0; --paper:#F0F0EC; --ink:#1E2627; --mute:#5D6966; --line:#C3C7C0;
+  --rust:#8E3A2A; --rust-soft:#E9D6CF; --sea:#476663; --sea-soft:#D3DEDB; --plat:#5C7A93;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fog:#171C1D; --paper:#1F2627; --ink:#E2E4DF; --mute:#9AA5A1; --line:#36403F;
+    --rust:#D1735E; --rust-soft:#3A2420; --sea:#86AAA5; --sea-soft:#22302F; --plat:#8DAAC2;
+    color-scheme:dark;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--fog);color:var(--ink);font:400 16px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:44px 20px 80px}
+h1,h2{font-family:"Spectral",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0}
+h1{font-size:clamp(32px,7vw,48px);letter-spacing:-.01em}
+.sub{color:var(--mute);margin:8px 0 30px}
+.games{display:grid;gap:14px}
+a.card{display:block;color:inherit;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px 18px 16px;transition:border-color .15s}
+a.card:hover{border-color:var(--ink)}
+a.card:focus-visible{outline:2px solid var(--sea);outline-offset:3px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.card h2{font-size:22px}
+.badge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--rust-soft);color:var(--rust);white-space:nowrap}
+.badge.plat{background:var(--plat);color:var(--paper)}
+.ticks{display:flex;gap:2px;align-items:flex-end;height:30px;margin-top:14px}
+.tick{flex:1;background:var(--line);border-radius:1px;height:40%}
+.tick.on{background:var(--rust);height:100%}
+.card.done .tick.on{background:var(--plat)}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px;color:var(--mute)}
+.stats b{font-family:"Spectral",Georgia,serif;font-size:19px;font-weight:600;color:var(--ink)}
+.note{margin-top:28px;font-size:13px;color:var(--mute)}
+@media (max-width:520px){main{padding:30px 16px 64px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Platinum trackers</h1>
+  <p class="sub">Pick a game to open its roadmap and checklist.</p>
+  <div class="games" id="games"></div>
+  <p class="note" id="note"></p>
+</main>
+<script>
+(function(){
+/* Add one entry per game. folder = the folder name in this repository. */
+const GAMES = [
+  {folder:"townfall", title:"Silent Hill: Townfall", trophies:37, collectibles:227, platinumId:"plat",
+   localKey:"townfall-roadmap", syncKey:"townfall-sync", gistFile:"townfall-progress.json"}
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const progress = {};   // folder -> {done, items, ts, from}
+
+function readLocal(){
+  GAMES.forEach(g=>{
+    try{
+      const s = JSON.parse(localStorage.getItem(g.localKey)||"null");
+      if(s) progress[g.folder] = {done:s.done||{}, items:s.items||{}, ts:s.ts||0, from:"device"};
+    }catch(e){}
+  });
+}
+
+function when(ts){
+  if(!ts) return "";
+  const d = new Date(ts), now = new Date();
+  const same = d.toDateString()===now.toDateString();
+  return same ? "today, "+d.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}) : d.toLocaleDateString([], {day:"numeric",month:"short",year: d.getFullYear()===now.getFullYear()?undefined:"numeric"});
+}
+
+function render(){
+  document.getElementById("games").innerHTML = GAMES.map(g=>{
+    const p = progress[g.folder];
+    const t = p ? Object.keys(p.done).length : 0;
+    const c = p ? Object.keys(p.items).length : 0;
+    const plat = p && p.done[g.platinumId];
+    const pct = Math.round(t/g.trophies*100);
+    const badge = plat ? `<span class="badge plat">Platinum earned</span>` : p ? `<span class="badge">${pct}%</span>` : `<span class="badge">Not started</span>`;
+    return `<a class="card${plat?" done":""}" href="${esc(g.folder)}/">
+      <div class="top"><h2>${esc(g.title)}</h2>${badge}</div>
+      <div class="ticks" aria-hidden="true">${Array.from({length:g.trophies},(_,i)=>`<span class="tick${i<t?" on":""}"></span>`).join("")}</div>
+      <div class="stats"><span><b>${t}</b> / ${g.trophies} trophies</span><span><b>${c}</b> / ${g.collectibles} collectibles</span>${p&&p.ts?`<span>Updated ${esc(when(p.ts))}</span>`:""}</div>
+    </a>`;
+  }).join("");
+}
+
+async function readGists(){
+  const tokenOf = g => { try{ const s = JSON.parse(localStorage.getItem(g.syncKey)||"null"); return s&&s.token; }catch(e){ return null; } };
+  const token = GAMES.map(tokenOf).find(Boolean);
+  const note = document.getElementById("note");
+  if(!token){ note.textContent = "Showing progress saved on this device. Connect Sync inside a tracker to see your latest progress from every device here."; return; }
+  try{
+    const head = {"Authorization":"Bearer "+token, "Accept":"application/vnd.github+json"};
+    const list = await (await fetch("https://api.github.com/gists?per_page=100", {headers:head, cache:"no-store"})).json();
+    for(const g of GAMES){
+      const hit = Array.isArray(list) && list.find(x=>x.files && x.files[g.gistFile]);
+      if(!hit) continue;
+      const full = await (await fetch("https://api.github.com/gists/"+hit.id, {headers:head, cache:"no-store"})).json();
+      const f = full.files[g.gistFile];
+      const s = JSON.parse(f.truncated ? await (await fetch(f.raw_url,{cache:"no-store"})).text() : f.content);
+      const cur = progress[g.folder];
+      if(!cur || (s.ts||0) >= (cur.ts||0)) progress[g.folder] = {done:s.done||{}, items:s.items||{}, ts:s.ts||0, from:"gist"};
+    }
+    render();
+    note.textContent = "Progress synced from GitHub.";
+  }catch(e){
+    note.textContent = "Couldn't reach GitHub, so this shows progress saved on this device.";
+  }
+}
+
+readLocal(); render(); readGists();
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible"){ readLocal(); render(); readGists(); } });
+})();
+</script>
+</body>
+</html>
