@@ -10,15 +10,15 @@
 <style id="css">
 :root{
   /* Color settings: light mode. Dark mode is set further down. */
-  --background:#262626;     /* page background */
-  --surface:#F0F0EC;        /* panels, cards, empty checkboxes */
+  --background:#171C1D;     /* page background */
+  --surface:#1F2627;        /* panels, cards, empty checkboxes */
   --text:#f90703;           /* main text and headings */
-  --text-soft:#5D6966;      /* descriptions, counts, status, checkbox borders */
+  --text-soft:#bfbfbf;      /* descriptions, counts, status, checkbox borders */
   --border:#C3C7C0;         /* borders, dividers, unfilled progress bars */
   --accent:#FA3107;         /* ticked boxes, progress, stage numbers, buttons, Missable text */
-  --accent-soft:#E9D6CF;    /* background of Missable tags and collectible labels */
-  --accent-2:#476663;       /* links, Sync, Collectible tag text, focus outlines */
-  --accent-2-soft:#D3DEDB;  /* background of Collectible tags */
+  --accent-soft:#3A2420;    /* background of Missable tags and collectible labels */
+  --accent-2:#86AAA5;       /* links, Sync, Collectible tag text, focus outlines */
+  --accent-2-soft:#22302F;  /* background of Collectible tags */
   --bronze:#9A6638; --silver:#7E8789; --gold:#A8831F; --platinum:#5C7A93;  /* trophy grade dots */
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
@@ -26,7 +26,7 @@
 /* Dark mode colors (used when the device is in dark mode). Keep these two dark lists identical. */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#5D6966; --border:#36403F;
+    --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#bfbfbf; --border:#36403F;
     --accent:#FA3107; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
     --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
   }
