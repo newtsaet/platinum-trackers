@@ -10,15 +10,15 @@
 <style id="css">
 :root{
   /* Color settings: light mode. Dark mode is set further down. */
-  --background:#171C1D;     /* page background */
-  --surface:#1F2627;        /* panels, cards, empty checkboxes */
-  --text:#f90703;           /* main text and headings */
-  --text-soft:#bfbfbf;      /* descriptions, counts, status, checkbox borders */
+  --background:#E4E5E0;     /* page background */
+  --surface:#F0F0EC;        /* panels, cards, empty checkboxes */
+  --text:#1E2627;           /* main text and headings */
+  --text-soft:#5D6966;      /* descriptions, counts, status, checkbox borders */
   --border:#C3C7C0;         /* borders, dividers, unfilled progress bars */
-  --accent:#FA3107;         /* ticked boxes, progress, stage numbers, buttons, Missable text */
-  --accent-soft:#3A2420;    /* background of Missable tags and collectible labels */
-  --accent-2:#86AAA5;       /* links, Sync, Collectible tag text, focus outlines */
-  --accent-2-soft:#22302F;  /* background of Collectible tags */
+  --accent:#8E3A2A;         /* ticked boxes, progress, stage numbers, buttons, Missable text */
+  --accent-soft:#E9D6CF;    /* background of Missable tags and collectible labels */
+  --accent-2:#476663;       /* links, Sync, Collectible tag text, focus outlines */
+  --accent-2-soft:#D3DEDB;  /* background of Collectible tags */
   --bronze:#9A6638; --silver:#7E8789; --gold:#A8831F; --platinum:#5C7A93;  /* trophy grade dots */
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
@@ -26,13 +26,13 @@
 /* Dark mode colors (used when the device is in dark mode). Keep these two dark lists identical. */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#bfbfbf; --border:#36403F;
-    --accent:#FA3107; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
+    --background:#171C1D; --surface:#1F2627; --text:#E2E4DF; --text-soft:#9AA5A1; --border:#36403F;
+    --accent:#D1735E; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
     --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
   }
 }
 :root[data-theme="dark"]{
-  --background:#171C1D; --surface:#1F2627; --text:#f90703; --text-soft:#9AA5A1; --border:#36403F;
+  --background:#171C1D; --surface:#1F2627; --text:#E2E4DF; --text-soft:#9AA5A1; --border:#36403F;
   --accent:#D1735E; --accent-soft:#3A2420; --accent-2:#86AAA5; --accent-2-soft:#22302F;
   --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
 }
@@ -163,7 +163,7 @@ footer button{font:inherit;color:var(--accent);background:none;border:0;padding:
 </head>
 <body>
 <main id="root"></main>
-<script id="state" type="application/json">{"done":{"welcome":true,"isolating":true,"alarm":true,"resignation":true,"static":true,"night":true,"patient":true,"scratch":true},"items":{"c0":true,"c1":true,"c2":true,"c4":true,"c5":true,"c6":true,"c7":true,"c8":true,"c9":true,"c10":true,"c12":true,"c14":true,"c15":true,"c17":true,"c18":true,"c20":true,"c19":true,"c21":true,"c22":true,"c25":true,"c24":true,"c23":true,"c26":true,"c27":true,"c28":true,"c29":true,"c30":true,"c31":true,"c45":true,"c48":true,"c71":true,"c72":true,"c74":true,"c73":true,"c70":true,"c68":true,"c69":true,"c67":true,"c65":true,"c64":true,"c63":true,"c62":true,"c60":true,"c61":true,"c59":true,"c58":true,"c55":true,"c54":true,"c53":true,"c51":true,"c50":true,"c47":true,"c49":true,"c33":true,"c34":true,"c35":true,"c36":true,"c37":true,"c38":true,"c39":true,"c41":true,"c42":true,"c43":true,"c44":true,"c3":true,"c11":true,"c16":true,"c32":true,"c40":true,"c46":true,"c52":true,"c56":true,"c97":true,"c96":true,"c95":true,"c94":true,"c93":true,"c92":true,"c91":true,"c89":true,"c88":true,"c87":true,"c86":true,"c85":true,"c84":true,"c83":true,"c82":true,"c81":true,"c80":true,"c79":true,"c78":true,"c77":true,"c75":true,"c76":true,"c98":true,"c99":true,"c66":true,"c100":true,"c103":true,"c101":true,"c102":true,"c104":true,"c105":true,"c106":true,"c107":true,"c108":true,"c109":true,"c110":true,"c111":true,"c112":true,"c113":true,"c114":true,"c115":true,"c116":true,"c117":true,"c118":true,"c119":true,"c120":true,"c121":true,"c122":true,"c123":true,"c125":true,"c124":true,"c126":true,"c127":true,"c128":true,"c129":true,"c130":true,"c131":true,"c132":true,"c133":true,"c134":true,"c135":true,"c136":true,"c138":true,"c139":true,"c140":true,"c141":true,"c142":true,"c143":true},"hideDone":false,"tab":"items","ts":1792846360805}</script>
+<script id="state" type="application/json">{"done":{},"items":{},"hideDone":false,"tab":"trophies","ts":0}</script>
 <script id="app">
 (function(){
 const G = {B:"Bronze",S:"Silver",G:"Gold",P:"Platinum"};
