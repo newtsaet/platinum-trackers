@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crimson Desert — Trophy Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Grenze+Gotisch:wght@500;700&display=swap" rel="stylesheet">
+<style id="css">
+:root{
+  /* Color settings: light mode. Dark mode is set further down. */
+  --background:#E1E3E4;     /* page background */
+  --surface:#F1F2F2;        /* panels, menu, empty checkboxes, search box */
+  --text:#1A1D21;           /* main text and headings */
+  --text-soft:#59606A;      /* descriptions, counts, status, checkbox borders */
+  --border:#C3C8CD;         /* borders, dividers, unearned pennants and diamonds */
+  --accent:#9E1A2C;         /* title, ticked trophies and challenges, stage numbers, buttons, Missable text */
+  --accent-soft:#F0D8DB;    /* background of Missable tags and met requirements */
+  --accent-2:#1F7178;       /* artifacts: ticked boxes, diamonds, artifact buttons, focus outlines, Sync */
+  --accent-2-soft:#D3E7E8;  /* artifact highlight and button backgrounds */
+  --bronze:#9A6638; --silver:#7E8789; --gold:#A8831F; --platinum:#5C7A93;  /* trophy grade colors */
+  --glow:none; --shadow:0 12px 32px rgba(20,24,30,.16);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* Dark mode colors (used when the device is in dark mode). Keep these two dark lists identical. */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --background:#111317; --surface:#1A1D22; --text:#E6E4DF; --text-soft:#9AA1A9; --border:#30353C;
+    --accent:#E25A6C; --accent-soft:#3A1C22; --accent-2:#5CC6CB; --accent-2-soft:#15302F;
+    --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
+    --glow:0 0 7px rgba(92,198,203,.6); --shadow:0 12px 32px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --background:#111317; --surface:#1A1D22; --text:#E6E4DF; --text-soft:#9AA1A9; --border:#30353C;
+  --accent:#E25A6C; --accent-soft:#3A1C22; --accent-2:#5CC6CB; --accent-2-soft:#15302F;
+  --bronze:#C48A58; --silver:#A9B1B3; --gold:#D3AE45; --platinum:#8DAAC2;
+  --glow:0 0 7px rgba(92,198,203,.6); --shadow:0 12px 32px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--background);color:var(--text);font:400 17px/1.5 "Alegreya Sans","Segoe UI",system-ui,-apple-system,sans-serif;font-variant-numeric:lining-nums}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--background)}
+main{max-width:780px;margin:0 auto;padding:44px 20px 80px}
+a{color:inherit}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+.gothic,h1,.stage-num,.stage-head h2,.part h3,details.grp>summary h2,.big{font-family:"Grenze Gotisch","UnifrakturMaguntia",Georgia,"Times New Roman",serif}
+h1,h2,h3{margin:0;line-height:1.1}
+h1{font-size:clamp(48px,11vw,80px);font-weight:700;color:var(--accent);line-height:.92;letter-spacing:.005em}
+h1 .h1-sub{display:block;font-size:.4em;font-weight:500;color:var(--text);margin-top:10px;letter-spacing:.01em}
+.sub{color:var(--text-soft);margin:14px 0 26px;max-width:62ch}
+
+/* sticky bar: tabs + guides menu */
+#tabsTop{height:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--background);display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--border);margin:0 -20px 16px;padding:6px 20px 0}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{font-weight:500;font-size:16px;line-height:1;color:var(--text-soft);background:none;border:0;border-bottom:3px solid transparent;padding:11px 12px 12px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent-2);outline-offset:-2px}
+.tabs .count{color:var(--text-soft);font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}
+.menu{position:relative;flex:none;align-self:center;margin-bottom:5px}
+#menuBtn{font-weight:500;font-size:15px;line-height:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 11px 8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+#menuBtn:hover,#menuBtn[aria-expanded="true"]{border-color:var(--text)}
+#menuBtn:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.chev{width:7px;height:7px;border:solid currentColor;border-width:0 1.6px 1.6px 0;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+#menuBtn[aria-expanded="true"] .chev{transform:translateY(1px) rotate(-135deg)}
+.mpanel{position:absolute;right:0;top:calc(100% + 8px);width:min(320px,calc(100vw - 32px));max-height:min(70vh,520px);overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:6px;z-index:20}
+.mhead{font-size:13.5px;color:var(--text-soft);padding:8px 10px 3px}
+.mpanel a,.mpanel .save{display:block;width:100%;text-align:left;padding:7px 10px 8px;border-radius:5px;text-decoration:none;background:none;border:0;cursor:pointer}
+.mpanel a:hover,.mpanel a:focus-visible,.mpanel .save:hover,.mpanel .save:focus-visible{background:var(--background);outline:none}
+.mpanel .ml{display:block;font-weight:500}
+.mpanel .ms{display:block;font-size:14px;color:var(--text-soft);line-height:1.3}
+.mpanel hr{border:0;border-top:1px solid var(--border);margin:6px 4px}
+@media (max-width:480px){.wide{display:none}}
+
+.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:15px;color:var(--text-soft);margin:0 0 20px}
+.controls label{display:flex;gap:8px;align-items:center;cursor:pointer;color:var(--text)}
+.status{font-size:14px}
+
+/* checkboxes */
+.ck{appearance:none;-webkit-appearance:none;width:22px;height:22px;margin:3px 0 0;border:2px solid var(--text-soft);border-radius:4px;background:var(--surface);cursor:pointer;display:grid;place-content:center;flex:none}
+.ck::after{content:"";width:11px;height:6px;border:solid var(--surface);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.ck:checked{background:var(--accent);border-color:var(--accent)}
+.ck:checked::after{opacity:1}
+.ck:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.controls .ck,.sr .ck{width:18px;height:18px;margin:0}
+.sr .ck{margin-top:3px}
+.controls .ck::after,.sr .ck::after{width:9px;height:5px;border-width:0 0 2px 2px}
+.ar .ck:checked{background:var(--accent-2);border-color:var(--accent-2)}
+
+/* progress boxes */
+.tally,.vault{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 16px 14px}
+.pennants{display:flex;gap:3px;height:34px}
+.pn{flex:1;background:var(--border);clip-path:polygon(0 0,100% 0,100% 100%,50% 74%,0 100%);transition:background .25s}
+.pn.on{background:var(--c)}
+[data-g=Bronze]{--c:var(--bronze)} [data-g=Silver]{--c:var(--silver)} [data-g=Gold]{--c:var(--gold)} [data-g=Platinum]{--c:var(--platinum)}
+.readout{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;margin-top:12px}
+.big{font-size:36px;font-weight:700;line-height:1}
+.big small{font:400 16px/1 "Alegreya Sans","Segoe UI",system-ui,sans-serif;color:var(--text-soft);margin-left:2px}
+.grades{display:flex;gap:14px;color:var(--text-soft);font-size:15px;flex-wrap:wrap}
+.grades span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:var(--c)}
+.subline{font-size:15px;color:var(--text-soft);margin-top:4px}
+.gems{display:flex;flex-wrap:wrap;gap:12px 16px;padding:3px 2px 0}
+.gg{display:flex;flex-wrap:wrap;gap:6px}
+.gm{width:10px;height:10px;transform:rotate(45deg);border:1.5px solid var(--border);transition:background .25s,border-color .25s}
+.gm.on{background:var(--accent-2);border-color:var(--accent-2);box-shadow:var(--glow)}
+
+/* stages */
+.stage{margin-top:56px}
+.stage-head{display:grid;grid-template-columns:auto 1fr;gap:2px 16px;align-items:baseline}
+.stage-num{font-size:58px;font-weight:700;line-height:.85;color:var(--accent);grid-row:span 2}
+.stage-head h2{font-size:31px;font-weight:700}
+.stage-meta{color:var(--text-soft);font-size:15px}
+.stage-intro{margin:14px 0 0;max-width:64ch}
+details.how{margin-top:10px;font-size:16px}
+details.how summary{cursor:pointer;color:var(--accent);font-weight:500;width:max-content;max-width:100%}
+details.how ol,details.how ul{margin:8px 0 0;padding-left:22px;max-width:64ch}
+details.how li{margin:5px 0}
+details.how .inl{margin-left:6px;font-size:14.5px}
+.part{margin-top:32px;border-left:2px solid var(--border);padding-left:18px}
+.part h3{font-size:24px;font-weight:700}
+.part .who{color:var(--text-soft);font-size:15px;margin-top:3px}
+
+ul.list,ul.slist{list-style:none;margin:8px 0 0;padding:0}
+.tr{display:grid;grid-template-columns:28px minmax(0,1fr);gap:3px 12px;padding:15px 0;border-bottom:1px solid var(--border)}
+.tr:last-child,.ar:last-child{border-bottom:0}
+.name{font-weight:700;display:flex;align-items:center;gap:5px 8px;flex-wrap:wrap;cursor:pointer;min-width:0}
+.name .t{overflow-wrap:anywhere}
+.rar{font-weight:400;font-size:14px;color:var(--text-soft);margin-left:auto;font-variant-numeric:tabular-nums}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.tag{font-size:13px;font-weight:500;line-height:1.35;padding:0 8px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--border);color:var(--text-soft)}
+.tag.miss{box-shadow:none;background:var(--accent-soft);color:var(--accent)}
+.desc{grid-column:2;color:var(--text-soft);font-size:16px}
+.tip{grid-column:2;font-size:16px;margin-top:2px;max-width:66ch}
+ul.tips{grid-column:2;margin:4px 0 0;padding-left:20px;font-size:16px;max-width:64ch}
+ul.tips li{margin:3px 0}
+.extras{grid-column:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:7px}
+.lk{font-size:14.5px;color:var(--text-soft);text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+.lk:hover{color:var(--text);text-decoration-color:currentColor}
+.lk:focus-visible,.tlink:focus-visible,.find:focus-visible,.artchip:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:3px}
+.artchip{font-size:14.5px;display:inline-flex;align-items:center;gap:8px;padding:3px 11px 3px 9px;border-radius:999px;border:1px solid var(--accent-2);color:var(--accent-2);background:none;cursor:pointer}
+.artchip .gem{width:8px;height:8px;transform:rotate(45deg);border:1.5px solid currentColor}
+.artchip.full .gem{background:currentColor}
+.artchip b{font-weight:700}
+.needs{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0;padding:0;list-style:none}
+.needs li{font-size:14px;line-height:1.4;padding:1px 9px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--border);color:var(--text-soft)}
+.needs li.met{box-shadow:none;background:var(--accent-soft);color:var(--accent)}
+.needs li.met::before{content:"\2713\00a0"}
+.platline{grid-column:2;font-size:16px;margin-top:4px}
+
+details.subs{grid-column:2;margin-top:10px}
+details.subs>summary,details.how>summary{list-style:none;display:inline-flex;align-items:center;gap:8px}
+details.subs>summary{cursor:pointer;color:var(--accent);font-weight:500;font-size:16px}
+details.subs>summary::-webkit-details-marker,details.how>summary::-webkit-details-marker,details.grp>summary::-webkit-details-marker{display:none}
+details.subs>summary::before,details.how>summary::before{content:"";width:7px;height:7px;border:solid currentColor;border-width:0 1.6px 1.6px 0;transform:rotate(-45deg);transition:transform .15s;margin-right:2px}
+details.subs[open]>summary::before,details.how[open]>summary::before{transform:rotate(45deg) translate(-2px,-1px)}
+details.subs>summary .sc{color:var(--text-soft);font-weight:400;font-variant-numeric:tabular-nums}
+details.subs>summary:focus-visible,details.how>summary:focus-visible,details.grp>summary:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;border-radius:3px}
+.sr{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--border)}
+.sr>.desc,.sr>.tip,.sr>.extras,.sr>.owner{grid-column:2 / -1}
+.sr .name{font-weight:500}
+.sr .desc{color:var(--text);font-size:16px}
+.sr .tip{color:var(--text-soft);font-size:15px}
+.sr.solo{grid-template-columns:28px minmax(0,1fr) auto;gap:3px 12px;padding:14px 0;border-top:0;border-bottom:1px solid var(--border)}
+.sr.solo:last-child{border-bottom:0}
+.sr.solo .ck{width:22px;height:22px}
+.sr.solo .ck::after{width:11px;height:6px;border-width:0 0 2.5px 2.5px}
+.sr.solo .name{font-weight:700}
+.owner{grid-column:2;font-size:14.5px;color:var(--text-soft)}
+.find{grid-column:3;grid-row:1;align-self:start;justify-self:end;font-size:14.5px;line-height:1.3;display:inline-flex;align-items:center;gap:7px;color:var(--accent-2);background:none;border:0;border-radius:4px;padding:2px 2px 2px 6px;margin-top:1px;cursor:pointer;white-space:nowrap}
+.find::before{content:"";width:7px;height:7px;transform:rotate(45deg);border:1.5px solid currentColor;flex:none}
+.find:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:520px){.find .fw{display:none}}
+
+.tr.done>.name .t,.sr.done>.name .t,.ar.done>.name .t{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--accent)}
+.ar.done>.name .t{text-decoration-color:var(--accent-2)}
+.tr.done>.desc,.tr.done>.tip,.tr.done>ul.tips,.sr.done>.desc,.sr.done>.tip,.ar.done>.loc{opacity:.55}
+body.hide-done .tr.done,body.hide-done .sr.done,body.hide-done .ar.done{display:none}
+.ar.filtered{display:none}
+.empty{display:none;color:var(--text-soft);font-size:15px;padding:12px 0}
+.alldone>.empty{display:block}
+
+/* artifacts */
+.search{display:flex;align-items:center;gap:8px 14px;margin:20px 0 0;flex-wrap:wrap}
+.search input{flex:1;min-width:200px;font:inherit;font-size:16px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text)}
+.search input::placeholder{color:var(--text-soft)}
+.search input:focus{outline:2px solid var(--accent-2);outline-offset:1px;border-color:transparent}
+.qn{font-size:15px;color:var(--text-soft)}
+.noresults{color:var(--text-soft);margin:18px 0 0}
+details.grp{margin-top:32px}
+details.grp>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:2px solid var(--text)}
+details.grp>summary h2{font-size:26px;font-weight:700;flex:1;min-width:0}
+details.grp>summary .pc{font-size:15px;color:var(--text-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+details.grp>summary::after{content:"";width:8px;height:8px;border:solid var(--text-soft);border-width:0 2px 2px 0;transform:rotate(45deg);margin-left:2px;align-self:center;transition:transform .2s}
+details.grp:not([open])>summary::after{transform:rotate(-45deg)}
+.gnote{font-size:15px;color:var(--text-soft);margin:9px 0 0}
+.tlink{font-size:inherit;color:var(--text);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+.tlink:hover{text-decoration-color:currentColor}
+.ar{display:grid;grid-template-columns:28px minmax(0,1fr);gap:3px 12px;padding:14px 0;border-bottom:1px solid var(--border);border-radius:4px}
+.ar .loc{grid-column:2;font-size:16px;max-width:66ch}
+.ar .lks{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:3px}
+.flash{animation:flash 1.8s ease-out}
+@keyframes flash{0%,35%{background:var(--accent-2-soft);box-shadow:-10px 0 0 var(--accent-2-soft),10px 0 0 var(--accent-2-soft)}100%{background:transparent;box-shadow:none}}
+
+footer{margin-top:64px;color:var(--text-soft);font-size:14.5px;border-top:1px solid var(--border);padding-top:16px}
+footer button{color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+@media (prefers-reduced-motion: reduce){.pn,.gm,.chev,details.grp>summary::after,details.subs>summary::before,details.how>summary::before{transition:none}.flash{animation:none;outline:2px solid var(--accent-2)}}
+@media (max-width:520px){
+  main{padding:30px 16px 64px}
+  .bar{margin:0 -16px 14px;padding:6px 16px 0}
+  .tabs button{padding:11px 9px 12px}
+  .stage-num{font-size:46px}
+  .stage-head h2{font-size:27px}
+  .part{padding-left:14px}
+  .gems{gap:10px 12px}
+  .gg{gap:5px}
+  .gm{width:9px;height:9px}
+}
+
+/* sync and hub link */
+.hub-link{display:inline-block;margin-bottom:14px;font-size:15px;font-weight:500;color:var(--accent-2);text-decoration:none}
+.hub-link:hover{text-decoration:underline;text-underline-offset:3px}
+.ctl-right{display:flex;align-items:center;gap:14px}
+.linkbtn{font-weight:500;font-size:15px;line-height:1;color:var(--accent-2);background:none;border:0;padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.syncp{margin:-6px 0 22px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px}
+.syncp h2{font-size:19px;font-weight:700}
+.syncp p{margin:6px 0 12px;font-size:15.5px;color:var(--text-soft);max-width:62ch}
+.syncp .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.syncp .row+.row{margin-top:10px}
+.syncp input[type=password]{flex:1 1 220px;min-width:0;font:15px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:9px 10px;border:1px solid var(--border);border-radius:4px;background:var(--background);color:var(--text)}
+.btn{font-weight:500;font-size:15px;line-height:1;color:var(--text);background:var(--background);border:1px solid var(--border);border-radius:4px;padding:9px 13px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn:disabled{opacity:.6;cursor:default}
+.btn:focus-visible,.syncp input:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.smsg{font-size:15px;margin-top:10px}
+.smsg:empty{display:none}
+.smsg.err{color:var(--accent)}
+</style>
+</head>
+<body>
+<main id="root"></main>
+<script id="state" type="application/json">{}</script>
+<script id="app">
+(function(){
+"use strict";
+const ART = [["sword-of-trials-1", "sword", "Sword of Trials I", "Following the road north from Hernand Castle to Meandering Hills, you’ll find this artifact just before crossing the great bridge in Three Saints’ Falls.", "4443847/69d8f73069d724f2bc95e5e1e8f3e1c5.png", "4443848/d01e9660e0345f40a45001736b3dc20c.png", "594556"], ["sword-of-trials-2", "sword", "Sword of Trials II", "Found beside the southern main path of the Steel Mountains.", "4448119/c4e636119af8203aaaa474d0b6d1d40e.png", "4448120/70f0703d85171b6868259beee645aad2.png", "594557"], ["sword-of-trials-3", "sword", "Sword of Trials III", "At the crossing in front of the Goldleaf Trading Post, you’ll find this Sealed Abyss Artifact on the stone altar.", "4456211/21a76d3362b2c9941ed60473d4a71977.png", "4456212/73749e5a2ef8eefcd734d7d1116a759a.png", "594558"], ["sword-of-trials-4", "sword", "Sword of Trials IV", "Find this Sealed Abyss Artifact on the main path west of the Kilnden Workshop.", "4456174/46f7ec55269da85c6236eb645fe3cc5a.png", "4456175/0dcb171092d933b808dc2b93b7e91485.png", "594559"], ["sword-of-trials-5", "sword", "Sword of Trials V", "It can be found just to the left of the road when facing north toward Reventine Monastery.", "", "4467314/91fd8d0c2442ae45003409637cb76c9a.png", "594560"], ["sword-of-trials-6", "sword", "Sword of Trials VI", "Head to the road leading south of Jijeong Temple, and you’ll find it.", "4467797/98985cfeffcf444808e711933a991a87.png", "4467796/10463800536c499ad6df72fcb83584d9.png", "594561"], ["shield-of-unchanging-will-1", "shield", "Shield of Unchanging Will I", "Unlock this challenge by getting the Sealed Abyss Artifact beside the road in Meandering Hills, north of Hernand Castle.", "4443826/9d85253cf3cb14fcca0c268f613d3552.png", "4443827/ef12206d9f89fa6b43fe4c8a72211d08.png", "594563"], ["shield-of-unchanging-will-2", "shield", "Shield of Unchanging Will II", "You’ll find this Sealed Abyss Artifact surrounded by goats and oxen by the roads of Kharonso in Scholastone.", "4443751/7621ad3bfc4a4aec61bab68bfaa27b6f.png", "4443752/228d9d194b7b432cf961bc0fa7a4e53b.png", "594564"], ["shield-of-unchanging-will-3", "shield", "Shield of Unchanging Will III", "You can find this Sealed Abyss Artifact on a small altar with a stack of stones just beside the road.", "4453590/11027641be212d9cc16dc1ea79abfbc2.png", "4453591/2b7eecc2c4452fa2becbf2b2a445b602.png", "594565"], ["shield-of-unchanging-will-4", "shield", "Shield of Unchanging Will IV", "Grab the Sealed Abyss Artifact from the altar beside the tree near the 3-point crossing in Rocca’s Hill to unlock this challenge.", "4443861/68fa24395b3af1f04147a7ee3cd24f9a.png", "4443862/219f15eaa31b50e68b7f27f1e393f239.png", "594566"], ["shield-of-unchanging-will-5", "shield", "Shield of Unchanging Will V", "If you head west from Demeniss Castle, you will find it on the side of the road.", "4467804/81f66704b2c2f928c6619461bc7a33e1.png", "4467803/0c20935d45a7f7b501e8d17d445d6c6c.png", "594567"], ["shield-of-unchanging-will-6", "shield", "Shield of Unchanging Will VI", "Found beside the bridge by the river leading west of Deepfog Basin.", "4453844/6df52fb7d6fb5d2113b9081035491f57.png", "4453845/a7c0f1343ecca0c2c35b32026c3e8dcf.png", "594568"], ["bow-aimed-at-fate-1", "bow", "Bow Aimed at Fate I", "You can unlock this challenge by obtaining the Sealed Abyss Artifact found at the intersection west of Glenbright Farm in the Hernand Highlands, located south of Hernand.", "4450555/b22d602271ff67847fd78b5e4262a772.png", "4450556/fda39816dfbea1448fd3c718eae838e7.png", "594570"], ["bow-aimed-at-fate-2", "bow", "Bow Aimed at Fate II", "You can find this along the river just south of Calphade South Gate in the Deepfog Basin, near the waterfalls.", "4450558/da86ab20d4aa41f5db930483951f8372.png", "4450557/c723a03841f2b0341132806906ecc889.png", "594571"], ["bow-aimed-at-fate-3", "bow", "Bow Aimed at Fate III", "Head southeast from Beighen Candlery, and you will find it near the side of the road on a shrine.", "4467808/1ad3ade9b7fab92946a6eb000253ee65.png", "4467807/26d39e8a919f59def701519bfe911804.png", "594572"], ["bow-aimed-at-fate-4", "bow", "Bow Aimed at Fate IV", "Head east of the Spire of Frost and north of the Deadfire Mountain, and you’ll find it on the side of the road.", "4467815/68e1ddbf74cc67272fa250a73feb72ec.png", "4467814/4fc04f7d8142367ec5fd6985f4e2506e.png", "594573"], ["bow-aimed-at-fate-5", "bow", "Bow Aimed at Fate V", "You’ll find it on the side of the road south of the Gate of Truth in the Demeniss region.", "4467822/fc65cf55c2459c937336465e3605f732.png", "4467821/d577c18957dce9f2289ed973cd300bbd.png", "594574"], ["bow-aimed-at-fate-6", "bow", "Bow Aimed at Fate VI", "Head west of Ridgepath Post in Pailune, and you’ll find it near the broken log.", "4467826/51ade6398948fbc0b7f52a60f920ca5e.png", "4467827/89e0d88bc290f7f6d336822dcb54c390.png", "594575"], ["sharpened-spear-1", "spear", "Sharpened Spear I", "Found by the southern intersection outside of Calphade Gate.", "4453966/bdbb320444c9b77bbb999adaf5c517f0.png", "4453967/4bd1462d4c8c7d4ef012ca7becd5a725.png", "594576"], ["sharpened-spear-2", "spear", "Sharpened Spear II", "Head southeast from Hernand Castle and cross the Nas River to reach the red Greymane Shrine. You’ll find the Sealed Abyss Artifact that unlocks this challenge there.", "4443842/1cc84ec4a5a29f05b0203c8c2b86c5bf.png", "4443843/73b2f131cb5ab326905f7e7b5f7b86b5.png", "594577"], ["sharpened-spear-3", "spear", "Sharpened Spear III", "Found west of Hook Rapids Hearth.", "4467831/17a95114e92cee426d8e6032f258df92.png", "4467830/4753c9f46aa4339d48559842147a87b5.png", "594578"], ["sharpened-spear-4", "spear", "Sharpened Spear IV", "The Sealed Abyss Artifact for Sharpened Spear IV is found on a small rock shrine on the intersection west of Flame Knights Castle in the Demeniss region.", "4457768/5226ff9e7c7d94d035066ad52677e369.png", "4457767/49e1a1f70150a5bb6306ff2a1bd03be6.png", "590654"], ["sharpened-spear-5", "spear", "Sharpened Spear V", "Obtain the Sealed Abyss Artifact along the northeast path in the Hills of No Return.", "4445300/93486b70b65b5a77949654b286f69182.png", "4445301/5fe9c42f78d72e177786aa3907e66179.png", "594579"], ["overwhelming-slash-1", "twohand", "Overwhelming Slash I", "Head west from Drake’s Fall Watchtower and you’ll find it near the road.", "4467838/9b8efe40f5c213db48f1e609b7ee31c7.png", "4467837/2f0d410949c4064e9b2fdb13749f9a95.png", "594586"], ["overwhelming-slash-2", "twohand", "Overwhelming Slash II", "Head to Demeniss and travel north through the Golden Plains.", "4467846/a416534e78897f934c05784d4115dca8.png", "4467845/ce06fead26bf03a96532ce9038a12466.png", "594587"], ["overwhelming-slash-3", "twohand", "Overwhelming Slash III", "Obtain the Sealed Abyss Artifact along the road just south of the western lake of Haunted Hill.", "4453623/1ae52972905ef44532003ef39f61940b.png", "4453624/7e34cdf863e8afe7c788fce5bc47ca30.png", "594588"], ["ground-shaking-impact-1", "twohand", "Ground-Shaking Impact I", "Head south of Fort Perwin and you’ll find it close to the road.", "4467850/cd7af4e2033c7c98f4606c9b5cec5123.png", "4467851/4a434c1ea53122480e0c8306d1ef85c2.png", "594589"], ["ground-shaking-impact-2", "twohand", "Ground-Shaking Impact II", "Follow the road south of Skoghorn Farm.", "4467856/376ff18d0f2f0c1c87cf4af9a41c26f9.png", "4467855/f3038dc7243f6c18d62344f4f76ee562.png", "594590"], ["ground-shaking-impact-3", "twohand", "Ground-Shaking Impact III", "This Sealed Abyss Artifact can be found just outside the Trovak Camp in Hernand.", "4467871/86ad94361baa9cdb149472caa31e9db1.png", "4467870/196cb1ae5f166f0489ebd9c0b0955fe0.png", "594591"], ["dancing-blade-shining-shield-1", "rapier", "Dancing Blade, Shining Shield I", "Found next to the road just south of the Meshley Trapsmith.", "4454021/18049b25eaa62b964b2f9bc9a5c9be69.png", "4454022/01e4320b9f3a193df3bf9fa663c8057e.png", "594592"], ["dancing-blade-shining-shield-2", "rapier", "Dancing Blade, Shining Shield II", "Found on Demeniss Road, just south of Golden Plains.", "4467580/c44fdfbcf514f42ba7ef04c76e07c618.png", "4467579/9302bbb4e91ab9183424e28d30d2f954.png", "594593"], ["dancing-blade-shining-shield-3", "rapier", "Dancing Blade, Shining Shield III", "Found on the Demeniss Road, southeast of Bamboo Forest Seonangdang.", "4467581/d7e2552d71c317524d63ed9bc0631462.png", "4467582/35b460dad759482dd9b2ddaf12cbe421.png", "594594"], ["dancing-blade-shining-shield-4", "rapier", "Dancing Blade, Shining Shield IV", "Found on the road west of the Forgotten Wyvern’s Nest.", "4467587/675f87ae099342111d5c2ca356ad1b64.png", "4467588/1ec10d301ffd34c8ce1d8f76cb3ed3ff.png", "594595"], ["dancing-blade-shining-shield-5", "rapier", "Dancing Blade, Shining Shield V", "This Sealed Abyss Artifact can be found on the road East of Demeniss Supply Camp.", "4467587/675f87ae099342111d5c2ca356ad1b64.png", "4467588/1ec10d301ffd34c8ce1d8f76cb3ed3ff.png", "594596"], ["when-lightning-strikes-1", "gun", "When Lightning Strikes I", "You can find this Sealed Abyss Artifact on the Tashkalp road, east of the Sovereign Wastes.", "4467638/9048e32b23bec0f88b996066928f325f.png", "4467637/e7694391ef743a20467f24a7f0ffcde5.png", "594597"], ["when-lightning-strikes-2", "gun", "When Lightning Strikes II", "Head East of Drywind Valley, and you’ll find it in the road intersection.", "4467643/775b87160238d93e38c1e633ca44523c.png", "4467642/75ea3d2634a448541e96063590cdf8d5.png", "594598"], ["when-lightning-strikes-3", "gun", "When Lightning Strikes III", "If you follow the road north of Urdavah, you’ll find the shrine containing the Sealed Abyss Artifact on your left.", "4467648/2e5c5f8bd4bb47ff9bf023bbc80ecd24.png", "4467647/6547aff8a0571f9a60abaabf679f954f.png", "594599"], ["when-lightning-strikes-4", "gun", "When Lightning Strikes IV", "Follow the road west of the Denn River to find this Sealed Abyss Artifact.", "4467652/f8710fa67c4c8ae41235cfcb1d5f0243.png", "4467651/00d9a72df252988e3f8781175a946cd7.png", "594600"], ["when-lightning-strikes-5", "gun", "When Lightning Strikes V", "You’ll find the Artifact in the main road in Steel Mountains between the path from Ruined Chapel and the Grace Manor.", "4448136/f92387ed5269dcd2cccee716a0096c68.png", "4448135/702d80980cfd62009053e57de1ad0432.png", "594601"], ["steel-grip-against-the-chest", "training", "Steel Grip Against the Chest", "This can be found in the middle of the forest along the road just northeast of Pororin, on the southern side of the Hernand region.", "4450564/4dd0809444eba871b14528ce669af619.png", "4450563/6970bb9c93f488c44ebe10a0ab3a1f69.png", "594602"], ["stepping-on-clouds", "training", "Stepping On Clouds", "This can be found near a shrine in Bloodsteel South Gate, south of Steel Mountains.", "4467403/e5f65f7bef775ddd94e0838cbea861ff.png", "4467402/2cc008442811ece517588a64446cf7a8.png", "594611"], ["sliding-down-the-slope", "training", "Sliding Down the Slope", "Unlock the Sliding Down the Slope Challenge by obtaining the Sealed Abyss Artifact at the junction in Anvil Riverside Terrace.", "4443712/660e54445b5cf17206d656a7565ae4ac.png", "4443711/9b01d6411ef6f3c14555e1b4351710e3.png", "594610"], ["rainbow-across-the-sky", "training", "Rainbow Across the Sky", "This can be found at the end of the road on the east side of Fort Warspike in Hernand, just south of the river.", "4467880/eb9d7b67dd104a5f4831a697a33fec6f.png", "4467879/81ab8ed6ac111c0955f73c18cca49fb7.png", "594609"], ["keeping-balance-on-the-wind", "training", "Keeping Balance on the Wind", "This can be found along the road on the northwest side of Unicorn Cliff in the Hernand region.", "4450562/ed924806788fe983b4ca69c056f46309.png", "4450561/f5fde9974c1114a1e970e871d64740bc.png", "594608"], ["clash-of-a-protector", "training", "Clash of a Protector", "This Sealed Abyss Artifact is contained within a shrine located at the intersection on the northeastern side of the Golden Plains.", "4467654/e82d91d505b546e469b335c4c32c5b83.png", "4467653/6a90a7aeeddc4482f9650005eee246f3.png", "594607"], ["tornado-of-steel", "training", "Tornado of Steel", "Found in the intersection near Dewhaven Logging Camp in Delesyia.", "4467659/5809d4870846497813ee9e1dad5d260a.png", "4467658/1615d5f85af450899902a6f46b73f45f.png", "594606"], ["like-a-butterfly-like-a-storm", "training", "Like a Butterfly, Like a Storm", "Can be found Northeast of the Blue Thicket, just north of the nearest Abyss Nexus.", "4467687/777bfe34c8bb97b3fbe52f005697b4f9.png", "4467686/d43987ace6dbb764413fb87544dced79.png", "594605"], ["through-the-current", "training", "Through the Current", "Found outside the Tashkalp Research Institute, which is located south of Urdavah.", "4467710/2c05c4545b24a57db8d147e3351e54f4.png", "4467709/e74ef2465f9f77580f7624d19d36dada.png", "594604"], ["on-a-storm-of-beasts", "training", "On a Storm of Beasts", "This Sealed Abyss Artifact is located on the side of the road east of Odeck and north of the Volvior Ruins.", "4467349/1a28144504fbf20d4b38c95179791986.png", "4467350/f53e48d693bb6a7b93434ef9d1f6fc8f.png", "594603"], ["waves-of-lightning", "operation", "Waves of Lightning", "Follow the road Southwest of Mount Benus to find this artifact.", "4467725/6b0b74cc8274ab2989a93258b0ce32b4.png", "4467724/410ed58e8ca52a93bc2bcd127e1bc3b0.png", "594612"], ["hidden-banner-pike", "operation", "Hidden Banner Pike", "You can find this artifact by following the road north of the Trader’s Expanse, south of Varnia.", "4467789/8f2faa93a17b75d83d6e8f403c94adb2.png", "4467788/f567b71a1a238d988e3bca69b2db4ebc.png", "594621"], ["end-of-the-shadow", "operation", "End of the Shadow", "Follow the road heading north near River Breeze Hearth.", "4467884/1b38ea2d11965d9701e3d223af800f3b.png", "4467883/bc95c79f30644a753b05e7829c9d76e1.png", "594620"], ["judgement-of-the-storm", "operation", "Judgement of the Storm", "Head southwest from the Riverward Outpost and you will find it positioned next to the cliff.", "4467887/b88a0b0cb2aa63d6e09ecb8ecf5076ad.png", "4467886/c7338187b0f98ce5ea6d560cb4b06c6c.png", "594619"], ["seeds-of-discord", "operation", "Seeds of Discord", "Follow the road North of Delesyia South Gate.", "4467892/f86bf9fcd89d64e1b53fcbba2be0de12.png", "4467893/b87ee6ee059c4ff164c2d2ef821729df.png", "594618"], ["touch-of-darkness", "operation", "Touch of Darkness", "This can be found along the road before reaching the house northeast of Vilkom Outpost in the Hernand region.", "4450565/cb2047812b95c58875857dc7676b4e68.png", "4450566/4656a6771caab0e492f1d223f9b1f770.png", "594617"], ["disruption", "operation", "Disruption", "This can be found across the river, surrounded by trees on the west side of Stormtalon Ridge in the Hernand region.", "4450559/e653f17ab661bad278d1ac254694f229.png", "4450560/e93a652815299c59eadec7ce3dbb0653.png", "594616"], ["gunshot", "operation", "Gunshot", "Unlock this challenge by finding the Sealed Abyss Artifact near the Scorchrock Castle in the Riverbed Terrace of Demeniss.", "4456553/7a7a089e4c29f0af656062e50f6b5a00.png", "4456552/264b8e2e87b7063bf57716a8027e4125.png", "594615"], ["meteor-run-in-the-dark", "operation", "Meteor Run in the Dark", "Follow the road South of Varnia and you’ll find it near the road, close to a rock formation.", "4467910/4ea2e2087df2498186fd22da625e24e1.png", "4467909/1830fc2a1c85c2aedbb18946e6885c5f.png", "594614"], ["dirge-beyond-the-border", "operation", "Dirge Beyond the Border", "Head east of Fullharvest Farm to find the Sealed Abyss Artifact near the road in Demeniss.", "4467915/59d20c76e30395da62de8954ed9201aa.png", "4467914/23f03df89e78ec1773612e17e38dc8a4.png", "594613"], ["feather-of-the-earth", "nature", "Feather of the Earth", "Along the road in Karin Quarry, you’ll find an altar made of rocks. Grab the Sealed Abyss Artifact at the altar to unlock this challenge.", "4443936/0a0df975254901030924a9312135a070.png", "4443937/c8cbaf33ad35ca1b727847e5a0b27579.png", "594622"], ["wild-showdown", "nature", "Wild Showdown", "It is located on the right side of the road, east of Gorthak and south of Marni’s Outpost.", "4467413/1b17629ee6c5574e371e41ce57a771d6.png", "4467412/b21f447cf910e923dfcb67adee64108c.png", "594632"], ["hunters-discipline", "nature", "Hunter’s Discipline", "It is located on the side of the road north of Tomasso and south of the Desert Ruins.", "4467412/b21f447cf910e923dfcb67adee64108c.png", "4467413/1b17629ee6c5574e371e41ce57a771d6.png", "594631"], ["mystical-ecosystem", "nature", "Mystical Ecosystem", "It is located on the side of the road south of Pailune Camp and north of Frostwind Cave.", "4467447/9b19ff7e7ce03334d0421eb5a18946bb.png", "4467446/5c3f749c699302041026c4ca6e9cf2bc.png", "594630"], ["a-will-harder-than-rock", "nature", "A Will Harder than Rock", "It is located on the side of the road to the east of the Kingshield Mountains and to the southeast of the Kingshield Dig Site.", "4467476/52aa28b81b843cc6ecd6e033c6285c41.png", "4467475/b1835c6c70b8aa20a759a0b6776aefce.png", "594629"], ["small-predator", "nature", "Small Predator", "Head West of Demeniss Castle, and you’ll find this Sealed Abyss Artifact beside a tree.", "4467924/f06e57a75da331be14ed2c5c89d2598b.png", "4467923/2fed93a9e0d4dd93bda9ec190e8d0925.png", "594628"], ["apex-of-the-food-chain", "nature", "Apex of the Food Chain", "This Sealed Abyss Artifact can be found just east of the Cloister of Enlightenment, near the road.", "4467937/587b34da197a326d1dea61e7ca9d346b.png", "4467936/27032464677735c5403cf2079c547746.png", "594627"], ["song-of-the-moon-swallowing-sword", "nature", "Song of the Moon-Swallowing Sword", "Head north of Gearmelt Confectionary in Drywind Valley, and follow the road.", "4468098/be7c7419b830bbfe585b31aa3d5e16a5.png", "4468097/50c49f4efefdd687d8e3d5691ffec574.png", "594626"], ["pine-broom", "nature", "Pine Broom", "Head directly south of Thornbriar Guard Post and follow the road.", "4468104/c71797b80cdc45a847ca15cf7b657335.png", "4468103/124aa67b9d96cd4408eb29cc3778a945.png", "594625"], ["the-end-of-the-myth", "nature", "The End of the Myth", "Follow the road North of the Desert Ruins.", "4468129/a462af9a6266e9d0814e112a13649263.png", "4468128/230547295b070bcc49a24ffd4356f7f2.png", "594624"], ["when-animals-die", "nature", "When Animals Die", "Head outside the Duskway Camp Ironcrawler Station, and follow the road.", "4468172/67ab4870dd58eb6085d6e7de63af1a41.png", "4468171/9ccb301db2677fbb6eaed3a892997176.png", "594623"], ["between-herbs-and-poisons", "nature", "Between Herbs and Poisons", "It can be found north of Scallcove and west of the Dangsan Tree.", "4467511/5d7c2ca69bd61db39ab0cafa99ccd745.png", "4467510/19685ace2555a1fa6baf7fe9ac1af4eb.png", "594633"], ["crystals-in-the-veins", "nature", "Crystals in the Veins", "This Sealed Abyss Artifact can be found north of the Burnhand Quarry and west of Secluded Private Property.", "4467535/80fb1da527854dbfa66c31c6cf47f0a1.png", "4467534/b769057dbbbcc95e17959a81c4374aea.png", "594644"], ["animal-meat", "nature", "Animal Meat", "The Sealed Artifact can be found along the northern main path of The Sage’s Peak.", "4445404/7487fa400b60b71324a37269fec7064e.png", "4445405/74ae6f5b2705673e2f87e6c05181d283.png", "594643"], ["tiny-citizens-of-grasslands", "nature", "Tiny Citizens of Grasslands", "Follow the northern road outside Beast Hunter’s Camp North of Silver Wolf Mountain.", "4468183/5fa53d9f255b2325dcbff85d8a8aa7d4.png", "4468182/9616a34380e849a699c3537e0cb7dff5.png", "594642"], ["acquire-timber", "nature", "Acquire Timber", "Follow the road to the west of the Well of Anguish.", "4468192/2f575c8cad1bada06064cf4c0f4525aa.png", "4468191/03b0c92d7251735f84d063673aad1b51.png", "594641"], ["the-underwater-ecosystem", "nature", "The Underwater Ecosystem", "Follow the road leading east of Musket First Outpost.", "4468212/f73d0184472fe7bb911b932f92a17799.png", "4468213/db34bb8ffc947be3f5fc9e73809f0abd.png", "594640"], ["provisions", "nature", "Provisions", "Head east of Outlaw Canyon and follow the road.", "4468387/27fca94803ae73d08d8d7e3c618f14cb.png", "4468386/ab84146c41ebccc9490116bf8effc717.png", "594639"], ["equipment", "nature", "Equipment", "You can find the Sealed Abyss Artifact next to the road just before you arrive at Sunset Valley.", "4453664/9713c20897ab536bc4a29249844c886a.png", "4453665/3f39500618a4f2528b85abf7dea1b7b2.png", "594638"], ["pets", "nature", "Pets", "Follow the road from Delesyia South Gate and continue heading east.", "4468403/cc7ccda54592fe88ea0488604cea6776.png", "4468402/ee83a3cfa36123da506660681e9f900b.png", "594637"], ["the-fruit-of-patience", "nature", "The Fruit of Patience", "The artifact is found on the crossroads south of the Coast Windmill Watchtower.", "4468359/e3da08b0b69a8c36092a0f4d1633fa1c.png", "4468358/e3480835e63edea4472fc87e697c6102.png", "594636"], ["bounty-of-meadows", "nature", "Bounty of Meadows", "The artifact can be found south of the Silverbrook Ruins.", "4468310/eb99f1cb9cdda65616e795df6ff304d3.png", "4468309/782f3ad431a1c7ca598b9f57c9d7cdf3.png", "594635"], ["caves-exploration-log", "nature", "Caves Exploration Log", "The artifact can be found north of Moss Hollow Cabin.", "4468571/81363e8726155452458da918e32b2dcc.png", "4468570/f2384ba5ef22f909e6aa227953c73db9.png", "594634"], ["night-of-the-silent-banner-pike", "law", "Night of the Silent Banner Pike", "You’ll find the Sealed Abyss Artifact for this challenge at a crossing in Anvil Riverside Terrace. This spot will be west of the Halssius Trading Post and St. Halssius’s House of Healing.", "4443774/6789e2e6c2adbf6c150e65dfa4af860b.png", "4443775/75f433453e454522e7945bdad1a62c7d.png", "594646"], ["the-herders-lament", "law", "The Herder’s Lament", "Head North of Torchlight beacon, and keep following the road leading up to the sealed abyss artifact.", "4468579/2bb3dc03df8c0e038d439cb6d7a2154c.png", "4468578/2f510e18919b2266509899e0fdbb8520.png", "594654"], ["the-vanished-wagon", "law", "The Vanished Wagon", "This can be found along the road just west of the Calphade Logging Camp, on the north side of the Hernand region.", "4450568/345e7ae9537cabedb44d1fe8f8413b50.png", "4450567/4eda3f68c48b794d4d3682bdafbb5a40.png", "594653"], ["back-alley-cleanup", "law", "Back Alley Cleanup", "Found south of Five-Finger Mountain Bandit Camp.", "4468588/97f7d9cfaef57f285f6ab50520fa805d.png", "4468587/28af5250b8248f7c56f38d94440c595e.png", "594652"], ["the-hand-that-brushes-past-all", "law", "The Hand That Brushes Past All", "Follow the road East of Hyena Den in the Tashkalp region.", "4468153/3a5eba522f8d496e543ef5d1cd531a0f.png", "4468152/338f3e8de10bfe6770a7eedb38cf1594.png", "594651"], ["worth-its-weight", "law", "Worth Its Weight", "Found along the path in the farmlands of the Deepfog Basin.", "4445410/fc9ba98234bf3a908b2b3a70ba3e1de6.png", "4445411/b61a381c9d3987c7ac1eb2dc35cdfeaa.png", "588730"], ["hands-quicker-than-eyes", "law", "Hands Quicker than Eyes", "Head to the road west of the Trader’s Expanse.", "4468652/d7b35943c03ccd8373a7f5770068a31e.png", "4468653/313831af147ed8d120a5bc70e60bec12.png", "594650"], ["trespassing", "law", "Trespassing", "Head west of the Church of Vellua, and you can find it on the side of the road.", "4468655/f544013db3cc1651440e5cce34099931.png", "4468654/548e9a37a85edf950c0aa169b900ef02.png", "594649"], ["the-dark-pilgrim-who-stole-the-ember", "honor", "The Dark Pilgrim Who Stole the Ember", "Head west of the road leading to Thornbriar Fortress. You’ll find it perched on a cliff right beside the gate.", "4468664/98c65e927494b6f91db6bd30fcef4e98.png", "4468663/0b1aff0fca72b719166614560faa6ebe.png", "594648"], ["the-crows-crown-and-the-last-chivalry", "honor", "The Crow’s Crown and the Last Chivalry", "This artifact can be found south of the Masterium Northeast Gate.", "4468225/04084668375c7a66a7130217868242e5.png", "4468224/43a571f0f6926d662246de49ad0c4478.png", "594647"], ["abyssal-star-that-cleaves-the-heavens", "honor", "Abyssal Star That Cleaves the Heavens", "Found on a stone altar at the crossroads along the main path, directly south of Haunted Hill.", "4447673/41eab1689bfa151d437bd7f81ae725cc.png", "4447674/796442c84d68e539d442caa2974c652a.png", "595748"], ["well-informed-greymane", "honor", "Well-Informed Greymane", "Found by a roadside stone altar south of the Windrose Farm.", "4461706/9371525d4db77d642edfd35cf31eeaee.png", "4461685/e403d01b5494bdb98869f24ff3370dd1.png", "595749"], ["under-the-ashen-banner-pike", "honor", "Under the Ashen Banner Pike", "Obtain the Sealed Abyss Artifact for this challenge on an altar found at the crossing in Phoniel Ranch in the Alfonso Estate.", "4443728/44d9696ba88f7df175adc86ae21944a8.png", "4443729/8bda46b9cf859c2d7eadca15d782a679.png", "595750"], ["return-of-the-greymane", "honor", "Return of the Greymane", "Head east of Bloodsteel camp, and you’ll find it across the watchtower near the base of the mountain.", "4468673/38e7064a9df50ef5c65d1a6d59c3fe48.png", "4468672/171927e897a324774d80d3adacf52c3d.png", "595751"], ["a-voyage-without-wind-or-sails", "honor", "A Voyage Without Wind or Sails", "This artifact can be found on the road north of the Chittering Forest Ironcrawler Station.", "4468257/50c5dea78fb3d2e3628ea7f563c2cb35.png", "4468256/c9cfdb128bbae6770e627169a8a5c5ca.png", "595752"], ["greymanes-vow", "honor", "Greymane’s Vow", "This artifact can be found on the crossroads south of Tinkerton.", "4468298/0dd024cea9b413ba1448fbad868c621b.png", "4468299/b391a3f66a8a0256bb52d1c4bf2d69a5.png", "595753"], ["duo-win-streak", "honor", "Duo Win Streak", "Follow the road East of Spire of Clockwork. An Abyss Nexus will be available up north, making this artifact easier to access if you have already unlocked it.", "4468681/ef97ead4622d1b3a099b7df678ede7eb.png", "4468680/e3b90c1a30cc8a49fb59dd66f01c0f51.png", "595754"], ["4-player-duo-champion", "honor", "4-Player Duo Champion", "This artifact can be found west of the Dewhaven North Gate.", "4468286/d421f439a28b43ff2fda6901d8e85673.png", "4468285/76ca6dc1d8253f790b803c4f2f96ec99.png", "595755"], ["spot-the-trickery-in-duo", "honor", "Spot the Trickery in Duo", "Head Northwest of the Wild Raider’s camp, and you’ll find it near a rock at the intersection that leads to the Wild Raider’s Outpost.", "4468706/15e5fbed0516d78670e54502c6919028.png", "4468707/711b5ef5b4c231b0b490c32da58ca4ee.png", "595756"], ["slam-master", "battle", "Slam Master", "Head north directly of Varnia, to find this artifact near the side of the road.", "4469092/a7ce12dec4422f086db046402b6ae87d.png", "4469091/c51a874d02cc0b61248ffd4244d08c91.png", "595510"], ["flash", "battle", "Flash", "Proceed in a southwestern direction from the Abyss Impact Site, following the road until you arrive at a fork in the road.", "4469126/d6ebd78db01db17d69c5609b09f7ed0d.png", "4469125/9c902c7b84a4af03a2e16fc1ef7298f9.png", "595518"], ["seven-consecutive-strikes", "battle", "Seven Consecutive Strikes", "Head West of Saltroad Camp, and you’ll find it close to the road just outside the camp.", "4468374/b1e9d21e1cc5c2734784e4461949ed1a.png", "4468373/c9cd7e19b9b1f8b5fac5a8d41f399986.png", "595519"], ["sinking-fort", "battle", "Sinking Fort", "Follow the road North of Tomasso, and east of Tomasso Fork Posthouse.", "4468119/877c6bae65a2d876e65ad01ecbaf4b2d.png", "4468118/7090dc82124dff4dab237fb2379e5b9c.png", "595517"], ["single-spark-seven-strikes", "battle", "Single Spark, Seven Strikes", "This artifact is found in the crossroads south of the Chittering Forest Ironcrawler Station.", "4468320/f28b0f2b34a9a9fc62628d919be1050a.png", "4468321/e84bd607cab95775249c1139efcf755e.png", "595516"], ["into-the-barrage", "battle", "Into the Barrage", "Follow the road north of Calphade Outpost until you reach a fork in the road.", "4469148/a917f1415044518ae1536ce6cd68808d.png", "4469147/ab8ccb384493f319b0a08877ea644493.png", "595515"], ["desperate-rescue", "battle", "Desperate Rescue", "Found just beside the road leading to the top of the Mountain of Frozen Souls.", "4454039/d0e88862a5156dd9b6624af27fa1a7dc.png", "4454040/0f306c0d059a66eacef1c0f2cd1372c2.png", "595514"], ["judgement-cast-upon-the-sleeping", "battle", "Judgement Cast Upon the Sleeping", "Follow the road East of Camp Bjornlund.", "4469191/933e6af35f66f0d8819e1ce961184c8c.png", "4469192/dc8c73ff961258adec3461ece409c011.png", "595513"], ["giant-windmill", "battle", "Giant Windmill", "Take the road west of the Aeronautical Research Base in southeastern Delesyia.", "4469379/4b21bfe54b6e63dfda11bb6b29d6074d.png", "4469380/68abdc41db99916120e15b973d76e275.png", "595512"], ["bare-courage", "battle", "Bare Courage", "Head south of Greenfield Bandit Camp until you reach a fork in the road.", "4469384/899724d2fb2d7ce620c34477ceb10dbf.png", "4469385/6f2b316a0c49f7975f8570d5b0e87058.png", "595511"], ["harmonious-hooves-1", "horse", "Harmonious Hooves I", "Head north of Reventine Monastery, just before the bridge.", "4469412/4653cbc0aa98e91be21f78bf8a6554d6.png", "4469411/3eb5c2b60025fd19ac69fb54a1533160.png", "595522"], ["harmonious-hooves-2", "horse", "Harmonious Hooves II", "Follow the road that leads north of St. Halssius’s House of Healing.", "4469448/4c28906c71882198829d67bfa8c0a36c.png", "4469449/e0f51e0e1ac72b18eb825bdfb1dd4140.png", "595523"], ["harmonious-hooves-3", "horse", "Harmonious Hooves III", "Follow the road east of Ironwood Farm.", "4469484/44445641e44a0429c5ab3a3de9f5eeed.png", "4469483/d14d045df391b9310a1affe0d92f8823.png", "595524"], ["harmonious-hooves-4", "horse", "Harmonious Hooves IV", "The Sealed Abyss Artifact can be found next to a tree past the open field where you fight the Reed Devil.", "4453765/dfe2ccd470c3051963e7f159aebb63f8.png", "4453766/514fe643c7de6dba97f03499a7b85d58.png", "595525"], ["harmonious-hooves-5", "horse", "Harmonious Hooves V", "If you head west of the Honeywood Apiary, you’ll find it on the side of the road.", "4469516/d3736ec586a86da7ff2f4de82f4844b3.png", "4469515/694a7852379e349dd5c4586e1b1d324e.png", "595526"], ["harmonious-hooves-6", "horse", "Harmonious Hooves VI", "From the Church of West Demeniss, head outside and follow the road heading east.", "4469588/5a15b3d382ad66e143ac9b2065144592.png", "4469587/add0525fc4e16d43f631d1da830e8745.png", "595527"], ["harmonious-hooves-7", "horse", "Harmonious Hooves VII", "Proceed westward on the road that runs alongside Ironwood Farm until you come to a fork in the road, which is located to the west of the Goldleaf trading post.", "4469595/aea7629da2c444242e00883509fd6dc5.png", "4469594/ce211b91c36fb0e3df0321d838d82d17.png", "595528"], ["harmonious-hooves-8", "horse", "Harmonious Hooves VIII", "This artifact can be found next to a house in the outskirts of Ridgehunter Tannery.", "4469635/cc91bedf1efeffb6e07b0ff5180b7bd3.png", "4469633/e9b9b2c37a9dcba260806d7b333f10a4.png", "595529"], ["harmonious-hooves-9", "horse", "Harmonious Hooves IX", "Proceed north of Dewhaven Keep along the road, then take the left fork in the first and second road. You will find it near the third fork in the road.", "4469661/d5d50011fb3a0d1ae57eba28fd95a182.png", "4469660/917a79b08fb3d40b9f6ddde5fb18a022.png", "595530"], ["harmonious-hooves-10", "horse", "Harmonious Hooves X", "Head east from the fortress of Crimson Mountain to reach the road south of Timeworn Ruins Ironcrawler Station.", "4469719/f66e0cc584cf090c430fb09d19905249.png", "4469718/46f2a1c0587d8580144f20c8f30e9719.png", "595521"], ["traveler-with-oak-barrels", "trade", "Traveler with Oak Barrels", "It is located in the center of Pailune, just north of the Abyss Nexus.", "4473113/0322746dc4b6288eb16ad8b51e3e112c.png", "4473112/7a8c857fbbdb73323cd2b839f1a4c172.png", "595739"], ["rainbow-mane", "trade", "Rainbow Mane", "If you follow the road south of Alabaster Bridge, you’ll find it near a rocky wall on the side of the road.", "4468734/1af4b2775cf896b769cc694954852617.png", "4468735/9e4d876ba1ba5ca7eea42f31b65cbd87.png", "595743"], ["mysterious-accessory-shop", "trade", "Mysterious Accessory Shop", "Find this Sealed Abyss Artifact at the crossroad right outside the southern main gate of Demeniss.", "4456568/440e8e172aa5fb656e52882d984cd7eb.png", "4456569/86bac3d6dca0bef3bab78943ce800713.png", "595742"], ["contract-of-the-golden-crown", "trade", "Contract of the Golden Crown", "Head west of Arcosa, and keep following the road east of the Desert Freesword Camp Hearth.", "4469691/042d5b7fdbe434d3d074323965068036.png", "4469692/7480006ca17079d46b70e440201f91e3.png", "595741"], ["magnate-of-the-golden-desert", "trade", "Magnate of the Golden Desert", "Found close to the Western Outpost in Delesyia.", "4469690/0cbf3a39e7b4b6f3d392c1e81a442d70.png", "4469693/bb2836880fe48eecc2f1765a2b63cad1.png", "595740"], ["barraging-cannon-1", "cannon", "Barraging Cannon I", "The artifact can be found on the road in front of the Redfox Trading Post.", "4468345/76b9169cfc4944f558b240cf14341e3c.png", "4468346/0625d14d023cabcb454d1600777d3c8a.png", "595648"], ["barraging-cannon-2", "cannon", "Barraging Cannon II", "Follow the road leading southeast of Demeniss Castle, and you’ll find this artifact near the road close to Shadow’s Slope.", "4473181/fc1ed91263548299edf22a2a531e8bf4.png", "4473180/5593f57b0ba5d48d4202cd565303cee3.png", "595652"], ["barraging-cannon-3", "cannon", "Barraging Cannon III", "This artifact is found near a tower south of the Sweetbloom Plantation.", "4468341/45bc1fc24b4c394a4d3d3616ba3826e5.png", "4468340/ff85b499e59bbcded7cf564a127132e3.png", "595651"], ["barraging-cannon-4", "cannon", "Barraging Cannon IV", "This artifact is found along the road west of Stoneward Harbor.", "4468240/adb67c884e68a87650bdb4d6c973a450.png", "4468239/4d162a942395c6622082379fca66bd16.png", "595650"], ["barraging-cannon-5", "cannon", "Barraging Cannon V", "Head to the southwestern edge of Tomasso and you will find this artifact near the western road.", "4473185/d48c9582249a80fe28135a7f5bd2ac96.png", "4473184/701088c8a46214960266be28d6bced1d.png", "595649"], ["flamespitter", "special", "Flamespitter", "Head east of the Desert Ruins to find this artifact on the eastern side of the road.", "4468737/245a63f9a74de0f5f5a1647399d68864.png", "4468738/821084a00b92eccca0d01e35c232055d.png", "595722"], ["propeller-spear", "special", "Propeller Spear", "Head north on the road to Desert Lake Gold Mine to find this artifact.", "4473243/28b0a4a0e5e8f71c5b5d1769e1c6c734.png", "4473242/c45ce68c12bf1078186ae258f75437cb.png", "595723"], ["knuckledrill", "special", "Knuckledrill", "To find this artifact, follow the road west of Izfatu Fortress.", "4469699/c387b7510ffa27e73916cc9a9970c181.png", "4469702/e7653050fb1b31ba4d541f2e6bfce2b4.png", "595724"], ["lightning-spear", "special", "Lightning Spear", "Proceed north of Arcosa until you arrive at the fork in the road.", "4469701/d3899a35e71935a9eb38a8504a84b62b.png", "4469705/f7f26a99dd060b5ad00c340b47b80d56.png", "595725"], ["bismuth-spear", "special", "Bismuth Spear", "Follow the road west of Svinholt Ranch.", "4469704/499dbcad1561bfa60f77d46a2571f5ec.png", "4469708/7a9a4a426b49ef325bdf479f129844df.png", "595726"], ["lightning-bolt-plate-armor", "special", "Lightning Bolt Plate Armor", "This artifact can be found south of Marni’s Laboratorium Gate.", "4468360/67b3c4a1cc63e256dcf0aeb6da37d2fb.png", "4468361/b71b9764f589fe0e5e13d3e3cce1b0ad.png", "595727"], ["gale-shield", "special", "Gale Shield", "Follow the road leading North of Demeniss Armory.", "4469697/1951fc80962046a087845813822feb30.png", "4469703/68f921499bc1c18613d10277a775ef44.png", "595728"], ["marni-laser-helm", "special", "Marni Laser Helm", "The artifact can be found east of the Timberdale Abyss Nexus.", "4468247/6c012ab69a6155dc59b1b500a88009a3.png", "4468246/0b56cc8ac645211cf95aa5465ed339fd.png", "595729"], ["shotgun-shield", "special", "Shotgun Shield", "Head to the far west road out of Eastern Court to get to this artifact.", "4469700/529074875fb5c9e01cc44584661782e1.png", "4469706/fc023854a5639debb22c0c7e38d6f557.png", "595730"], ["vessel-of-dark-pursuit", "special", "Vessel of Dark Pursuit", "Head north from Totemfelt and you will find the artifact just before reaching the fork in the road.", "4469698/b25ab8a1cd08f0c875122dbcfe976373.png", "4469707/eadf0d2565cb7f5618838324deba3ceb.png", "595721"]];
+const T = (id,n,g,r,d,t,o) => Object.assign({id,n,g,r,d,t,tags:[],links:[],subs:[],needs:null,art:null,all:false},o||{});
+const S = (id,n,d,t,o) => { o=o||{}; return {id,n,d:d||"",t:t||"",links:o.links||[],miss:!!o.miss,art:o.a?id:null}; };
+const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
+const SERIES = (slug,name,rows) => rows.map((r,i)=>S(slug+"-"+(i+1), name+" "+ROMAN[i], r[0], r[1], Object.assign({a:1}, r[2]||{})));
+const NAMED = (rows) => rows.map(r=>S(r[0], r[1], r[2], r[3], Object.assign({a:1}, r[4]||{})));
+
+const STAGES = [
+ {n:1, title:"Explore and settle in", meta:"Bells, fast travel and every Sealed Abyss Artifact",
+  intro:"Uncover the map, open up fast travel and pick up Sealed Abyss Artifacts whenever you pass one. Each artifact unlocks a challenge, and nearly every trophy is a set of challenges. Upgrade your gear and grow your inventory along the way.",
+  how:[
+   ["Ring the Bells in towns to reveal the map. Fast travel points show as a white area with a “?”: from high ground, hold L1 + R1 to flash your sword, or raise your lantern (it works mid-glide), and they light up."],
+   ["Secret Places double as fast travel points and give an Abyss Artifact for skills. They count toward Pilgrim of Wonders."],
+   ["Tick off the 141 Sealed Abyss Artifacts in the Artifacts tab as you go. The game doesn’t track them for you."],
+   ["Grab the free gold bar in Hernand (500 silver at the bank) and the Hwando nearby, a sword that can carry you through most of the game.",[["Gold bar video","https://www.youtube.com/watch?v=M6Zi_lwG6pU"],["Hwando video","https://www.youtube.com/watch?v=aBXD1vmNTAg"]]],
+   ["Buy the small bag every shop owner sells, and take the bag side quests from merchants with a white circle on the minimap. Inventory tops out at 240 slots."],
+   ["On armor, favor defense: attack stats on gloves and boots only boost punches and kicks."],
+   ["Don’t sell or use any unique-looking weapon, or anything with durability, until its challenge is done."]
+  ],
+  parts:[
+   {t:"Early story", who:"Chapters 1 to 3", items:[
+    T("novice","Novice Adventurer","B","84.85","Countless adventures await beyond the horizon.","Chapter 1. Pops during “Woman in White” as you return to Hernand, after “Abyss without Balance”.",{tags:["Story"]}),
+    T("camper","Master Camper","B","63.48","A safe haven now stands ready for you and your comrades.","Start of Chapter 3. Finish “Familiar Curses” (after “Return of the Comrade”) and talk with Yann at Howling Hill.",{tags:["Story"]})
+   ]}
+  ]},
+ {n:2, title:"Story and missables", meta:"Twelve chapters, plus a prologue and an epilogue",
+  intro:"A few challenges lock or get much harder as the story moves on. Handle these, then play the story at your own pace, picking off easy challenges as you go.",
+  how:[
+   ["Make a manual save before Chapter 8’s “Rebel Suppression” for Into the Barrage."],
+   ["Leave at least 3 bounties unclaimed until you pick up the Back Alley Cleanup artifact."],
+   ["Don’t use special weapons until you’re ready for their challenge: most of them can break."],
+   ["Moving camp to Pailune can wait. It unlocks after Chapter 7 and stays available."]
+  ],
+  parts:[
+   {t:"Before they lock", who:"Each also sits under its trophy in stage 3. Ticking either one ticks both.", refs:["disruption","into-the-barrage","back-alley-cleanup","marni-laser-helm","vessel-of-dark-pursuit"]},
+   {t:"Story", who:"Chapters 7 to 12", items:[
+    T("pailune","Protector of Pailune","S","33.19","Freedom returned to Pailune after defeating the Black Bears and the Jackals.","End of Chapter 7, during “Time to Face Justice” (after “Ludvig’s Whereabouts”), once Myurdin falls and the Jackals are driven out. Do Disruption before this.",{tags:["Story"]}),
+    T("returnee","Proud Returnee","S","10.77","Trials overcome have paved the way back home.","Rebuild Pailune with the comrades you’ve found (“Reconstruction of Pailune”). After Chapter 7, follow the quest to move your camp there.",{tags:["Side quest"]}),
+    T("story","Expert Storyteller","G","17.32","Every thread of Pywel’s narrative now forms a complete story.","Finish Chapter 12. Play the Epilogue afterwards too: Conqueror of the Abysses needs it.",{tags:["Story"]})
+   ]}
+  ]},
+ {n:3, title:"Checklist: the game", meta:"Every challenge set, in any order",
+  intro:"Once the story is done, this is where most of the 200 hours go. Work through the sets in any order; the Journal’s Challenges tab shows what’s left. Enemy camps give reliable respawns for the combat sets.",
+  how:[
+   ["A challenge stays locked until you pick up its Sealed Abyss Artifact. While a challenge’s artifact isn’t ticked, “Find its artifact” takes you to its location."],
+   ["Once a challenge is complete, use its artifact from your inventory to claim the reward."],
+   ["Hold light or heavy attack instead of mashing: the attack keeps repeating on its own."],
+   ["Expert Explorer and Unvanquished Strategist pop on their own once the trophies they need are in."],
+   ["Pearl Abyss patches often, and some challenges have become easier since the guide was written."]
+  ],
+  parts:[
+   {t:"Exploration", who:"Counts toward Expert Explorer", items:[
+    T("maze","Maze Pathfinder","B","10.38","Even the most tangled paths fail to lead you astray.","Four Mazes, each marked by a “?” in a white circle when you’re close. Each gives an Abyss Artifact and a fast travel point.",{links:[["Video guide","https://www.youtube.com/watch?v=Nwm1lf9Fadg"],["MapGenie","https://mapgenie.io/crimson-desert/maps/pywel"]],subs:[
+     S("maze-burham","Maze of Burham","Clear out the enemies before starting. Good stamina helps with the tower climbs."),
+     S("maze-desert-mouth","Smoking Lands Desert Mouth Maze","The fiddliest one. Read the floor map in the center, then find every moon or sun door and flip it with Force Palm until the map lights up at each door."),
+     S("maze-ancient-rift","Ancient Rift Maze","No enemies and little climbing. Use Focus Light on each set of pillars."),
+     S("maze-dawnreach","Maze of Dawnreach","Clear the enemies first. Force Palm at level 3 is essential to knock the towers into place quickly enough.")]}),
+    T("spires","Conqueror of Spires","B","13.59","Climbing ever higher has opened the way toward the skies above.","Eight Spires, marked with a tower icon, lead up to the Abyss. Only reaching them counts here, but you’ll need every Abyss run for Conqueror of the Abysses, so do them as you go.",{links:[["Video guide","https://www.youtube.com/watch?v=W6ERrfnYyOY"]],subs:[
+     S("spire-stars","Spire of the Stars","Story: Chapter 4, “Spire of Stars”."),
+     S("spire-soaring","Spire of Soaring","Story: Chapter 5, “Toward the Nest”."),
+     S("spire-sun","Spire of the Sun","Story: Chapter 9, “Unwavering Steps”."),
+     S("spire-jijeong","Jijeong Temple Pagoda","Story: Chapter 9, “Face the Inner Self”."),
+     S("spire-insight","Spire of Insight","Northwest of the Steel Mountains, southern Hernand.","",{links:[["Video","https://youtu.be/qTNnF8zimCw"]]}),
+     S("spire-ringing-truth","Spire of Ringing Truth","Western Pailune.","",{links:[["Video","https://youtu.be/UQKaAEQjzb0"]]}),
+     S("spire-clockwork","Spire of Clockwork","Northeastern Demeniss. Only opens after Chapter 8.","",{links:[["Video","https://www.youtube.com/watch?v=nXVexi3HMCU"]]}),
+     S("spire-frost","Spire of Frost","Northwestern Demeniss.","",{links:[["Video","https://youtu.be/16RM9_E5Msk"]]})]}),
+    T("stars","Navigator of the Stars","B","9.20","The constellations that illuminate Pywel have revealed their secrets.","13 constellation challenges. They need the Constellation Helmet from the “What the Stars Left Behind” quest chain at Scholastone Institute in Hernand, which shows up after some Troll Alliance or Scholastone quests.",{tags:["Collectible"],links:[["Video guide","https://www.youtube.com/watch?v=-dsPTbztClc"]]}),
+    T("pilgrim","Pilgrim of Wonders","S","8.81","The hidden beauty of Pywel has been revealed.","All 60 Secret Places. Each is also a fast travel point and gives an Abyss Artifact, so they’re worth grabbing early.",{tags:["Collectible"],links:[["PowerPyx list","https://www.powerpyx.com/crimson-desert-all-secret-places-locations/"],["Video guide","https://www.youtube.com/watch?v=Nvb-uDNVF40"]]}),
+    T("puzzle","Puzzle Solver","S","8.75","Sharp insight now guides you through any riddle.","All 37 Ancient Ruins. Some need late skills, so leave them for late or post-game and follow a guide step by step.",{tags:["Collectible"],links:[["PowerPyx solutions","https://www.powerpyx.com/crimson-desert-all-ancient-ruins-locations-solutions/"],["Video guide","https://www.youtube.com/watch?v=eGIMm9wkg6s"]]}),
+    T("light","Lightbringer","S","16.08","Shadow guided into light has restored the forgotten sanctums.","All 16 Sanctums. You’ll want a Kuku Pot and Force Current. The Witches give the Sanctum quests: the first in Chapter 5, the other four out in the world. The Sanctum of Mortification can’t be done before Chapter 9.",{links:[["Witch locations","https://www.powerpyx.com/crimson-desert-all-witch-locations/"],["Video (Joe Hammer)","https://www.youtube.com/watch?v=xotwUx1lp98"],["Video (Gamerpillar)","https://www.youtube.com/watch?v=qB7LFy_akDE"]]}),
+    T("beast","Beast Slayer","B","11.67","You’ve defeated the beasts, bringing peace to Pywel.","Seven New Power boss challenges. They only appear in Chapter 12 but count bosses you’ve already beaten. Bring plenty of food and upgraded weapons.",{links:[["PowerPyx boss locations","https://www.powerpyx.com/crimson-desert-all-new-power-boss-locations/"],["Video guide","https://www.youtube.com/watch?v=qj1OpEVRP80"]]}),
+    T("abyss","Conqueror of the Abysses","G","9.91","Exploration of every abyss extends far into the depths of the world.","40 Abyss challenges, 39 of them from the Spire runs. After the story and the Epilogue, return to where you fought the first final boss. From the end of each Spire run, follow its line to the central island and hit the button there with Force Palm. Once every button is on, the central building opens and the trophy pops.",{tags:["Grind","Post-game"],links:[["PowerPyx Abyss puzzles","https://www.powerpyx.com/crimson-desert-all-abyss-restoration-puzzle-locations-solutions/"]]}),
+    T("explorer","Expert Explorer","G","7.45","Revelation of every corner of Pywel brings the entire land into clear view.","Every Exploration challenge: the trophies below, plus the Legendary Animals.",{tags:["Collectible","Grind"],needs:["abyss","pilgrim","puzzle","maze","light","spires","stars","beast"],subs:[
+     S("legendary-animals","All 22 Legendary Animals","Only the original 22 count, even though more have been added. Horses must be tamed; every other legendary animal must be killed.","Legendary fish can be grabbed by swimming up to them, and they max out a cat’s trust, handy for Natural Collector’s 30 pets.",{links:[["PowerPyx locations","https://www.powerpyx.com/crimson-desert-all-legendary-animals-locations/"],["Video","https://www.youtube.com/watch?v=yg3MU080_94"]]})]})
+   ]},
+   {t:"Mastery", who:"Counts toward Unvanquished Strategist", items:[
+    T("swords","Master of Swords","B","13.71","Through discipline and mastery, you’ve earned the right to be called a true master of the blade.","One-handed sword, easiest with a shield in the other hand.",{art:"sword",subs:SERIES("sword-of-trials","Sword of Trials",[
+     ["Defeat 3 enemies within 30 seconds using a sword.","Do it alongside II and IV in the same crowd."],
+     ["Defeat 3 enemies at once using a one-handed sword.","Turning Slash into a crowd."],
+     ["Defeat 3 enemies with a sword without taking damage.","Pick off enemies by the roadside; camps usually have archers."],
+     ["Defeat 3 enemies at once using a Sword Turning Slash attack.","Bunch enemies up in front of you and repeat until it lands."],
+     ["Defeat 3 enemies in a row using only Sword Stab attacks.","Upgrade the stab for a follow-up thrust."],
+     ["Defeat 5 enemies within 15 seconds using a one-handed sword using Forward Slash.","Stand in the middle of a crowd and hold the Forward Slash attack."]])}),
+    T("shields","Master of Shields","B","11.49","Your reputation for mastery in wielding shields has spread across the land.","Sword and shield only. For kill challenges the shield must land the final hit; deaths from falling don’t count.",{art:"shield",subs:SERIES("shield-of-unchanging-will","Shield of Unchanging Will",[
+     ["Defeat 3 enemies with a shield.","Shield Bash them, or weaken them first and finish with the shield."],
+     ["Block 10 arrows with a shield.","One archer is enough. Keep your distance so they don’t switch to melee."],
+     ["Hit 3 enemies at once with a shield.","Bash into a crowd. It barely hurts them, so keep going."],
+     ["Defeat 5 enemies with a shield without taking damage.","No time limit, and leaving combat doesn’t reset it. Take roadside enemies one at a time."],
+     ["Flip 5 enemies with a shield.","Easiest as Damiane: throw the shield at five enemies."],
+     ["Land 10 hits on enemies within 1 minute with the shield using Shield Charge.","From Kliff’s Armed Combat skill. It needs 10 different enemies, so find a big group."]])}),
+    T("bows","Master of Bows","B","9.85","Arrows guided by the wind reflect mastery over the art of archery.","Put points into Marksmanship and avoid shield enemies, which block arrows.",{art:"bow",subs:SERIES("bow-aimed-at-fate","Bow Aimed at Fate",[
+     ["Defeat 5 enemies with a bow within 60 seconds.",""],
+     ["Defeat 7 enemies in a row using only normal arrows.","Stock up so Kliff doesn’t switch arrow types when you run out. No time limit: you can leave, restock and come back."],
+     ["Hit 3 enemies in midair with the bow.","You’re the one in midair: jump, Force Palm up to three times for height, then Focused Shot three different enemies."],
+     ["Take down 3 birds with a bow from a distance of over 15 meters.","They don’t need to be flying. Shoot them on the ground before they spook."],
+     ["Take down 5 enemies at once from over 20 meters away using a bow.","One of the hardest in the game. Use Focused Shot or explosive arrows on Delesyia’s flying bug swarms, which die in one hit.",{links:[["Video","https://www.youtube.com/watch?v=k9pEoATpljE"]]}],
+     ["Hit 5 enemies with Focused Shot.","Five different enemies, at any pace."]])}),
+    T("spears","Master of Spears","B","12.82","All under the skies revere you as the master spearsman.","Two-handed, so there’s no shield to worry about.",{art:"spear",subs:SERIES("sharpened-spear","Sharpened Spear",[
+     ["Land 15 counterattacks with a spear within 30 seconds.","Parries count, and one parry in a crowd can hit several enemies."],
+     ["Hit enemies 50 times with a spear within 30 seconds.","Hold the fast attack in a crowd."],
+     ["Take down 5 enemies within 15 seconds using the stab attack.","Avoid shield enemies."],
+     ["Defeat 3 enemies within 1 minute using a Spear Leap Attack.","Jump and attack in midair for more damage and range."],
+     ["Defeat 5 enemies without taking damage from spears while maintaining 100% health.","In practice: kill five with a spear without dropping below full health. Isolate them."]])}),
+    T("twohand","Master of Two-Handed Weapons","B","9.37","Warriors honor you for your strength and precision with two-handed weapons.","Longsword for Overwhelming Slash. Club or axe for Ground-Shaking Impact, which needs Oongka; he starts with a two-handed axe.",{art:"twohand",subs:SERIES("overwhelming-slash","Overwhelming Slash",[
+     ["Hit 3 enemies at once with a Longsword while your health is below 50%.","Let enemies chip you down, then hold Kliff’s Spinning Slash."],
+     ["Defeat 3 enemies with a Longsword finisher without taking damage.","Finishers trigger on low-health enemies, though not every time. Isolate them; there’s no time limit."],
+     ["Knock back 10 enemies within 30 seconds using a Longsword.","Kliff’s Turning Slash into a crowd."]]).concat(SERIES("ground-shaking-impact","Ground-Shaking Impact",[
+     ["Land 30 hits on enemies within 30 seconds using a two-handed club or axe.","As Oongka, sprint-charge through the same group again and again."],
+     ["Defeat 10 enemies with a two-handed club or axe without taking damage.","Weak enemies around Hernand, one at a time. Light attacks cover more ground."],
+     ["Send 5 enemies flying at once with a two-handed club or axe.","Unlock Quick Swap in Oongka’s Armed Combat skill and swap between two two-handed weapons mid-attack."]]))}),
+    T("artillery","Master of Artillery","B","7.99","Artillery skill honed through practice makes your enemies mere measure of efficiency.","Oongka’s arm cannon. Elemental kills only count when the shot itself kills, not the lingering damage, so weaken enemies first. Ammo comes from blacksmiths or crafting.",{art:"cannon",subs:SERIES("barraging-cannon","Barraging Cannon",[
+     ["Hit 3 enemies at once with a hand cannon.","Splash damage takes care of it."],
+     ["Defeat 3 enemies with normal, fire, ice, lightning, and wind enhanced Charged Shots.","Hold until the cannon flashes for a full charge. Elements unlock after four specific Abyss areas, one of them in Chapter 9."],
+     ["Defeat 10 enemies within 30 seconds using a hand cannon without destroying any surrounding objects.","Lure enemies out of their camp into open ground."],
+     ["Defeat a mounted enemy from a distance of 30 meters or more using a hand cannon.","The most annoying one, and buggy. Ice Charged Shots work best. With a Thief’s Mask on, mounted allied guards become valid targets; get as high and far away as you can.",{links:[["Video","https://www.youtube.com/watch?v=rnspmOhBd4U"]]}],
+     ["Destroy 2 Watchtowers with a hand cannon within 10 seconds.","Wooden watchtowers only, with Charged Shots. Find two close together."]])}),
+    T("rapiers","Master of Rapiers","B","9.36","Rapier mastery has carved a name recognized far and wide.","Damiane only. Put a few upgrades into the rapier and its skills.",{art:"rapier",subs:SERIES("dancing-blade-shining-shield","Dancing Blade, Shining Shield",[
+     ["Defeat 5 enemies with a rapier within 60 seconds.",""],
+     ["Stab enemies 10 times with a rapier without taking damage.","Isolate one enemy, stab until it drops, repeat."],
+     ["Hit prone enemies 5 times with a rapier.","Knock them down with an upgraded Smiting Bolt, then hit them on the ground."],
+     ["Take down 3 enemies at once from over 10 meters away using a rapier.","Fully upgrade Smiting Bolt so it never misses and calls down several beams."],
+     ["Hit 9 enemies within 15 seconds with Shield Toss.","A maxed Shield Toss bounces between enemies."]])}),
+    T("firearms","Master of Firearms","B","8.55","Firearm expertise keeps your foes’ heads bowed in fear.","Damiane’s pistol. Upgrade the gun and carry plenty of bullets. Delesyia’s flying mechanical bugs stay high and die in one hit.",{art:"gun",subs:SERIES("when-lightning-strikes","When Lightning Strikes",[
+     ["Take down 5 enemies from over 30 meters away using a gun.",""],
+     ["Defeat 5 enemies with a gun from over 5 meters away in 5 seconds.","Focused Shot: mark five and fire."],
+     ["Hit the target three times within one second using a pistol.","Focused Shot marking one non-shield enemy three times, or a maxed Evasive Shot."],
+     ["Hit 7 mounted enemies with a gun while riding a horse.","Targets must be on horses too, not bears or lizards. Mounted allied guards work with a Thief’s Mask."],
+     ["Take down 3 enemies each with regular, evasive, or Focused evasive and aerial shots.","Aerial shots are easiest with Focused Shot in midair."]])}),
+    T("arms","Grand Collector of Arms","S","7.50","All the weapons in the world are now in your hands.","Special weapon challenges, mostly kills with one specific weapon. Don’t sell, break or upgrade a weapon before its challenge is done. The Titan Armor chest piece comes from a late boss in the Stjar Clan questline, which opens after every Pailune Militia, Beighen, Skoghorn and Longleaf Tribe quest.",{tags:["Missable"],art:"special",links:[["PowerPyx weapon locations","https://www.powerpyx.com/crimson-desert-all-special-equipment-challenges/"]],subs:NAMED([
+     ["flamespitter","Flamespitter","",""],
+     ["propeller-spear","Propeller Spear","","No kills needed, but it can still break."],
+     ["knuckledrill","Knuckledrill","",""],
+     ["lightning-spear","Lightning Spear","","Breakable: save first and weaken enemies before the kill. Comrades can craft a replacement after some research."],
+     ["bismuth-spear","Bismuth Spear","","Breakable: save first and weaken enemies before the kill."],
+     ["lightning-bolt-plate-armor","Lightning Bolt Plate Armor","",""],
+     ["gale-shield","Gale Shield","","Kill with Shield Charge instead of the special bash to spare durability. The shield must land the killing blow."],
+     ["marni-laser-helm","Marni Laser Helm","","There’s only one. Upgrading it to the Kuku version used to void this; a patch fixed that, but doing it first is safest.",{miss:1}],
+     ["shotgun-shield","Shotgun Shield","","As with the Gale Shield, Shield Charge kills spare durability."],
+     ["vessel-of-dark-pursuit","Vessel of Dark Pursuit","","Don’t sell or discard it until this is done.",{miss:1}]])}),
+    T("horses","Tamer of Legends","S","7.66","Even the wildest horses yield to your steady guidance.","Horse challenges: taming, plus a few timed rides. When taming, point the stick toward the horse’s rear with the camera behind it, and remount quickly if thrown. Max your stamina and tame the Legendary horses first; they make the rest easier.",{art:"horse",links:[["PowerPyx horse challenges","https://www.powerpyx.com/crimson-desert-all-horse-challenges/"]],subs:SERIES("harmonious-hooves","Harmonious Hooves",[["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""]])}),
+    T("strategist","Unvanquished Strategist","G","7.15","Command of battle’s momentum makes the entire field yours to orchestrate.","Every Mastery challenge. Pops on its own with the last of these.",{tags:["Missable"],needs:["swords","shields","bows","spears","twohand","artillery","rapiers","firearms","arms","horses"]})
+   ]},
+   {t:"Other challenge sets", who:"Training, battle, operations, the law, honor, trade, minigames and nature", items:[
+    T("training","Relentless Warrior","B","8.15","Unwavering resolve has forged strength worthy of a relentless warrior.","Ten Training challenges. Several need specific skills.",{art:"training",links:[["PowerPyx solutions","https://www.powerpyx.com/crimson-desert-all-training-challenges/"]],subs:NAMED([
+     ["steel-grip-against-the-chest","Steel Grip Against the Chest","Subdue 3 opponents within 1 minute using wrestling skills.",""],
+     ["stepping-on-clouds","Stepping On Clouds","Use Aerial Force Palm to reach a height of 10 meters.","Double jump, then Force Palm three times in the air."],
+     ["sliding-down-the-slope","Sliding Down the Slope","Slide down 50 meters.",""],
+     ["rainbow-across-the-sky","Rainbow Across the Sky","Use a banner pike to pole vault 5 times in 30 seconds.","With a banner pike equipped, double-tap to vault."],
+     ["keeping-balance-on-the-wind","Keeping Balance on the Wind","Walk 10m on a rope.","Rooftops or anything else you balance on also count."],
+     ["clash-of-a-protector","Clash of a Protector","Successfully parry 7 times without taking damage.","The same enemy is fine."],
+     ["tornado-of-steel","Tornado of Steel","Hit enemies 6 times with normal, fire, ice, lightning, and wind enhanced Turning Slash.",""],
+     ["like-a-butterfly-like-a-storm","Like a Butterfly, Like a Storm","Successfully land Diving Force Palm twice in a row without touching the ground.","Needs the Aerial Swing and Diving Force Palm skills."],
+     ["through-the-current","Through the Current","Swim 100m at full speed without resting.","Stamina food helps; 100m is further than it sounds."],
+     ["on-a-storm-of-beasts","On a Storm of Beasts","Hang onto a bear for more than 10 seconds.","Needs Grappling at level 4."]])}),
+    T("battle","Battlefield Conqueror","B","7.97","By sensing the rhythm of battle, you’ve learned to bend the battlefield to your will.","Ten Battle challenges. Few need skill points, but specific skills help. Into the Barrage is missable.",{tags:["Missable"],art:"battle",links:[["PowerPyx solutions","https://www.powerpyx.com/crimson-desert-all-battle-challenges/"]],subs:NAMED([
+     ["slam-master","Slam Master","Hit enemies 30 times with Meteor Kick within 3 minutes.","Needs Unarmed Combat at level 5."],
+     ["flash","Flash","Hit 5 targets at once with Blinding Flash.",""],
+     ["seven-consecutive-strikes","Seven Consecutive Strikes","Hit enemies 9 times within 5 seconds using Force Palm.",""],
+     ["sinking-fort","Sinking Fort","Destroy 3 Watchtowers within 20 seconds.",""],
+     ["single-spark-seven-strikes","Single Spark, Seven Strikes","Take down 7 enemies with a single explosion.","Explosive arrows or barrels on a crowd, or the dragon mount’s fireballs at the end of the game."],
+     ["into-the-barrage","Into the Barrage","Defeat 5 enemies at once with the cannon.","Chapter 8, “Rebel Suppression”: save first, then use the wall cannons on the biggest groups around the wooden towers. If a tower falls before it pops, reload.",{miss:1}],
+     ["desperate-rescue","Desperate Rescue","Heal allies 3 times with Force Palm: Healing.",""],
+     ["judgement-cast-upon-the-sleeping","Judgement Cast Upon the Sleeping","Attack sleeping enemies 5 times.","Sleeping arrows make it easy."],
+     ["giant-windmill","Giant Windmill","Hit enemies 7 times within 30 seconds with Giant Swing.","Needs Grappling at level 3. Hold the buttons while you swing, or you’ll just throw them."],
+     ["bare-courage","Bare Courage","Take down 3 enemies within 1 minute without using a weapon.",""]])}),
+    T("ops","Brilliant Tactician","B","7.44","You’ve steered countless operations to success by reading the tide of battle.","Ten Operation challenges. Some need region-specific gear from reputation, so read each one closely. Disruption is missable.",{tags:["Missable"],art:"operation",links:[["PowerPyx solutions","https://www.powerpyx.com/crimson-desert-all-operation-challenges/"]],subs:NAMED([
+     ["waves-of-lightning","Waves of Lightning","Hit 10 enemies at once with the disruptor.","The backpack drops from Ironflame Orcs in Delesyia, or comes from research in Chapter 12."],
+     ["hidden-banner-pike","Hidden Banner Pike","Defeat 10 soldiers with banner pikes in the Demeniss region within 30 minutes.","Southern, Western and Eastern Court have plenty. Fast travel or ride away to respawn them."],
+     ["end-of-the-shadow","End of the Shadow","Assassinate 5 enemies at night.","Crouch up behind them."],
+     ["judgement-of-the-storm","Judgement of the Storm","Defeat 30 enemies within 1 minute.",""],
+     ["seeds-of-discord","Seeds of Discord","Commit a crime in Delesyia wearing Varnian Contribution Armor, and in Varnia wearing Delesyian Contribution Armor.","Stealing something small off a table is enough."],
+     ["touch-of-darkness","Touch of Darkness","Assassinate 3 enemies within one minute.",""],
+     ["disruption","Disruption","Defeat 10 One-Eyed Jackals while wearing the Black Bear’s Leather Helm.","Do it before the Jackals are driven out of Pailune at the end of Chapter 7, or before you clear all their camps.",{miss:1}],
+     ["gunshot","Gunshot","Neutralize an elite using only guns.","Elites show as * on the map. Nothing but gun damage."],
+     ["meteor-run-in-the-dark","Meteor Run in the Dark","Destroy two Palisade Gates at night.","Set them alight with fire arrows (or Blinding Light), then Turning Slash once the fire’s out."],
+     ["dirge-beyond-the-border","Dirge Beyond the Border","Subdue the guards in the Storm Veil.","Storm Veil is Kliff’s smoke skill. Wear the Thief’s Mask, attack a friendly guard, cast Storm Veil and assassinate a guard inside it. Finicky; expect retries."]])}),
+    T("shadow","Shadowlord","B","7.54","Knowledge of the shadowed world reaches depths few have ever known.","Above the Law challenges: stealing, breaking and destroying things. Back Alley Cleanup is missable.",{tags:["Missable"],art:"law",links:[["PowerPyx solutions","https://www.powerpyx.com/crimson-desert-all-above-the-law-challenges/"],["Video playlist","https://youtube.com/playlist?list=PLyqi1OYwu3PThLcqhL5ZGLn3p_09IMqn5"]],subs:NAMED([
+     ["night-of-the-silent-banner-pike","Night of the Silent Banner Pike","",""],
+     ["the-herders-lament","The Herder’s Lament","",""],
+     ["the-vanished-wagon","The Vanished Wagon","",""],
+     ["back-alley-cleanup","Back Alley Cleanup","Turn in 3 bounties.","Only bounties turned in after you pick up this artifact count. If you’ve already done every bounty, there’s no way left to do it.",{miss:1}],
+     ["the-hand-that-brushes-past-all","The Hand That Brushes Past All","",""],
+     ["worth-its-weight","Worth Its Weight","",""],
+     ["hands-quicker-than-eyes","Hands Quicker than Eyes","",""],
+     ["trespassing","Trespassing","",""]])}),
+    T("honor","Lord of Honor","B","7.04","Your name is honored in every corner of the lands.",["Challenges and Changes, including the Duo card game.","Wear the Deceiver’s Fedora to see your opponents’ hands, and fold when you’re beaten.","To catch a cheating dealer, watch the elbow: dealing honestly it rises above the shoulder; cheating, it stays low by their side. A wrong call bars you from the table for a while."],{art:"honor",links:[["Deceiver’s Fedora video","https://www.youtube.com/watch?v=lJE0328yPbE"]],subs:NAMED([
+     ["the-dark-pilgrim-who-stole-the-ember","The Dark Pilgrim Who Stole the Ember","",""],
+     ["the-crows-crown-and-the-last-chivalry","The Crow’s Crown and the Last Chivalry","",""],
+     ["abyssal-star-that-cleaves-the-heavens","Abyssal Star That Cleaves the Heavens","",""],
+     ["well-informed-greymane","Well-Informed Greymane","",""],
+     ["under-the-ashen-banner-pike","Under the Ashen Banner Pike","",""],
+     ["return-of-the-greymane","Return of the Greymane","",""],
+     ["a-voyage-without-wind-or-sails","A Voyage Without Wind or Sails","",""],
+     ["greymanes-vow","Greymane’s Vow","",""],
+     ["duo-win-streak","Duo Win Streak","","Folding ends a streak, so only play hands the Fedora says you’ll win."],
+     ["4-player-duo-champion","4-Player Duo Champion","",""],
+     ["spot-the-trickery-in-duo","Spot the Trickery in Duo","","Watch the dealer’s elbow."]])}),
+    T("trade","The Golden Merchant","B","6.96","Astute trade and quick judgment have filled your coffers well.","Trade challenges: buying, selling and dealing with townsfolk.",{art:"trade",links:[["Video guide","https://www.youtube.com/watch?v=4Sh7MyS4KIc"]],subs:NAMED([
+     ["traveler-with-oak-barrels","Traveler with Oak Barrels","",""],
+     ["rainbow-mane","Rainbow Mane","",""],
+     ["mysterious-accessory-shop","Mysterious Accessory Shop","",""],
+     ["contract-of-the-golden-crown","Contract of the Golden Crown","","Royal trade goods for the court. Skip the slow wagon: load a few onto your horse, fast travel, then call the horse. It arrives with them, minus about half the stack."],
+     ["magnate-of-the-golden-desert","Magnate of the Golden Desert","",""]])}),
+    T("gamer","True Gamer","S","7.00","Claim victory in various minigames so no challenge dare rattle you.","Every Minigame challenge. None are hard, but Test of Strength 3 is locked behind a side quest.",{subs:[
+     S("tg-shooting","Shooting","","",{links:[["Text guide","https://www.powerpyx.com/crimson-desert-all-shooting-challenges/"],["Videos","https://www.youtube.com/watch?v=_jrDw-nZcFE&list=PLyqi1OYwu3PSh68QmJ7Bw7fVq2WQUnDud"]]}),
+     S("tg-strength","Test of Strength","","Challenge 3 needs the Pailune champion, who only appears after the “Arm Wrestling of the Wages” side quest. Rotate through that quest type’s spawn spots until it shows up.",{links:[["Text guide","https://www.powerpyx.com/crimson-desert-all-test-of-strength-challenges/"],["Quest spawn map (Korean)","https://gall.dcinside.com/mgallery/board/view/?id=reddesert&no=208675"]]}),
+     S("tg-duel","Duel","","",{links:[["Text guide","https://www.powerpyx.com/crimson-desert-all-duel-challenges/"],["Videos","https://www.youtube.com/watch?v=H8vvJxANWDc&list=PLyqi1OYwu3PT6AMtfJ4JVIwpDHl-o16eu"]]}),
+     S("tg-racing","Racing","","",{links:[["Text guide","https://www.powerpyx.com/crimson-desert-all-racing-challenges/"],["Video","https://www.youtube.com/watch?v=iUlJe-6poOU"]]}),
+     S("tg-mind","Mind Games","","The Duo tips under Lord of Honor help here too.",{links:[["Text guide","https://www.powerpyx.com/crimson-desert-all-mind-games-challenges/"],["Videos","https://www.youtube.com/watch?v=IqSWPxS8fqc&list=PLyqi1OYwu3PSrPI0QNvMOZf47ImSCl-fN"]]})]}),
+    T("hunter","Ultimate Hunter","S","7.80","Success in diverse hunts has forged a hunter of legendary renown.","Hunting challenges. Mostly a matter of knowing where to find the right animals and tools.",{art:"nature",links:[["PowerPyx hunting guide","https://www.powerpyx.com/crimson-desert-all-hunting-challenges/"],["Video example","https://www.youtube.com/watch?v=ZxGxX6MaiIg"]]}),
+    T("nature","Natural Collector","S","6.57","Deeper understanding of Pywel’s nature enriches knowledge of life throughout the land.",["Likely the longest grind: knowledge of insects, fish, gatherables and minerals, cave exploration, and 30 different pets (no repeats).","Beat Praevus the Ancient in the Crimson Desert region for the Memory of Ancient Nature, which grants all gatherable knowledge at once.","Craft the Kuku insect pack at the Kuku Workshop, then press both triggers to vacuum up nearby bugs.","Browse every fisherman’s shop, and talk to white-dot NPCs until they repeat themselves: many teach you a fish. The Sailfish takes hours either way."],{tags:["Grind"],art:"nature",links:[["Fish spawns","https://crimsondesert.gaming.tools/creatures/sea"],["Pet list","https://crimsondesert.gg/pets"]]})
+   ]},
+   {t:"Platinum", who:"", items:[
+    T("plat","Pywel Legend","P","6.35","You’ve claimed every trophy. Your name will echo through Pywel’s history as the legendary explorer for venturing every path and conquering every challenge.","",{all:true})
+   ]}
+  ]}
+];
+
+const ART_GROUPS = [
+ ["sword","Sword of Trials",["swords"],""],
+ ["shield","Shield of Unchanging Will",["shields"],""],
+ ["bow","Bow Aimed at Fate",["bows"],""],
+ ["spear","Sharpened Spear",["spears"],""],
+ ["twohand","Overwhelming Slash and Ground-Shaking Impact",["twohand"],""],
+ ["rapier","Dancing Blade, Shining Shield",["rapiers"],""],
+ ["gun","When Lightning Strikes",["firearms"],""],
+ ["training","Training",["training"],""],
+ ["operation","Operations",["ops"],""],
+ ["nature","Hunting and nature",["hunter","nature"],"Game8 lists these hunting and knowledge challenges together."],
+ ["law","Above the Law",["shadow"],""],
+ ["honor","Challenges and Changes",["honor"],""],
+ ["battle","Battle",["battle"],""],
+ ["horse","Harmonious Hooves",["horses"],""],
+ ["trade","Trade",["trade"],""],
+ ["cannon","Barraging Cannon",["artillery"],""],
+ ["special","Special weapons",["arms"],""]
+];
+
+
+const STORE = "crimson-desert-roadmap";
+const IMG = "https://img.game8.co/", G8 = "https://game8.co/games/Crimson-Desert/archives/";
+
+/* Links in the top-right menu. Add a row to any group, or a new group, to extend it. */
+const LINKS = [
+ ["Guides behind this tracker", [
+  ["Trophy guide","PSNProfiles, by ARCTrooper3105","https://psnprofiles.com/guide/25168-crimson-desert-trophy-guide"],
+  ["Sealed Abyss Artifacts","Game8, with map and photo for each","https://game8.co/games/Crimson-Desert/archives/587218"]]],
+ ["Maps and databases", [
+  ["Interactive map","MapGenie","https://mapgenie.io/crimson-desert/maps/pywel"],
+  ["Crimson Desert Database","Creatures, fish and items","https://crimsondesert.gaming.tools/"]]],
+ ["Artifacts elsewhere", [
+  ["Artifact list","PowerPyx","https://www.powerpyx.com/crimson-desert-all-sealed-abyss-artifact-locations/"],
+  ["Artifact video route","Skryux on YouTube","https://www.youtube.com/watch?v=BtCI_WCJqGo"]]]
+];
+
+const G = {B:"Bronze",S:"Silver",G:"Gold",P:"Platinum"};
+const ALL = []; STAGES.forEach(s=>s.parts.forEach(p=>(p.items||[]).forEach(t=>ALL.push(t))));
+const BYID = {}; ALL.forEach(t=>BYID[t.id]=t);
+const SUBS = {}, OWNER = {}; ALL.forEach(t=>t.subs.forEach(s=>{SUBS[s.id]=s; OWNER[s.id]=t;}));
+const SUBIDS = Object.keys(SUBS);
+const GROUPROWS = {}; ART_GROUPS.forEach(g=>GROUPROWS[g[0]] = ART.filter(a=>a[1]===g[0]));
+const fold = s => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[\u2019']/g,"");
+
+/* Tabs. A new collectible tab only needs an entry here plus its data. */
+const TABS = [
+ {id:"trophies", label:"Trophies", count:()=>`${ALL.filter(t=>state.done[t.id]).length}/${ALL.length}`, render:trophiesHTML},
+ {id:"artifacts", label:"Artifacts", count:()=>`${ART.filter(a=>state.lists.artifacts[a[0]]).length}/${ART.length}`, render:artifactsHTML}
+];
+
+let state; try{ state = JSON.parse(document.getElementById("state").textContent) }catch(e){ state = {} }
+function norm(s){
+  s = (s && typeof s==="object") ? s : {};
+  s.done=s.done||{}; s.subs=s.subs||{}; s.lists=s.lists||{}; s.dx=s.dx||{};
+  TABS.forEach(t=>{ if(t.id!=="trophies") s.lists[t.id]=s.lists[t.id]||{}; });
+  if(!TABS.some(t=>t.id===s.tab)) s.tab="trophies";
+  s.hideDone=!!s.hideDone; s.ts=s.ts||0;
+  s.mt=s.mt||{};   /* when each tick last changed, so devices can merge tick by tick */
+  const stamp=(set,bag)=>Object.keys(bag||{}).forEach(id=>{ const k=set+"|"+id; if(!s.mt[k]) s.mt[k]=1; });
+  stamp("done",s.done); stamp("subs",s.subs); Object.keys(s.lists).forEach(l=>stamp(l,s.lists[l]));
+  if(s.hideDone && !s.mt["pref|hideDone"]) s.mt["pref|hideDone"]=1;
+  return s;
+}
+state = norm(state);
+try{ const ls = JSON.parse(localStorage.getItem(STORE)||"null"); if(ls && (ls.ts||0) > state.ts) state = norm(ls); }catch(e){}
+
+let mode = "local", artifactNs = null, query = "", menuOpen = false;
+const tabY = {};
+const root = document.getElementById("root");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const link = (label,url) => `<a class="lk" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}&nbsp;↗</a>`;
+const isOpen = (k,def) => (k in state.dx) ? !!state.dx[k] : def;
+const bagFor = set => set==="done" ? state.done : set==="subs" ? state.subs : state.lists[set];
+const reduceMotion = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function howHTML(key, items){
+  return `<details class="how" data-k="${key}" ${isOpen(key,false)?"open":""}><summary>How to play this stage</summary><ol>${items.map(([t,ls])=>`<li>${esc(t)}${ls?ls.map(([l,u])=>`<span class="inl">${link(l,u)}</span>`).join(""):""}</li>`).join("")}</ol></details>`;
+}
+function tipHTML(t){
+  if(!t) return "";
+  if(Array.isArray(t)) return `<div class="tip">${esc(t[0])}</div><ul class="tips">${t.slice(1).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+  return `<div class="tip">${esc(t)}</div>`;
+}
+
+function trophiesHTML(){
+  const counts = {Bronze:0,Silver:0,Gold:0,Platinum:0}; ALL.forEach(t=>counts[G[t.g]]++);
+  let h = `<div class="tally">
+    <div class="pennants" aria-hidden="true">${ALL.map(t=>`<span class="pn" data-g="${G[t.g]}" data-pn="${t.id}" title="${esc(t.n)}"></span>`).join("")}</div>
+    <div class="readout"><div class="big" id="tbig"></div>
+      <div class="grades">${["Platinum","Gold","Silver","Bronze"].map(g=>`<span data-g="${g}">${counts[g]} ${g.toLowerCase()}</span>`).join("")}</div></div>
+    <div class="subline" id="tsub"></div>
+  </div>`;
+  STAGES.forEach(s=>{
+    h += `<section class="stage"><div class="stage-head"><div class="stage-num">${s.n}</div><h2>${esc(s.title)}</h2><div class="stage-meta">${esc(s.meta)}</div></div>
+      <p class="stage-intro">${esc(s.intro)}</p>${howHTML("how-"+s.n, s.how)}`;
+    s.parts.forEach(p=>{
+      h += `<div class="part" data-part><h3>${esc(p.t)}</h3>${p.who?`<div class="who">${esc(p.who)}</div>`:""}<ul class="list">`;
+      if(p.refs) p.refs.forEach(id=>h += subRow(SUBS[id],"m",true));
+      else p.items.forEach(t=>h += trophyRow(t));
+      h += `</ul><div class="empty">All done here.</div></div>`;
+    });
+    h += `</section>`;
+  });
+  return h;
+}
+
+function trophyRow(t){
+  const done = !!state.done[t.id];
+  let h = `<li class="tr${done?" done":""}" data-set="done" data-id="${t.id}" id="tr-${t.id}">
+    <input type="checkbox" class="ck" id="t-${t.id}" ${done?"checked":""}>
+    <label class="name" for="t-${t.id}"><span class="dot" data-g="${G[t.g]}" title="${G[t.g]}"></span><span class="t">${esc(t.n)}</span>${t.tags.map(x=>`<span class="tag${x==="Missable"?" miss":""}">${x}</span>`).join("")}<span class="rar" title="Share of PSNProfiles players who have this trophy">${t.r}%</span></label>
+    <div class="desc">${esc(t.d)}</div>${tipHTML(t.t)}`;
+  if(t.needs) h += `<ul class="needs" aria-label="Needs">${t.needs.map(id=>`<li data-need="${id}">${esc(BYID[id].n)}</li>`).join("")}</ul>`;
+  if(t.all) h += `<div class="platline" id="platline"></div>`;
+  const ex = [];
+  if(t.art) ex.push(`<button type="button" class="artchip" data-artchip="${t.art}" title="Show these artifacts"><span class="gem" aria-hidden="true"></span>Artifacts <span><b>0</b> / ${GROUPROWS[t.art].length}</span></button>`);
+  t.links.forEach(([l,u])=>ex.push(link(l,u)));
+  if(ex.length) h += `<div class="extras">${ex.join("")}</div>`;
+  if(t.subs.length){
+    const k = "s-"+t.id;
+    h += `<details class="subs" data-k="${k}" ${isOpen(k,false)?"open":""}><summary>${t.subs.length===1?"Requirement":"Challenges"} <span class="sc" data-sc="${t.id}"></span></summary><ul class="slist">${t.subs.map(s=>subRow(s,"s",false)).join("")}</ul></details>`;
+  }
+  return h + `</li>`;
+}
+
+function subRow(s, px, solo){
+  const done = !!state.subs[s.id], iid = `${px}-${s.id}`;
+  return `<li class="sr${solo?" solo":""}${done?" done":""}" data-set="subs" data-id="${s.id}">
+    <input type="checkbox" class="ck" id="${iid}" ${done?"checked":""}>
+    <label class="name" for="${iid}"><span class="t">${esc(s.n)}</span>${s.miss?`<span class="tag miss">Missable</span>`:""}</label>
+    ${solo?`<div class="owner">Part of <button type="button" class="tlink" data-goto-trophy="${OWNER[s.id].id}">${esc(OWNER[s.id].n)}</button></div>`:""}
+    ${s.d?`<div class="desc">${esc(s.d)}</div>`:""}${s.t?`<div class="tip">${esc(s.t)}</div>`:""}
+    ${s.links.length?`<div class="extras">${s.links.map(([l,u])=>link(l,u)).join("")}</div>`:""}
+    ${s.art?`<button type="button" class="find" data-find="${s.art}" title="You haven’t ticked this challenge’s Sealed Abyss Artifact yet" hidden>Find<span class="fw"> its</span> artifact</button>`:""}
+  </li>`;
+}
+
+function artifactsHTML(){
+  let h = `<div class="vault">
+    <div class="gems" aria-hidden="true">${ART_GROUPS.map(g=>`<span class="gg" title="${esc(g[1])}">${GROUPROWS[g[0]].map(a=>`<i class="gm" data-gm="${a[0]}"></i>`).join("")}</span>`).join("")}</div>
+    <div class="readout"><div class="big" id="abig"></div></div>
+    <div class="subline">Each artifact unlocks one challenge. Grouped by the trophy it counts toward.</div>
+  </div>
+  <details class="how" data-k="how-art" ${isOpen("how-art",false)?"open":""}><summary>How to spot them</summary><ul>
+    <li>Most sit on small stone altars beside main roads and at crossroads.</li>
+    <li>They don’t show on the world map, but appear as purple icons on the minimap once you’re close.</li>
+    <li>Blinding Flash highlights nearby points of interest, artifacts included.</li>
+    <li>Map and Photo open Game8’s screenshots in a new tab; Challenge opens Game8’s page for it.</li>
+  </ul></details>
+  <div class="search"><input type="search" id="q" placeholder="Search names or places, like Demeniss" aria-label="Search artifacts by name or location" autocomplete="off" spellcheck="false"><span class="qn" id="qn" aria-live="polite"></span></div>
+  <p class="noresults" id="nores" hidden></p>`;
+  ART_GROUPS.forEach(([k,title,tids,note])=>{
+    const dk = "g-"+k;
+    h += `<details class="grp" data-grp="${k}" data-k="${dk}" id="grp-${k}" ${isOpen(dk,true)?"open":""}><summary><h2>${esc(title)}</h2><span class="pc" data-gc="${k}"></span></summary>
+      <p class="gnote">${note?esc(note)+" ":""}Counts toward ${tids.map(id=>`<button type="button" class="tlink" data-goto-trophy="${id}">${esc(BYID[id].n)}</button>`).join(" and ")}.</p>
+      <ul class="list">${GROUPROWS[k].map(artRow).join("")}</ul><div class="empty">All found here.</div></details>`;
+  });
+  return h;
+}
+
+function artRow(a){
+  const [id,,n,loc,ph,mp,cid] = a, done = !!state.lists.artifacts[id];
+  return `<li class="ar${done?" done":""}" data-set="artifacts" data-id="${id}" data-q="${esc(fold(n+" "+loc))}">
+    <input type="checkbox" class="ck" id="a-${id}" ${done?"checked":""}>
+    <label class="name" for="a-${id}"><span class="t">${esc(n)}</span></label>
+    <div class="loc">${esc(loc)}</div>
+    <div class="lks">${mp?link("Map",IMG+mp+"/original"):""}${ph?link("Photo",IMG+ph+"/original"):""}${link("Challenge",G8+cid)}</div>
+  </li>`;
+}
+
+function menuHTML(){
+  return LINKS.map(([head,items])=>`<div class="mhead">${esc(head)}</div>${items.map(([l,s,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span class="ml">${esc(l)}&nbsp;↗</span><span class="ms">${esc(s)}</span></a>`).join("")}`).join("")
+   + `<hr><button type="button" class="save" id="dlPage"><span class="ml">Save a copy</span><span class="ms">Downloads this tracker with your ticks as an .html file</span></button>`;
+}
+
+function render(){
+  root.innerHTML = `${/\.github\.io$/.test(location.hostname)?`<a class="hub-link" href="../">← All trackers</a>`:""}<h1>Crimson Desert<span class="h1-sub">trophy roadmap</span></h1>
+  <p class="sub">All ${ALL.length} trophies in roadmap order with the challenges behind them, and all ${ART.length} Sealed Abyss Artifacts. Built from ARCTrooper3105’s PSNProfiles guide and Game8’s artifact locations.</p>
+  <div id="tabsTop"></div>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Sections">${TABS.map(t=>`<button type="button" role="tab" id="tab-${t.id}" data-tab="${t.id}" aria-selected="${state.tab===t.id}" aria-controls="p-${t.id}" tabindex="${state.tab===t.id?0:-1}">${esc(t.label)}<span class="count" data-count="${t.id}"></span></button>`).join("")}</div>
+    <div class="menu" id="menu">
+      <button type="button" id="menuBtn" aria-expanded="false" aria-controls="menuPanel"><span>Guides<span class="wide"> &amp; maps</span></span><span class="chev" aria-hidden="true"></span></button>
+      <div class="mpanel" id="menuPanel" hidden>${menuHTML()}</div>
+    </div>
+  </div>
+  <div class="controls"><label><input type="checkbox" class="ck" id="hide" ${state.hideDone?"checked":""}> Hide checked</label><span class="ctl-right"><span class="status" id="status"></span>${mode!=="artifact"?`<button type="button" class="linkbtn" id="syncToggle" aria-expanded="${syncOpen}" aria-controls="syncPanel">Sync</button>`:""}</span></div>
+  ${mode!=="artifact"?syncPanelHTML():""}
+  ${TABS.map(t=>`<section id="p-${t.id}" role="tabpanel" aria-labelledby="tab-${t.id}" ${state.tab!==t.id?"hidden":""}>${t.render()}</section>`).join("")}
+  <footer>Ticks save automatically. Rarity is the share of PSNProfiles players who have each trophy. <button type="button" id="reset">Clear all checks</button></footer>`;
+  document.body.classList.toggle("hide-done", state.hideDone);
+  refresh(); applySearch(); setStatus();
+}
+
+function refresh(){
+  const A = state.lists.artifacts;
+  const tN = ALL.filter(t=>state.done[t.id]).length;
+  $("tbig").innerHTML = `${tN}<small>of ${ALL.length} earned</small>`;
+  root.querySelectorAll("[data-pn]").forEach(e=>e.classList.toggle("on", !!state.done[e.dataset.pn]));
+  const sN = SUBIDS.filter(id=>state.subs[id]).length;
+  $("tsub").textContent = `${sN} of ${SUBIDS.length} listed challenges ticked`;
+  root.querySelectorAll("[data-sc]").forEach(e=>{ const t=BYID[e.dataset.sc]; e.textContent = `${t.subs.filter(s=>state.subs[s.id]).length} / ${t.subs.length}`; });
+  root.querySelectorAll("[data-artchip]").forEach(e=>{ const rows=GROUPROWS[e.dataset.artchip], n=rows.filter(a=>A[a[0]]).length; e.querySelector("b").textContent=n; e.classList.toggle("full", n===rows.length); });
+  root.querySelectorAll("[data-find]").forEach(b=>b.hidden = !!A[b.dataset.find] || !!state.subs[b.closest("li").dataset.id]);
+  root.querySelectorAll("[data-need]").forEach(e=>e.classList.toggle("met", !!state.done[e.dataset.need]));
+  const pl = $("platline"); if(pl){ const o=ALL.filter(t=>!t.all), n=o.filter(t=>state.done[t.id]).length; pl.textContent = n===o.length ? "Every other trophy is ticked." : `${n} of the other ${o.length} trophies ticked.`; }
+  const aN = ART.filter(a=>A[a[0]]).length;
+  $("abig").innerHTML = `${aN}<small>of ${ART.length} found</small>`;
+  root.querySelectorAll("[data-gm]").forEach(e=>e.classList.toggle("on", !!A[e.dataset.gm]));
+  root.querySelectorAll("[data-gc]").forEach(e=>{ const rows=GROUPROWS[e.dataset.gc]; e.textContent = `${rows.filter(a=>A[a[0]]).length} / ${rows.length}`; });
+  TABS.forEach(t=>{ const c=root.querySelector(`[data-count="${t.id}"]`); if(c) c.textContent=t.count(); });
+  refreshEmpty();
+}
+
+function refreshEmpty(){
+  const hidden = r => r.classList.contains("filtered") || (state.hideDone && r.classList.contains("done"));
+  root.querySelectorAll("[data-part]").forEach(p=>{ const rows=[...p.querySelector("ul.list").children]; p.classList.toggle("alldone", rows.length>0 && rows.every(hidden)); });
+  root.querySelectorAll("details.grp").forEach(d=>{ const rows=[...d.querySelectorAll(".ar")]; d.classList.toggle("alldone", rows.every(hidden) && !d.hidden); });
+}
+
+function applySearch(){
+  const q = fold(query.trim());
+  let n = 0;
+  root.querySelectorAll("#p-artifacts .ar").forEach(li=>{ const m = !q || li.dataset.q.includes(q); li.classList.toggle("filtered", !m); if(m) n++; });
+  root.querySelectorAll("details.grp").forEach(d=>{
+    const any = [...d.querySelectorAll(".ar")].some(r=>!r.classList.contains("filtered"));
+    d.hidden = !!q && !any;
+    d.open = q ? true : isOpen(d.dataset.k, true);
+  });
+  $("qn").textContent = q ? `${n} ${n===1?"match":"matches"}` : "";
+  const nr = $("nores"); nr.hidden = !q || n>0; if(q && !n) nr.textContent = `No artifact names or locations match “${query.trim()}”.`;
+  refreshEmpty();
+}
+
+let statusText = "";
+function setStatus(t){ if(t!==undefined) statusText=t; const el=$("status"); if(el) el.textContent = statusText || (mode==="artifact" ? "Progress saves to this page" : syncOn() ? "Sync on" : "Progress saves on this device"); }
+
+/* navigation */
+function setTab(id){
+  if(state.tab===id) return;
+  tabY[state.tab] = window.scrollY;
+  state.tab = id;
+  root.querySelectorAll("[data-tab]").forEach(b=>{ const on=b.dataset.tab===id; b.setAttribute("aria-selected", on); b.tabIndex = on?0:-1; });
+  TABS.forEach(t=>$("p-"+t.id).hidden = t.id!==id);
+  const top = $("tabsTop").getBoundingClientRect().top + window.scrollY;
+  window.scrollTo(0, (id in tabY) ? tabY[id] : Math.min(window.scrollY, top));
+  save(false);
+}
+function spotlight(el, focusEl){
+  el.scrollIntoView({block:"center", behavior: reduceMotion()?"auto":"smooth"});
+  el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+  if(focusEl) focusEl.focus({preventScroll:true});
+}
+function clearSearch(){ const q=$("q"); if(q && q.value){ q.value=""; query=""; applySearch(); } }
+function openGroup(d){ if(!d.open){ d.open=true; state.dx[d.dataset.k]=true; save(false); } }
+function gotoArtifact(slug){
+  setTab("artifacts"); clearSearch();
+  const li = root.querySelector(`#p-artifacts li[data-id="${slug}"]`); if(!li) return;
+  openGroup(li.closest("details"));
+  spotlight(li, li.querySelector("input"));
+}
+function gotoGroup(k){
+  setTab("artifacts"); clearSearch();
+  const d = $("grp-"+k); openGroup(d);
+  d.scrollIntoView({block:"start", behavior: reduceMotion()?"auto":"smooth"});
+  d.querySelector("summary").focus({preventScroll:true});
+}
+function gotoTrophy(id){
+  setTab("trophies");
+  let el = $("tr-"+id);
+  if(state.hideDone && state.done[id]) el = el.closest("[data-part]");
+  spotlight(el, el.querySelector("input"));
+}
+
+/* guides menu */
+function openMenu(){ menuOpen=true; $("menuPanel").hidden=false; $("menuBtn").setAttribute("aria-expanded","true"); const f=$("menuPanel").querySelector("a,button"); if(f) f.focus(); }
+function closeMenu(refocus){ if(!menuOpen) return; menuOpen=false; $("menuPanel").hidden=true; $("menuBtn").setAttribute("aria-expanded","false"); if(refocus) $("menuBtn").focus(); }
+
+/* saving */
+const HEAD = "<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<title>Crimson Desert \u2014 Trophy Roadmap</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Grenze+Gotisch:wght@500;700&display=swap\" rel=\"stylesheet\">\n";
+function buildDoc(){
+  const css = $("css").textContent, app = $("app").textContent;
+  const json = JSON.stringify(state).replace(/</g,"\\u003c");
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n'+HEAD+'<style id="css">'+css+'<\/style>\n</head>\n<body>\n<main id="root"></main>\n<script id="state" type="application/json">'+json+'<\/script>\n<script id="app">'+app+'<\/script>\n</body>\n</html>\n';
+}
+async function downloadPage(){
+  const d=new Date(), filename="crimson-desert-roadmap-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".html";
+  const text = buildDoc();
+  let dl = null;
+  try{ if(window.claude && typeof window.claude.use==="function") dl = await window.claude.use("downloads"); }catch(e){}
+  if(dl){
+    try{ await dl.save({filename, data:text}); setStatus("Saved "+filename); }
+    catch(e){ const c=e&&e.code; setStatus(c==="declined"?"Download cancelled":c==="rate_limited"?"A download prompt is already open":"Downloads aren’t available here"); }
+    return;
+  }
+  try{
+    const url = URL.createObjectURL(new Blob([text],{type:"text/html"}));
+    const a = document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    setStatus("Downloaded "+filename);
+  }catch(e){ setStatus("Downloads aren’t available here"); }
+}
+let timer = null;
+function save(publish){
+  state.ts = Date.now();
+  try{ localStorage.setItem(STORE, JSON.stringify(state)) }catch(e){}
+  if(publish!==false) schedulePush();
+  if(mode!=="artifact" || publish===false) return;
+  setStatus("Saving…");
+  clearTimeout(timer);
+  timer = setTimeout(async ()=>{
+    try{ sessionStorage.setItem(STORE+"-view", JSON.stringify({y:window.scrollY, q:query})) }catch(e){}
+    try{ await artifactNs.publish(buildDoc()); setStatus("Saved"); }
+    catch(e){
+      const c = e && e.code;
+      if(["not_granted","not_writer","not_declared","consent_required","capability_disabled","capability_removed"].includes(c)){ mode="local"; setStatus("Saved on this device only"); }
+      else if(c==="conflict"){ setStatus(""); }
+      else if(c==="rate_limited"){ setStatus("Saving slowed down; kept on this device for now"); }
+      else setStatus("Couldn’t save to the page; kept on this device");
+    }
+  }, 2000);
+}
+
+/* ---------- GitHub Gist sync (same setup as the Townfall tracker) ---------- */
+const SYNC_KEY = "crimson-desert-sync", GIST_FILE = "crimson-desert-progress.json";
+let sync = null; try{ sync = JSON.parse(localStorage.getItem(SYNC_KEY)||"null"); }catch(e){}
+let syncOpen = false, syncBusy = false, syncAgain = false, pushTimer = null, syncMsg = "", syncErr = false, lastSync = null;
+function syncOn(){ return !!(sync && sync.token && sync.gistId); }
+function borrowedToken(){   /* a token another tracker on this site already saved, e.g. Townfall */
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k===SYNC_KEY || !/-sync$/.test(k)) continue;
+    const v=JSON.parse(localStorage.getItem(k)||"null"); if(v && v.token) return {token:v.token, from:k.replace(/-sync$/,"").split("-").map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(" ")}; } }catch(e){}
+  return null;
+}
+function syncPanelHTML(){
+  let body;
+  if(syncOn()) body = `<p>Your ticks sync to a secret GitHub gist named ${GIST_FILE}. Any device connected with your token shares the same progress, and ticks from different devices are merged one by one.</p>
+    <div class="row"><button type="button" class="btn primary" id="syncNow">Sync now</button><button type="button" class="btn" id="syncOff">Disconnect this device</button></div>`;
+  else { const b = borrowedToken();
+    body = `<p>Paste a GitHub personal access token with the <strong>gist</strong> scope. The token stays in this browser only. The first device creates a secret gist named ${GIST_FILE}; other devices find it automatically.</p>
+    ${b?`<div class="row"><button type="button" class="btn primary" id="syncBorrow">Use the token saved by ${esc(b.from)}</button></div>`:""}
+    <div class="row"><input type="password" id="tokenIn" placeholder="ghp_…" autocomplete="off" spellcheck="false" aria-label="GitHub token"><button type="button" class="btn${b?"":" primary"}" id="syncConnect">Connect</button></div>`; }
+  return `<section class="syncp" id="syncPanel" ${syncOpen?"":"hidden"} aria-labelledby="sync-h"><h2 id="sync-h">Sync between devices</h2>${body}<div class="smsg${syncErr?" err":""}" id="smsg" role="status">${esc(syncMsg)}</div></section>`;
+}
+function refreshSyncPanel(){ const p=$("syncPanel"); if(p) p.outerHTML = syncPanelHTML(); }
+function sMsg(t, err){ syncMsg=t||""; syncErr=!!err; const el=$("smsg"); if(el){ el.textContent=syncMsg; el.classList.toggle("err",syncErr); } }
+function sStatus(t){ statusText=t; setStatus(); }
+async function gh(path, opts){
+  opts = opts||{};
+  const r = await fetch("https://api.github.com"+path, {method:opts.method||"GET", cache:"no-store",
+    headers:Object.assign({"Authorization":"Bearer "+(opts.token||sync.token),"Accept":"application/vnd.github+json"}, opts.body?{"Content-Type":"application/json"}:{}),
+    body: opts.body?JSON.stringify(opts.body):undefined});
+  if(!r.ok){ const e=new Error("GitHub "+r.status); e.status=r.status; throw e; }
+  return r.json();
+}
+function payload(){ return JSON.stringify({app:"crimson-desert-roadmap", done:state.done, subs:state.subs, lists:state.lists, hideDone:!!state.hideDone, mt:state.mt, ts:state.ts}, null, 1); }
+function errText(e){
+  if(e && (e.status===401||e.status===403)) return "GitHub rejected the token. Check that it has the gist scope and hasn’t expired.";
+  if(e && e.status===404) return "The sync gist wasn’t found. Disconnect and connect again to recreate it.";
+  return "Couldn’t reach GitHub. Your ticks are kept on this device and will sync when you’re back online.";
+}
+function stampNow(){ return new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"}); }
+function valOf(src,set,id){ if(set==="pref") return !!src[id]; const bag = set==="done"?src.done : set==="subs"?src.subs : (src.lists||{})[set]; return !!(bag && bag[id]); }
+function setVal(set,id,v){
+  if(set==="pref"){ state[id]=v; const h=$("hide"); if(h) h.checked=v; document.body.classList.toggle("hide-done", state.hideDone); return; }
+  if(set!=="done" && set!=="subs") state.lists[set] = state.lists[set]||{};
+  const bag = bagFor(set); if(v) bag[id]=true; else delete bag[id];
+  root.querySelectorAll(`li[data-set="${set}"][data-id="${id}"]`).forEach(x=>{ x.classList.toggle("done", v); const c=x.querySelector(":scope > input"); if(c) c.checked=v; });
+}
+function merge(r){   /* newest change wins for each tick, so devices never wipe each other's work */
+  const rmt = r.mt || {};
+  if(!r.mt){ ["done","subs"].forEach(set=>Object.keys(r[set]||{}).forEach(id=>rmt[set+"|"+id]=1)); Object.keys(r.lists||{}).forEach(l=>Object.keys(r.lists[l]||{}).forEach(id=>rmt[l+"|"+id]=1)); }
+  let changed = 0, needPush = false;
+  new Set([...Object.keys(rmt), ...Object.keys(state.mt)]).forEach(k=>{
+    const lt = state.mt[k]||0, rt = rmt[k]||0, i = k.indexOf("|"), set = k.slice(0,i), id = k.slice(i+1);
+    if(rt > lt){ setVal(set, id, valOf(r,set,id)); state.mt[k] = rt; changed++; }
+    else if(lt > rt) needPush = true;
+  });
+  return {changed, needPush};
+}
+async function runSync(){
+  if(!syncOn()) return;
+  if(syncBusy){ syncAgain = true; return; }
+  syncBusy = true; sStatus("Syncing…");
+  try{
+    const g = await gh("/gists/"+sync.gistId);
+    const f = g.files && g.files[GIST_FILE];
+    let remote = {};
+    if(f){ let txt = f.content; if(f.truncated){ txt = await (await fetch(f.raw_url,{cache:"no-store"})).text(); } try{ remote = JSON.parse(txt||"{}"); }catch(e){ remote = {}; } }
+    const {changed, needPush} = merge(remote);
+    if(changed){ refresh(); state.ts = Date.now(); try{ localStorage.setItem(STORE, JSON.stringify(state)) }catch(e){} }
+    if(needPush || !f) await gh("/gists/"+sync.gistId, {method:"PATCH", body:{files:{[GIST_FILE]:{content:payload()}}}});
+    lastSync = stampNow(); sStatus("Synced "+lastSync); sMsg("");
+  }catch(e){ sStatus("Not synced"); sMsg(errText(e), true); }
+  finally{ syncBusy = false; if(syncAgain){ syncAgain = false; runSync(); } }
+}
+async function connect(token){
+  token = (token||"").trim();
+  if(!token){ sMsg("Paste your token first.", true); return; }
+  sMsg("Connecting…");
+  try{
+    let id = null;
+    for(let page=1; page<=5 && !id; page++){
+      const list = await gh("/gists?per_page=100&page="+page, {token});
+      const hit = list.find(g=>g.files && g.files[GIST_FILE]); if(hit) id = hit.id;
+      if(list.length<100) break;
+    }
+    if(!id){
+      const g = await gh("/gists", {token, method:"POST", body:{description:"Crimson Desert trophy tracker progress", public:false, files:{[GIST_FILE]:{content:payload()}}}});
+      id = g.id;
+    }
+    sync = {token, gistId:id};
+    try{ localStorage.setItem(SYNC_KEY, JSON.stringify(sync)); }catch(e){}
+    refreshSyncPanel();
+    await runSync();
+    if(!syncErr) sMsg("Connected. Progress now syncs automatically.");
+  }catch(e){ sync=null; sMsg(errText(e), true); }
+}
+function schedulePush(){ if(!syncOn()) return; sStatus("Syncing…"); clearTimeout(pushTimer); pushTimer = setTimeout(()=>{ pushTimer=null; runSync(); }, 1500); }
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible" && !pushTimer) runSync(); });
+window.addEventListener("online", ()=>{ runSync(); });
+
+/* events */
+root.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.id==="hide"){ state.hideDone=t.checked; state.mt["pref|hideDone"]=Date.now(); document.body.classList.toggle("hide-done", t.checked); refreshEmpty(); save(); return; }
+  if(t.type!=="checkbox") return;
+  const li = t.closest("li[data-set]"); if(!li) return;
+  const set = li.dataset.set, id = li.dataset.id, bag = bagFor(set);
+  if(t.checked) bag[id]=true; else delete bag[id];
+  state.mt[set+"|"+id] = Date.now();
+  root.querySelectorAll(`li[data-set="${set}"][data-id="${id}"]`).forEach(x=>{ x.classList.toggle("done", t.checked); const c=x.querySelector(":scope > input"); if(c) c.checked=t.checked; });
+  refresh(); save();
+});
+root.addEventListener("input", e=>{ if(e.target.id==="q"){ query=e.target.value; applySearch(); } });
+root.addEventListener("click", e=>{
+  const tab = e.target.closest("[data-tab]"); if(tab){ setTab(tab.dataset.tab); return; }
+  if(e.target.closest("#menuBtn")){ menuOpen ? closeMenu(false) : openMenu(); return; }
+  if(e.target.closest("#dlPage")){ closeMenu(true); downloadPage(); return; }
+  if(e.target.closest("#menuPanel a")){ closeMenu(false); return; }
+  if(e.target.id==="syncToggle"){ syncOpen=!syncOpen; e.target.setAttribute("aria-expanded",syncOpen); if(syncOpen) refreshSyncPanel(); else $("syncPanel").hidden=true; if(syncOpen && !syncOn()){ const b=$("syncBorrow")||$("tokenIn"); if(b) b.focus(); } return; }
+  if(e.target.id==="syncConnect"||e.target.id==="syncBorrow"){
+    const b=e.target, tok = b.id==="syncBorrow" ? (borrowedToken()||{}).token : $("tokenIn").value;
+    b.disabled=true; connect(tok).finally(()=>{ const nb=$(b.id); if(nb) nb.disabled=false; }); return; }
+  if(e.target.id==="syncNow"){ runSync(); return; }
+  if(e.target.id==="syncOff"){ sync=null; try{ localStorage.removeItem(SYNC_KEY) }catch(err){} statusText=""; setStatus(); refreshSyncPanel(); sMsg("This device is disconnected. Your gist and its progress are untouched."); return; }
+  const f = e.target.closest("[data-find]"); if(f){ gotoArtifact(f.dataset.find); return; }
+  const ch = e.target.closest("[data-artchip]"); if(ch){ gotoGroup(ch.dataset.artchip); return; }
+  const gt = e.target.closest("[data-goto-trophy]"); if(gt){ gotoTrophy(gt.dataset.gotoTrophy); return; }
+  const sm = e.target.closest("summary");
+  if(sm){ const d=sm.parentElement; if(d.dataset.k && !(d.classList.contains("grp") && query.trim())){ state.dx[d.dataset.k] = !d.open; save(false); } return; }
+  if(e.target.id==="reset" && confirm("Clear every trophy, challenge and artifact check?")){
+    const now=Date.now(), mark=(set,bag)=>Object.keys(bag).forEach(id=>state.mt[set+"|"+id]=now);
+    mark("done",state.done); mark("subs",state.subs); Object.keys(state.lists).forEach(l=>mark(l,state.lists[l]));
+    state.done={}; state.subs={}; Object.keys(state.lists).forEach(k=>state.lists[k]={}); render(); save();
+  }
+});
+root.addEventListener("keydown", e=>{
+  if(e.target.id==="tokenIn" && e.key==="Enter"){ $("syncConnect").click(); return; }
+  if(!e.target.matches("[data-tab]") || !["ArrowLeft","ArrowRight","Home","End"].includes(e.key)) return;
+  e.preventDefault();
+  const i = TABS.findIndex(t=>t.id===e.target.dataset.tab), n = TABS.length;
+  const j = e.key==="Home" ? 0 : e.key==="End" ? n-1 : (i + (e.key==="ArrowRight"?1:-1) + n) % n;
+  const b = root.querySelector(`[data-tab="${TABS[j].id}"]`); b.focus(); setTab(TABS[j].id);
+});
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && menuOpen) closeMenu(true); });
+document.addEventListener("click", e=>{ if(menuOpen && !e.target.closest("#menu")) closeMenu(false); });
+root.addEventListener("focusout", e=>{ if(menuOpen && e.target.closest("#menu") && e.relatedTarget && !e.relatedTarget.closest("#menu")) closeMenu(false); });
+
+render();
+if(syncOn()) runSync();
+try{
+  const v = JSON.parse(sessionStorage.getItem(STORE+"-view")||"null");
+  if(v){
+    sessionStorage.removeItem(STORE+"-view");
+    if(v.q){ query=v.q; $("q").value=v.q; applySearch(); }
+    const y = +v.y||0, go = ()=>window.scrollTo(0,y);
+    requestAnimationFrame(go);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ if(window.scrollY < y-4) go(); });
+  }
+}catch(e){}
+(async ()=>{
+  try{
+    if(window.claude && typeof window.claude.use==="function"){
+      artifactNs = await window.claude.use("artifact");
+      if(artifactNs){ mode="artifact"; ["syncToggle","syncPanel"].forEach(id=>{ const el=$(id); if(el) el.remove(); }); setStatus(); }
+    }
+  }catch(e){}
+})();
+
+})();
+</script>
+</body>
+</html>
