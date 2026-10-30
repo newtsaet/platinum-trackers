@@ -83,11 +83,17 @@ a.card.done:hover{border-color:var(--text)}
    Leave both out to use the default --accent color.
    cardColor = the card's background before the platinum; cardColorDark = the same in dark mode (optional).
    Leave them out to use the default --surface color. Text on top switches to white or dark automatically for contrast.
-   Once the platinum is earned, every card switches to the --platinum color set at the top of this file. */
+   Once the platinum is earned, every card switches to the --platinum color set at the top of this file.
+   itemsPath = where the tracker keeps its collectible ticks (optional, "items" if left out).
+   itemsLabel = what the collectibles are called on the card (optional, "collectibles" if left out). */
 const GAMES = [
   {folder:"townfall", title:"Silent Hill: Townfall", accent:"#fa3107", accentDark:"#fa3107",
    cardColor:"#1f2627", cardColorDark:"#1F2627", trophies:37, collectibles:227, platinumId:"plat",
-   localKey:"townfall-roadmap", syncKey:"townfall-sync", gistFile:"townfall-progress.json"}
+   localKey:"townfall-roadmap", syncKey:"townfall-sync", gistFile:"townfall-progress.json"},
+  {folder:"crimson-desert", title:"Crimson Desert", accent:"#E25A6C", accentDark:"#E25A6C",
+   cardColor:"#1A1D22", cardColorDark:"#1A1D22", trophies:35, collectibles:141, platinumId:"plat",
+   itemsPath:"lists.artifacts", itemsLabel:"artifacts",
+   localKey:"crimson-desert-roadmap", syncKey:"crimson-desert-sync", gistFile:"crimson-desert-progress.json"}
 ];
 
 /* Picks white or near-black text, whichever reads better on a hex color. */
@@ -107,12 +113,14 @@ function cardVars(bg, sfx){
 }
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const progress = {};   // folder -> {done, items, ts, from}
+/* Reads a game's collectible ticks from wherever its tracker keeps them (see itemsPath). */
+const itemsOf = (g, s) => (g.itemsPath||"items").split(".").reduce((o,k)=>o&&o[k], s) || {};
 
 function readLocal(){
   GAMES.forEach(g=>{
     try{
       const s = JSON.parse(localStorage.getItem(g.localKey)||"null");
-      if(s) progress[g.folder] = {done:s.done||{}, items:s.items||{}, ts:s.ts||0, from:"device"};
+      if(s) progress[g.folder] = {done:s.done||{}, items:itemsOf(g,s), ts:s.ts||0, from:"device"};
     }catch(e){}
   });
 }
@@ -138,7 +146,7 @@ function render(){
     return `<a class="card${plat?" done":""}" href="${esc(g.folder)}/"${style?` style="${esc(style)}"`:""}>
       <div class="top"><h2>${esc(g.title)}</h2>${badge}</div>
       <div class="ticks" aria-hidden="true">${Array.from({length:g.trophies},(_,i)=>`<span class="tick${i<t?" on":""}"></span>`).join("")}</div>
-      <div class="stats"><span><b>${t}</b> / ${g.trophies} trophies</span><span><b>${c}</b> / ${g.collectibles} collectibles</span>${p&&p.ts?`<span>Updated ${esc(when(p.ts))}</span>`:""}</div>
+      <div class="stats"><span><b>${t}</b> / ${g.trophies} trophies</span><span><b>${c}</b> / ${g.collectibles} ${esc(g.itemsLabel||"collectibles")}</span>${p&&p.ts?`<span>Updated ${esc(when(p.ts))}</span>`:""}</div>
     </a>`;
   }).join("");
 }
@@ -158,7 +166,7 @@ async function readGists(){
       const f = full.files[g.gistFile];
       const s = JSON.parse(f.truncated ? await (await fetch(f.raw_url,{cache:"no-store"})).text() : f.content);
       const cur = progress[g.folder];
-      if(!cur || (s.ts||0) >= (cur.ts||0)) progress[g.folder] = {done:s.done||{}, items:s.items||{}, ts:s.ts||0, from:"gist"};
+      if(!cur || (s.ts||0) >= (cur.ts||0)) progress[g.folder] = {done:s.done||{}, items:itemsOf(g,s), ts:s.ts||0, from:"gist"};
     }
     render();
     note.textContent = "Progress synced from GitHub.";
